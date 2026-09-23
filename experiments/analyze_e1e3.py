@@ -84,7 +84,8 @@ for k, y in labels.items():
         auc = roc_auc_score(y, p) if n != "base_rate" else 0.5
         e3[k][n] = {"auroc": auc, "brier": float(np.mean((p-y)**2)), "ece": float(ece(p, y))}
     print(f"E3 {k:9s} (pos rate {y.mean():.2f}) " + "  ".join(f"{n}: AUC {v['auroc']:.2f} Brier {v['brier']:.3f} ECE {v['ece']:.3f}" for n, v in e3[k].items()))
-json.dump({"asym": asym.tolist(), "se": se.tolist(), "null_abs": null.tolist(), "resid": resid.tolist(),
+pairsJ = [[J[(a, b)].tolist(), J[(b, a)].tolist()] for a, b in itertools.combinations(range(len(S)), 2)]
+json.dump({"J_pairs": pairsJ, "asym": asym.tolist(), "se": se.tolist(), "null_abs": null.tolist(), "resid": resid.tolist(),
            "J_mean": {f"{S[a]}|{S[b]}": float(np.mean(v)) for (a, b), v in J.items()}, "e3": e3,
            "Pm": Pm.tolist(), "labels": {k: v.tolist() for k, v in labels.items()}, "noise_sd": float(noise_sd)},
           open("experiments/e1e3_results.json", "w"), indent=1)

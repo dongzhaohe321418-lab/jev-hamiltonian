@@ -80,6 +80,10 @@ def curves(s, jev_p, rng):
     # random baseline: geometric mean over 30 permutations
     rnd = [[1000*(e_sub(s, [ref]+list(pm[:k])) - s["E_cas"]) for k in range(0, N)]
            for pm in (rng.permutation(others) for _ in range(30))]
+    # Jev: ~60% of options come back as exactly 0 -> many ties; average over 30 random tie-breaks
+    jr = [[1000*(e_sub(s, [ref]+sorted(others, key=lambda i: (-jev_p.get(s["labels"][i], 0), tb[i]))[:k]) - s["E_cas"])
+           for k in range(0, N)] for tb in (rng.random(N) for _ in range(30))]
+    cv["jev"] = np.exp(np.mean(np.log(np.maximum(jr, 1e-6)), 0)).tolist()
     cv["random"] = np.exp(np.mean(np.log(np.maximum(rnd, 1e-6)), 0)).tolist()
     return cv
 
