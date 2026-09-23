@@ -1,0 +1,61 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "hamiltonian": "H(s) = sum_i h_i s_i + sum_{i<j} J_ij s_i s_j with spins s_i in {-1,+1}",
+   "h": {
+    "h_0": 0.98,
+    "h_1": 0.04,
+    "h_2": 0.7
+   },
+   "J": {
+    "J_01": -0.57,
+    "J_02": -0.4,
+    "J_12": 0.98
+   }
+  },
+  "questions": {
+   "gs": {
+    "type": "choice",
+    "instructions": "Which spin configuration is the ground state, i.e. minimises H(s)?",
+    "criteria": {
+     "+++": "spins (s_0=+1, s_1=+1, s_2=+1)",
+     "++-": "spins (s_0=+1, s_1=+1, s_2=-1)",
+     "+-+": "spins (s_0=+1, s_1=-1, s_2=+1)",
+     "+--": "spins (s_0=+1, s_1=-1, s_2=-1)",
+     "-++": "spins (s_0=-1, s_1=+1, s_2=+1)",
+     "-+-": "spins (s_0=-1, s_1=+1, s_2=-1)",
+     "--+": "spins (s_0=-1, s_1=-1, s_2=+1)",
+     "---": "spins (s_0=-1, s_1=-1, s_2=-1)"
+    }
+   }
+  }
+ },
+ "rep": 1,
+ "response": {
+  "model": "jev-1.13.0",
+  "answers": {
+   "gs": {
+    "type": "choice",
+    "choice": "+-+",
+    "confidence": 0.19,
+    "probabilities": {
+     "-+-": 0.1,
+     "+-+": 0.27999999999999997,
+     "+++": 0.09,
+     "--+": 0.04,
+     "++-": 0.13,
+     "+--": 0.13,
+     "---": 0.07,
+     "-++": 0.16
+    }
+   }
+  },
+  "usage": {
+   "input_tokens": 690,
+   "output_tokens": 79
+  }
+ },
+ "latency_s": 0.6392810344696045,
+ "time": "2026-09-23T22:31:23"
+}

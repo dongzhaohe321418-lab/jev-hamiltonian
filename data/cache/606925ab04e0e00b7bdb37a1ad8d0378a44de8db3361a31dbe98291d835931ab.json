@@ -1,0 +1,130 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "system": "4-qubit Hamiltonian (Jordan-Wigner encoding, hartree units), qubit order q0 q1 q2 q3",
+   "pauli_terms": {
+    "I": -0.491786,
+    "Z0": 0.093456,
+    "Z1": 0.093456,
+    "Z2": -0.035645,
+    "Z3": -0.035645,
+    "Z0 Z1": 0.138176,
+    "Z0 Z2": 0.082537,
+    "Z0 Z3": 0.139921,
+    "Z1 Z2": 0.139921,
+    "Z1 Z3": 0.082537,
+    "Z2 Z3": 0.145855,
+    "X0 X1 Y2 Y3": -0.057384,
+    "X0 Y1 Y2 X3": 0.057384,
+    "Y0 X1 X2 Y3": 0.057384,
+    "Y0 Y1 X2 X3": -0.057384
+   },
+   "particle_number": 2
+  },
+  "questions": {
+   "dom": {
+    "type": "choice",
+    "instructions": "Which computational basis state has the largest weight in the 2-particle ground state?",
+    "criteria": {
+     "0000": "computational basis state |0000>",
+     "0001": "computational basis state |0001>",
+     "0010": "computational basis state |0010>",
+     "0011": "computational basis state |0011>",
+     "0100": "computational basis state |0100>",
+     "0101": "computational basis state |0101>",
+     "0110": "computational basis state |0110>",
+     "0111": "computational basis state |0111>",
+     "1000": "computational basis state |1000>",
+     "1001": "computational basis state |1001>",
+     "1010": "computational basis state |1010>",
+     "1011": "computational basis state |1011>",
+     "1100": "computational basis state |1100>",
+     "1101": "computational basis state |1101>",
+     "1110": "computational basis state |1110>",
+     "1111": "computational basis state |1111>"
+    }
+   },
+   "E": {
+    "type": "score",
+    "instructions": "What is the ground-state energy of this Hamiltonian (2-particle sector)?",
+    "criteria": [
+     "-1.20 hartree",
+     "-1.15 hartree",
+     "-1.10 hartree",
+     "-1.05 hartree",
+     "-1.00 hartree",
+     "-0.95 hartree",
+     "-0.90 hartree",
+     "-0.85 hartree",
+     "-0.80 hartree",
+     "-0.75 hartree"
+    ]
+   }
+  }
+ },
+ "rep": 1,
+ "response": {
+  "model": "jev-1.13.0",
+  "answers": {
+   "dom": {
+    "type": "choice",
+    "choice": "1100",
+    "confidence": 0.15,
+    "probabilities": {
+     "1001": 0.11,
+     "1000": 0.05,
+     "1100": 0.21000000000000002,
+     "1111": 0.0,
+     "0100": 0.01,
+     "0010": 0.02,
+     "0001": 0.0,
+     "1010": 0.12,
+     "0011": 0.18000000000000002,
+     "0110": 0.1,
+     "0101": 0.07,
+     "1011": 0.01,
+     "0000": 0.12,
+     "1101": 0.0,
+     "0111": 0.0,
+     "1110": 0.0
+    }
+   },
+   "E": {
+    "type": "score",
+    "score": 5.81,
+    "confidence": 0.0,
+    "legend": {
+     "0": "-1.20 hartree",
+     "1": "-1.15 hartree",
+     "2": "-1.10 hartree",
+     "3": "-1.05 hartree",
+     "4": "-1.00 hartree",
+     "5": "-0.95 hartree",
+     "6": "-0.90 hartree",
+     "7": "-0.85 hartree",
+     "8": "-0.80 hartree",
+     "9": "-0.75 hartree"
+    },
+    "probabilities": {
+     "0": 0.05,
+     "1": 0.04,
+     "2": 0.05,
+     "3": 0.07,
+     "4": 0.07,
+     "5": 0.12,
+     "6": 0.12,
+     "7": 0.13,
+     "8": 0.13,
+     "9": 0.22
+    }
+   }
+  },
+  "usage": {
+   "input_tokens": 1161,
+   "output_tokens": 194
+  }
+ },
+ "latency_s": 0.5314061641693115,
+ "time": "2026-09-23T22:31:51"
+}
