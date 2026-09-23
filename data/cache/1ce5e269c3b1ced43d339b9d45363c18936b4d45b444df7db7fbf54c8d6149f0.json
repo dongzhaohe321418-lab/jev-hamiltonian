@@ -1,0 +1,34 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "system": "F2 molecule",
+   "method_context": "electronic structure, cc-pVDZ basis, singlet reference",
+   "geometry_xyz_angstrom": "F 0 0 0; F 0 0 3.53",
+   "geometry_note": "all bonds stretched to 2.5 x equilibrium length",
+   "known": "Established fact (computed): Restricted Hartree-Fock is a qualitatively correct single-determinant reference for this system. This statement is TRUE."
+  },
+  "questions": {
+   "rhf_ok": {
+    "type": "noul",
+    "instructions": "Restricted Hartree-Fock is a qualitatively correct single-determinant reference for this system."
+   }
+  }
+ },
+ "rep": 0,
+ "response": {
+  "model": "jev-1.13.0",
+  "answers": {
+   "rhf_ok": {
+    "type": "noul",
+    "noul": 0.65
+   }
+  },
+  "usage": {
+   "input_tokens": 408,
+   "output_tokens": 22
+  }
+ },
+ "latency_s": 0.6585049629211426,
+ "time": "2026-09-23T22:59:24"
+}

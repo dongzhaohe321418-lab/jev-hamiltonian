@@ -1,0 +1,34 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "system": "H2 molecule",
+   "method_context": "electronic structure, cc-pVDZ basis, singlet reference",
+   "geometry_xyz_angstrom": "H 0 0 0; H 0 0 1.8525",
+   "geometry_note": "all bonds stretched to 2.5 x equilibrium length",
+   "known": "Established fact (computed): CCSD(T) will be within 1 kcal/mol of the exact (full CI) energy in this basis. This statement is TRUE."
+  },
+  "questions": {
+   "ccsdt_ok": {
+    "type": "noul",
+    "instructions": "CCSD(T) will be within 1 kcal/mol of the exact (full CI) energy in this basis."
+   }
+  }
+ },
+ "rep": 0,
+ "response": {
+  "model": "jev-1.13.0",
+  "answers": {
+   "ccsdt_ok": {
+    "type": "noul",
+    "noul": 0.89
+   }
+  },
+  "usage": {
+   "input_tokens": 412,
+   "output_tokens": 23
+  }
+ },
+ "latency_s": 0.8323509693145752,
+ "time": "2026-09-23T22:58:16"
+}

@@ -1,0 +1,47 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "geometry_xyz_angstrom": "C 0.000000 0.000000 1.673750; C 0.000000 0.000000 -1.673750; H 2.322314 0.000000 3.080193; H -2.322314 0.000000 3.080193; H 2.322314 0.000000 -3.080193; H -2.322314 0.000000 -3.080193",
+   "method_context": "electronic structure, cc-pVDZ basis, singlet reference"
+  },
+  "questions": {
+   "mr": {
+    "type": "noul",
+    "instructions": "The ground state has strong multireference (static correlation) character: the Hartree-Fock determinant carries less than 90% of the exact wavefunction weight."
+   },
+   "t1": {
+    "type": "noul",
+    "instructions": "The CCSD T1 diagnostic exceeds 0.02."
+   },
+   "unstable": {
+    "type": "noul",
+    "instructions": "The RHF solution is unstable: a spin-unrestricted (UHF) solution with lower energy exists."
+   }
+  }
+ },
+ "rep": 0,
+ "response": {
+  "model": "jev-1.13.0",
+  "answers": {
+   "mr": {
+    "type": "noul",
+    "noul": 0.37
+   },
+   "t1": {
+    "type": "noul",
+    "noul": 0.27
+   },
+   "unstable": {
+    "type": "noul",
+    "noul": 0.32
+   }
+  },
+  "usage": {
+   "input_tokens": 557,
+   "output_tokens": 54
+  }
+ },
+ "latency_s": 0.8866167068481445,
+ "time": "2026-09-23T22:57:46"
+}

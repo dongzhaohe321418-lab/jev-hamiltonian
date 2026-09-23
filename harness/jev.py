@@ -46,8 +46,13 @@ def ask(state, questions, rep=0, offline=False):
     delay = 1.0
     for _ in range(8):
         t0 = time.time()
-        r = requests.post(URL, json=body, timeout=60,
-                          headers={"Authorization": f"Bearer {_key()}"})
+        try:
+            r = requests.post(URL, json=body, timeout=60,
+                              headers={"Authorization": f"Bearer {_key()}"})
+        except (requests.Timeout, requests.ConnectionError):
+            time.sleep(delay)
+            delay *= 2
+            continue
         if r.status_code in (429, 529, 502, 503):
             time.sleep(delay)
             delay *= 2
@@ -59,4 +64,4 @@ def ask(state, questions, rep=0, offline=False):
                                     "latency_s": time.time() - t0,
                                     "time": time.strftime("%Y-%m-%dT%H:%M:%S")}, indent=1))
         return resp
-    raise RuntimeError(f"gave up after retries: {r.status_code} {r.text[:200]}")
+    raise RuntimeError("gave up after 8 retries")

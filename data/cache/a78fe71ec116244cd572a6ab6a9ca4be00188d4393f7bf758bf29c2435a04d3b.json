@@ -1,0 +1,34 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "system": "NH3 molecule",
+   "method_context": "electronic structure, cc-pVDZ basis, singlet reference",
+   "geometry_xyz_angstrom": "N 0 0 0; H 1.4062943604954992 0.0 -0.5715419246551865; H -0.7031471802477494 1.2178866413878937 -0.5715419246551865; H -0.7031471802477502 -1.2178866413878933 -0.5715419246551865",
+   "geometry_note": "all bonds stretched to 1.5 x equilibrium length",
+   "known": "Established fact (computed): The ground state has strong multireference (static correlation) character: the Hartree-Fock determinant carries less than 90% of the exact wavefunction weight. This statement is TRUE."
+  },
+  "questions": {
+   "mr": {
+    "type": "noul",
+    "instructions": "The ground state has strong multireference (static correlation) character: the Hartree-Fock determinant carries less than 90% of the exact wavefunction weight."
+   }
+  }
+ },
+ "rep": 0,
+ "response": {
+  "model": "jev-1.13.0",
+  "answers": {
+   "mr": {
+    "type": "noul",
+    "noul": 0.73
+   }
+  },
+  "usage": {
+   "input_tokens": 589,
+   "output_tokens": 20
+  }
+ },
+ "latency_s": 1.8452119827270508,
+ "time": "2026-09-23T23:00:57"
+}

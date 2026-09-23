@@ -1,0 +1,58 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "system": "BeO molecule",
+   "method_context": "electronic structure, cc-pVDZ basis, singlet reference",
+   "geometry_xyz_angstrom": "Be 0 0 0; O 0 0 3.3274999999999997",
+   "geometry_note": "all bonds stretched to 2.5 x equilibrium length",
+   "known": "Established fact (computed): Static (nondynamical) correlation is strong here: in the exact wavefunction the Hartree-Fock configuration has a weight below 0.9. This statement is TRUE."
+  },
+  "questions": {
+   "rhf_ok": {
+    "type": "noul",
+    "instructions": "A single closed-shell RHF determinant gives a qualitatively right description of this molecule's ground state."
+   },
+   "t1": {
+    "type": "noul",
+    "instructions": "The T1 diagnostic from a CCSD calculation on this system is larger than 0.02."
+   },
+   "unstable": {
+    "type": "noul",
+    "instructions": "There is a broken-symmetry unrestricted (UHF) solution lying below the RHF energy, so RHF is unstable."
+   },
+   "ccsdt_ok": {
+    "type": "noul",
+    "instructions": "The error of CCSD(T) relative to full CI in this basis is under 1 kcal/mol."
+   }
+  }
+ },
+ "rep": 0,
+ "response": {
+  "model": "jev-1.13.0",
+  "answers": {
+   "rhf_ok": {
+    "type": "noul",
+    "noul": 0.19
+   },
+   "t1": {
+    "type": "noul",
+    "noul": 0.85
+   },
+   "unstable": {
+    "type": "noul",
+    "noul": 0.53
+   },
+   "ccsdt_ok": {
+    "type": "noul",
+    "noul": 0.26
+   }
+  },
+  "usage": {
+   "input_tokens": 524,
+   "output_tokens": 75
+  }
+ },
+ "latency_s": 0.8653600215911865,
+ "time": "2026-09-23T23:02:43"
+}

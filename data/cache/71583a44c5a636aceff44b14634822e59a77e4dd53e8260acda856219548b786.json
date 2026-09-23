@@ -1,0 +1,34 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "system": "H2O molecule",
+   "method_context": "electronic structure, cc-pVDZ basis, singlet reference",
+   "geometry_xyz_angstrom": "O 0 0 0; H 1.8937015291165047 0 1.466260385682506; H -1.8937015291165047 0 1.466260385682506",
+   "geometry_note": "all bonds stretched to 2.5 x equilibrium length",
+   "known": "Established fact (computed): The ground state has strong multireference (static correlation) character: the Hartree-Fock determinant carries less than 90% of the exact wavefunction weight. This statement is TRUE."
+  },
+  "questions": {
+   "mr": {
+    "type": "noul",
+    "instructions": "The ground state has strong multireference (static correlation) character: the Hartree-Fock determinant carries less than 90% of the exact wavefunction weight."
+   }
+  }
+ },
+ "rep": 0,
+ "response": {
+  "model": "jev-1.13.0",
+  "answers": {
+   "mr": {
+    "type": "noul",
+    "noul": 0.89
+   }
+  },
+  "usage": {
+   "input_tokens": 510,
+   "output_tokens": 20
+  }
+ },
+ "latency_s": 0.8555810451507568,
+ "time": "2026-09-23T23:00:48"
+}

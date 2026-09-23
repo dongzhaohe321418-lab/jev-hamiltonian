@@ -1,0 +1,49 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "system": "CO molecule",
+   "method_context": "electronic structure, cc-pVDZ basis, singlet reference",
+   "geometry_xyz_angstrom": "C 0 0 0; O 0 0 1.128",
+   "geometry_note": "all bonds stretched to 1.0 x equilibrium length"
+  },
+  "questions": {
+   "mr": {
+    "type": "noul",
+    "instructions": "Is the Hartree-Fock determinant weight in the exact ground state below 90%?"
+   },
+   "t1": {
+    "type": "noul",
+    "instructions": "Coupled-cluster singles amplitudes are large here: T1 diagnostic > 0.02."
+   },
+   "unstable": {
+    "type": "noul",
+    "instructions": "Is the restricted Hartree-Fock wavefunction unstable toward spin symmetry breaking?"
+   }
+  }
+ },
+ "rep": 1,
+ "response": {
+  "model": "jev-1.13.0",
+  "answers": {
+   "mr": {
+    "type": "noul",
+    "noul": 0.63
+   },
+   "t1": {
+    "type": "noul",
+    "noul": 0.43
+   },
+   "unstable": {
+    "type": "noul",
+    "noul": 0.44
+   }
+  },
+  "usage": {
+   "input_tokens": 416,
+   "output_tokens": 54
+  }
+ },
+ "latency_s": 0.9102699756622314,
+ "time": "2026-09-23T22:58:52"
+}

@@ -1,0 +1,33 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "system": "Be2 molecule",
+   "method_context": "electronic structure, STO-3G basis, singlet reference",
+   "geometry_xyz_angstrom": "Be 0.000000 0.000000 0.000000; Be 0.000000 0.000000 4.908000",
+   "geometry_note": "all bonds stretched to 2.0 x equilibrium length"
+  },
+  "questions": {
+   "ccsdt_ok": {
+    "type": "noul",
+    "instructions": "CCSD(T) will be within 1 kcal/mol of the exact (full CI) energy in this basis."
+   }
+  }
+ },
+ "rep": 2,
+ "response": {
+  "model": "jev-1.13.0",
+  "answers": {
+   "ccsdt_ok": {
+    "type": "noul",
+    "noul": 0.21
+   }
+  },
+  "usage": {
+   "input_tokens": 406,
+   "output_tokens": 23
+  }
+ },
+ "latency_s": 0.6935451030731201,
+ "time": "2026-09-23T23:00:13"
+}

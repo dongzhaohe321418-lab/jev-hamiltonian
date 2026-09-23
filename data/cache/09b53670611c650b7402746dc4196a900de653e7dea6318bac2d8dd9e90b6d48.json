@@ -1,0 +1,65 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "system": "F2 molecule",
+   "method_context": "electronic structure, cc-pVDZ basis, singlet reference",
+   "geometry_xyz_angstrom": "F 0 0 0; F 0 0 2.824",
+   "geometry_note": "all bonds stretched to 2.0 x equilibrium length"
+  },
+  "questions": {
+   "mr": {
+    "type": "noul",
+    "instructions": "Static (nondynamical) correlation is strong here: in the exact wavefunction the Hartree-Fock configuration has a weight below 0.9."
+   },
+   "rhf_ok": {
+    "type": "noul",
+    "instructions": "A single closed-shell RHF determinant gives a qualitatively right description of this molecule's ground state."
+   },
+   "t1": {
+    "type": "noul",
+    "instructions": "The T1 diagnostic from a CCSD calculation on this system is larger than 0.02."
+   },
+   "unstable": {
+    "type": "noul",
+    "instructions": "There is a broken-symmetry unrestricted (UHF) solution lying below the RHF energy, so RHF is unstable."
+   },
+   "ccsdt_ok": {
+    "type": "noul",
+    "instructions": "The error of CCSD(T) relative to full CI in this basis is under 1 kcal/mol."
+   }
+  }
+ },
+ "rep": 1,
+ "response": {
+  "model": "jev-1.13.0",
+  "answers": {
+   "mr": {
+    "type": "noul",
+    "noul": 0.75
+   },
+   "rhf_ok": {
+    "type": "noul",
+    "noul": 0.38
+   },
+   "t1": {
+    "type": "noul",
+    "noul": 0.77
+   },
+   "unstable": {
+    "type": "noul",
+    "noul": 0.63
+   },
+   "ccsdt_ok": {
+    "type": "noul",
+    "noul": 0.43
+   }
+  },
+  "usage": {
+   "input_tokens": 498,
+   "output_tokens": 91
+  }
+ },
+ "latency_s": 1.7511370182037354,
+ "time": "2026-09-23T22:58:12"
+}

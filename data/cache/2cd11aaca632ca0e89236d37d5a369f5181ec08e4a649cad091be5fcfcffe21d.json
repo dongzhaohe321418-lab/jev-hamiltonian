@@ -1,0 +1,44 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "system": "NO- (molecular anion)",
+   "charge": -1,
+   "electron_count": 16,
+   "method_context": "electronic structure; compare the lowest singlet, triplet and quintet states, each at its own optimized geometry"
+  },
+  "questions": {
+   "mult": {
+    "type": "choice",
+    "instructions": "Which spin multiplicity does the ground (lowest-energy) electronic state of this species have?",
+    "criteria": {
+     "1": "singlet (S=0)",
+     "3": "triplet (S=1)",
+     "5": "quintet (S=2)"
+    }
+   }
+  }
+ },
+ "rep": 0,
+ "response": {
+  "model": "jev-1.13.0",
+  "answers": {
+   "mult": {
+    "type": "choice",
+    "choice": "3",
+    "confidence": 0.46,
+    "probabilities": {
+     "3": 0.64,
+     "5": 0.07,
+     "1": 0.29
+    }
+   }
+  },
+  "usage": {
+   "input_tokens": 412,
+   "output_tokens": 38
+  }
+ },
+ "latency_s": 0.7062520980834961,
+ "time": "2026-09-23T22:58:19"
+}

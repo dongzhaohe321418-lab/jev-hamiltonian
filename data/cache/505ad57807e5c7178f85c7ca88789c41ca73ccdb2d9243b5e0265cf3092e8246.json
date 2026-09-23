@@ -1,0 +1,33 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "system": "H2O molecule",
+   "method_context": "electronic structure, STO-3G basis, singlet reference",
+   "geometry_xyz_angstrom": "O 0 0 0; H 1.8937015291165047 0 1.466260385682506; H -1.8937015291165047 0 1.466260385682506",
+   "geometry_note": "all bonds stretched to 2.5 x equilibrium length"
+  },
+  "questions": {
+   "ccsdt_ok": {
+    "type": "noul",
+    "instructions": "CCSD(T) will be within 1 kcal/mol of the exact (full CI) energy in this basis."
+   }
+  }
+ },
+ "rep": 2,
+ "response": {
+  "model": "jev-1.13.0",
+  "answers": {
+   "ccsdt_ok": {
+    "type": "noul",
+    "noul": 0.21
+   }
+  },
+  "usage": {
+   "input_tokens": 439,
+   "output_tokens": 23
+  }
+ },
+ "latency_s": 1.7671802043914795,
+ "time": "2026-09-23T22:59:54"
+}

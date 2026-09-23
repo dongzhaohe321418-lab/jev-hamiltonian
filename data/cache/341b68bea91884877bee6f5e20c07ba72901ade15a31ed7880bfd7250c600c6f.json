@@ -1,0 +1,86 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "system": "CH4 molecule, bonds at 2.0 x equilibrium, cc-pVDZ, RHF orbitals",
+   "active_space": "CAS(8e,5o); active orbital energies (hartree, ascending): [-0.7686, -0.3656, -0.3656, -0.3656, -0.095]",
+   "determinant_notation": "one character per active orbital in ascending energy: 2 doubly occupied, a alpha, b beta, 0 empty",
+   "reference_determinant": "22220"
+  },
+  "questions": {
+   "imp": {
+    "type": "choice",
+    "instructions": "Excluding the reference determinant, which determinant has the largest weight in the exact CASCI ground state?",
+    "criteria": {
+     "222ab": "determinant 222ab",
+     "22a2b": "determinant 22a2b",
+     "2a22b": "determinant 2a22b",
+     "a222b": "determinant a222b",
+     "222ba": "determinant 222ba",
+     "22202": "determinant 22202",
+     "22ab2": "determinant 22ab2",
+     "2a2b2": "determinant 2a2b2",
+     "a22b2": "determinant a22b2",
+     "22b2a": "determinant 22b2a",
+     "22ba2": "determinant 22ba2",
+     "22022": "determinant 22022",
+     "2ab22": "determinant 2ab22",
+     "a2b22": "determinant a2b22",
+     "2b22a": "determinant 2b22a",
+     "2b2a2": "determinant 2b2a2",
+     "2ba22": "determinant 2ba22",
+     "20222": "determinant 20222",
+     "ab222": "determinant ab222",
+     "b222a": "determinant b222a",
+     "b22a2": "determinant b22a2",
+     "b2a22": "determinant b2a22",
+     "ba222": "determinant ba222",
+     "02222": "determinant 02222"
+    }
+   }
+  }
+ },
+ "rep": 0,
+ "response": {
+  "model": "jev-1.13.0",
+  "answers": {
+   "imp": {
+    "type": "choice",
+    "choice": "222ba",
+    "confidence": 0.29,
+    "probabilities": {
+     "22202": 0.07,
+     "20222": 0.03,
+     "22022": 0.07,
+     "22ba2": 0.01,
+     "2a2b2": 0.04,
+     "222ba": 0.31,
+     "22b2a": 0.01,
+     "a222b": 0.02,
+     "ba222": 0.02,
+     "b2a22": 0.01,
+     "a2b22": 0.01,
+     "ab222": 0.06,
+     "22a2b": 0.02,
+     "2a22b": 0.02,
+     "222ab": 0.18,
+     "2b2a2": 0.01,
+     "02222": 0.03,
+     "22ab2": 0.02,
+     "b222a": 0.01,
+     "2b22a": 0.01,
+     "2ba22": 0.0,
+     "b22a2": 0.01,
+     "a22b2": 0.02,
+     "2ab22": 0.01
+    }
+   }
+  },
+  "usage": {
+   "input_tokens": 1018,
+   "output_tokens": 276
+  }
+ },
+ "latency_s": 0.8850829601287842,
+ "time": "2026-09-23T23:00:29"
+}

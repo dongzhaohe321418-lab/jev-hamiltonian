@@ -1,0 +1,50 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "system": "H2 molecule",
+   "method_context": "electronic structure, cc-pVDZ basis, singlet reference",
+   "geometry_xyz_angstrom": "H 0 0 0; H 0 0 0.741",
+   "geometry_note": "all bonds stretched to 1.0 x equilibrium length",
+   "known": "Established fact (computed): The RHF solution is unstable: a spin-unrestricted (UHF) solution with lower energy exists. This statement is FALSE. Established fact (computed): CCSD(T) will be within 1 kcal/mol of the exact (full CI) energy in this basis. This statement is FALSE."
+  },
+  "questions": {
+   "mr": {
+    "type": "noul",
+    "instructions": "The ground state has strong multireference (static correlation) character: the Hartree-Fock determinant carries less than 90% of the exact wavefunction weight."
+   },
+   "rhf_ok": {
+    "type": "noul",
+    "instructions": "Restricted Hartree-Fock is a qualitatively correct single-determinant reference for this system."
+   },
+   "t1": {
+    "type": "noul",
+    "instructions": "The CCSD T1 diagnostic exceeds 0.02."
+   }
+  }
+ },
+ "rep": 1,
+ "response": {
+  "model": "jev-1.13.0",
+  "answers": {
+   "mr": {
+    "type": "noul",
+    "noul": 0.4
+   },
+   "rhf_ok": {
+    "type": "noul",
+    "noul": 0.63
+   },
+   "t1": {
+    "type": "noul",
+    "noul": 0.3
+   }
+  },
+  "usage": {
+   "input_tokens": 507,
+   "output_tokens": 55
+  }
+ },
+ "latency_s": 0.5724849700927734,
+ "time": "2026-09-23T22:50:43"
+}

@@ -1,0 +1,49 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "system": "LiH molecule",
+   "method_context": "electronic structure, cc-pVDZ basis, singlet reference",
+   "geometry_xyz_angstrom": "Li 0 0 0; H 0 0 1.595",
+   "geometry_note": "all bonds stretched to 1.0 x equilibrium length"
+  },
+  "questions": {
+   "mr": {
+    "type": "noul",
+    "instructions": "This molecule, at this geometry, is a strongly correlated (multireference) case."
+   },
+   "t1": {
+    "type": "noul",
+    "instructions": "A CCSD calculation would flag this system with T1 greater than 0.02."
+   },
+   "unstable": {
+    "type": "noul",
+    "instructions": "Breaking spin symmetry (going from RHF to UHF) lowers the SCF energy for this system."
+   }
+  }
+ },
+ "rep": 1,
+ "response": {
+  "model": "jev-1.13.0",
+  "answers": {
+   "mr": {
+    "type": "noul",
+    "noul": 0.3
+   },
+   "t1": {
+    "type": "noul",
+    "noul": 0.56
+   },
+   "unstable": {
+    "type": "noul",
+    "noul": 0.6
+   }
+  },
+  "usage": {
+   "input_tokens": 418,
+   "output_tokens": 54
+  }
+ },
+ "latency_s": 1.698564052581787,
+ "time": "2026-09-23T22:53:02"
+}

@@ -1,0 +1,86 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "system": "F2 molecule, bonds at 1.5 x equilibrium, cc-pVDZ, RHF orbitals",
+   "active_space": "CAS(2e,5o); active orbital energies (hartree, ascending): [-0.5587, -0.1706, 1.2999, 1.2999, 1.3026]",
+   "determinant_notation": "one character per active orbital in ascending energy: 2 doubly occupied, a alpha, b beta, 0 empty",
+   "reference_determinant": "20000"
+  },
+  "questions": {
+   "imp": {
+    "type": "choice",
+    "instructions": "Excluding the reference determinant, which determinant has the largest weight in the exact CASCI ground state?",
+    "criteria": {
+     "ab000": "determinant ab000",
+     "a0b00": "determinant a0b00",
+     "a00b0": "determinant a00b0",
+     "a000b": "determinant a000b",
+     "ba000": "determinant ba000",
+     "02000": "determinant 02000",
+     "0ab00": "determinant 0ab00",
+     "0a0b0": "determinant 0a0b0",
+     "0a00b": "determinant 0a00b",
+     "b0a00": "determinant b0a00",
+     "0ba00": "determinant 0ba00",
+     "00200": "determinant 00200",
+     "00ab0": "determinant 00ab0",
+     "00a0b": "determinant 00a0b",
+     "b00a0": "determinant b00a0",
+     "0b0a0": "determinant 0b0a0",
+     "00ba0": "determinant 00ba0",
+     "00020": "determinant 00020",
+     "000ab": "determinant 000ab",
+     "b000a": "determinant b000a",
+     "0b00a": "determinant 0b00a",
+     "00b0a": "determinant 00b0a",
+     "000ba": "determinant 000ba",
+     "00002": "determinant 00002"
+    }
+   }
+  }
+ },
+ "rep": 1,
+ "response": {
+  "model": "jev-1.13.0",
+  "answers": {
+   "imp": {
+    "type": "choice",
+    "choice": "ab000",
+    "confidence": 0.13,
+    "probabilities": {
+     "00ab0": 0.06,
+     "00002": 0.07,
+     "ab000": 0.16,
+     "ba000": 0.05,
+     "0ba00": 0.01,
+     "0a0b0": 0.04,
+     "0b0a0": 0.01,
+     "00020": 0.06,
+     "00ba0": 0.01,
+     "b00a0": 0.01,
+     "00b0a": 0.01,
+     "0ab00": 0.03,
+     "b0a00": 0.02,
+     "a000b": 0.02,
+     "00a0b": 0.02,
+     "000ab": 0.1,
+     "000ba": 0.01,
+     "00200": 0.09000000000000001,
+     "a00b0": 0.02,
+     "a0b00": 0.07,
+     "02000": 0.09,
+     "0a00b": 0.02,
+     "0b00a": 0.01,
+     "b000a": 0.01
+    }
+   }
+  },
+  "usage": {
+   "input_tokens": 1019,
+   "output_tokens": 276
+  }
+ },
+ "latency_s": 1.1368870735168457,
+ "time": "2026-09-23T23:00:28"
+}

@@ -1,0 +1,49 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "system": "N2 molecule",
+   "method_context": "electronic structure, cc-pVDZ basis, singlet reference",
+   "geometry_xyz_angstrom": "N 0 0 0; N 0 0 1.098",
+   "geometry_note": "all bonds stretched to 1.0 x equilibrium length"
+  },
+  "questions": {
+   "mr": {
+    "type": "noul",
+    "instructions": "This molecule, at this geometry, is a strongly correlated (multireference) case."
+   },
+   "t1": {
+    "type": "noul",
+    "instructions": "A CCSD calculation would flag this system with T1 greater than 0.02."
+   },
+   "unstable": {
+    "type": "noul",
+    "instructions": "Breaking spin symmetry (going from RHF to UHF) lowers the SCF energy for this system."
+   }
+  }
+ },
+ "rep": 1,
+ "response": {
+  "model": "jev-1.13.0",
+  "answers": {
+   "mr": {
+    "type": "noul",
+    "noul": 0.5
+   },
+   "t1": {
+    "type": "noul",
+    "noul": 0.49
+   },
+   "unstable": {
+    "type": "noul",
+    "noul": 0.57
+   }
+  },
+  "usage": {
+   "input_tokens": 418,
+   "output_tokens": 54
+  }
+ },
+ "latency_s": 0.6476683616638184,
+ "time": "2026-09-23T22:56:18"
+}

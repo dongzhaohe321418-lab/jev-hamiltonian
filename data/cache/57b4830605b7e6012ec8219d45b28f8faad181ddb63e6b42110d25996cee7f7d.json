@@ -1,0 +1,49 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "system": "LiH molecule",
+   "method_context": "electronic structure, cc-pVDZ basis, singlet reference",
+   "geometry_xyz_angstrom": "Li 0 0 0; H 0 0 3.9875",
+   "geometry_note": "all bonds stretched to 2.5 x equilibrium length"
+  },
+  "questions": {
+   "mr": {
+    "type": "noul",
+    "instructions": "Would a multireference method be needed to describe this system's ground state qualitatively?"
+   },
+   "t1": {
+    "type": "noul",
+    "instructions": "Is the CCSD T1 diagnostic above the 0.02 threshold for this system?"
+   },
+   "unstable": {
+    "type": "noul",
+    "instructions": "Does a stability analysis of the RHF solution find a lower-energy UHF solution?"
+   }
+  }
+ },
+ "rep": 0,
+ "response": {
+  "model": "jev-1.13.0",
+  "answers": {
+   "mr": {
+    "type": "noul",
+    "noul": 0.58
+   },
+   "t1": {
+    "type": "noul",
+    "noul": 0.64
+   },
+   "unstable": {
+    "type": "noul",
+    "noul": 0.63
+   }
+  },
+  "usage": {
+   "input_tokens": 417,
+   "output_tokens": 54
+  }
+ },
+ "latency_s": 1.1295759677886963,
+ "time": "2026-09-23T22:54:29"
+}

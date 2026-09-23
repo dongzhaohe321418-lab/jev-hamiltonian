@@ -1,0 +1,814 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "test": "x"
+  },
+  "questions": {
+   "q0": {
+    "type": "noul",
+    "instructions": "Is 0 even?"
+   },
+   "q1": {
+    "type": "noul",
+    "instructions": "Is 1 even?"
+   },
+   "q2": {
+    "type": "noul",
+    "instructions": "Is 2 even?"
+   },
+   "q3": {
+    "type": "noul",
+    "instructions": "Is 3 even?"
+   },
+   "q4": {
+    "type": "noul",
+    "instructions": "Is 4 even?"
+   },
+   "q5": {
+    "type": "noul",
+    "instructions": "Is 5 even?"
+   },
+   "q6": {
+    "type": "noul",
+    "instructions": "Is 6 even?"
+   },
+   "q7": {
+    "type": "noul",
+    "instructions": "Is 7 even?"
+   },
+   "q8": {
+    "type": "noul",
+    "instructions": "Is 8 even?"
+   },
+   "q9": {
+    "type": "noul",
+    "instructions": "Is 9 even?"
+   },
+   "q10": {
+    "type": "noul",
+    "instructions": "Is 10 even?"
+   },
+   "q11": {
+    "type": "noul",
+    "instructions": "Is 11 even?"
+   },
+   "q12": {
+    "type": "noul",
+    "instructions": "Is 12 even?"
+   },
+   "q13": {
+    "type": "noul",
+    "instructions": "Is 13 even?"
+   },
+   "q14": {
+    "type": "noul",
+    "instructions": "Is 14 even?"
+   },
+   "q15": {
+    "type": "noul",
+    "instructions": "Is 15 even?"
+   },
+   "q16": {
+    "type": "noul",
+    "instructions": "Is 16 even?"
+   },
+   "q17": {
+    "type": "noul",
+    "instructions": "Is 17 even?"
+   },
+   "q18": {
+    "type": "noul",
+    "instructions": "Is 18 even?"
+   },
+   "q19": {
+    "type": "noul",
+    "instructions": "Is 19 even?"
+   },
+   "q20": {
+    "type": "noul",
+    "instructions": "Is 20 even?"
+   },
+   "q21": {
+    "type": "noul",
+    "instructions": "Is 21 even?"
+   },
+   "q22": {
+    "type": "noul",
+    "instructions": "Is 22 even?"
+   },
+   "q23": {
+    "type": "noul",
+    "instructions": "Is 23 even?"
+   },
+   "q24": {
+    "type": "noul",
+    "instructions": "Is 24 even?"
+   },
+   "q25": {
+    "type": "noul",
+    "instructions": "Is 25 even?"
+   },
+   "q26": {
+    "type": "noul",
+    "instructions": "Is 26 even?"
+   },
+   "q27": {
+    "type": "noul",
+    "instructions": "Is 27 even?"
+   },
+   "q28": {
+    "type": "noul",
+    "instructions": "Is 28 even?"
+   },
+   "q29": {
+    "type": "noul",
+    "instructions": "Is 29 even?"
+   },
+   "q30": {
+    "type": "noul",
+    "instructions": "Is 30 even?"
+   },
+   "q31": {
+    "type": "noul",
+    "instructions": "Is 31 even?"
+   },
+   "q32": {
+    "type": "noul",
+    "instructions": "Is 32 even?"
+   },
+   "q33": {
+    "type": "noul",
+    "instructions": "Is 33 even?"
+   },
+   "q34": {
+    "type": "noul",
+    "instructions": "Is 34 even?"
+   },
+   "q35": {
+    "type": "noul",
+    "instructions": "Is 35 even?"
+   },
+   "q36": {
+    "type": "noul",
+    "instructions": "Is 36 even?"
+   },
+   "q37": {
+    "type": "noul",
+    "instructions": "Is 37 even?"
+   },
+   "q38": {
+    "type": "noul",
+    "instructions": "Is 38 even?"
+   },
+   "q39": {
+    "type": "noul",
+    "instructions": "Is 39 even?"
+   },
+   "q40": {
+    "type": "noul",
+    "instructions": "Is 40 even?"
+   },
+   "q41": {
+    "type": "noul",
+    "instructions": "Is 41 even?"
+   },
+   "q42": {
+    "type": "noul",
+    "instructions": "Is 42 even?"
+   },
+   "q43": {
+    "type": "noul",
+    "instructions": "Is 43 even?"
+   },
+   "q44": {
+    "type": "noul",
+    "instructions": "Is 44 even?"
+   },
+   "q45": {
+    "type": "noul",
+    "instructions": "Is 45 even?"
+   },
+   "q46": {
+    "type": "noul",
+    "instructions": "Is 46 even?"
+   },
+   "q47": {
+    "type": "noul",
+    "instructions": "Is 47 even?"
+   },
+   "q48": {
+    "type": "noul",
+    "instructions": "Is 48 even?"
+   },
+   "q49": {
+    "type": "noul",
+    "instructions": "Is 49 even?"
+   },
+   "q50": {
+    "type": "noul",
+    "instructions": "Is 50 even?"
+   },
+   "q51": {
+    "type": "noul",
+    "instructions": "Is 51 even?"
+   },
+   "q52": {
+    "type": "noul",
+    "instructions": "Is 52 even?"
+   },
+   "q53": {
+    "type": "noul",
+    "instructions": "Is 53 even?"
+   },
+   "q54": {
+    "type": "noul",
+    "instructions": "Is 54 even?"
+   },
+   "q55": {
+    "type": "noul",
+    "instructions": "Is 55 even?"
+   },
+   "q56": {
+    "type": "noul",
+    "instructions": "Is 56 even?"
+   },
+   "q57": {
+    "type": "noul",
+    "instructions": "Is 57 even?"
+   },
+   "q58": {
+    "type": "noul",
+    "instructions": "Is 58 even?"
+   },
+   "q59": {
+    "type": "noul",
+    "instructions": "Is 59 even?"
+   },
+   "q60": {
+    "type": "noul",
+    "instructions": "Is 60 even?"
+   },
+   "q61": {
+    "type": "noul",
+    "instructions": "Is 61 even?"
+   },
+   "q62": {
+    "type": "noul",
+    "instructions": "Is 62 even?"
+   },
+   "q63": {
+    "type": "noul",
+    "instructions": "Is 63 even?"
+   },
+   "q64": {
+    "type": "noul",
+    "instructions": "Is 64 even?"
+   },
+   "q65": {
+    "type": "noul",
+    "instructions": "Is 65 even?"
+   },
+   "q66": {
+    "type": "noul",
+    "instructions": "Is 66 even?"
+   },
+   "q67": {
+    "type": "noul",
+    "instructions": "Is 67 even?"
+   },
+   "q68": {
+    "type": "noul",
+    "instructions": "Is 68 even?"
+   },
+   "q69": {
+    "type": "noul",
+    "instructions": "Is 69 even?"
+   },
+   "q70": {
+    "type": "noul",
+    "instructions": "Is 70 even?"
+   },
+   "q71": {
+    "type": "noul",
+    "instructions": "Is 71 even?"
+   },
+   "q72": {
+    "type": "noul",
+    "instructions": "Is 72 even?"
+   },
+   "q73": {
+    "type": "noul",
+    "instructions": "Is 73 even?"
+   },
+   "q74": {
+    "type": "noul",
+    "instructions": "Is 74 even?"
+   },
+   "q75": {
+    "type": "noul",
+    "instructions": "Is 75 even?"
+   },
+   "q76": {
+    "type": "noul",
+    "instructions": "Is 76 even?"
+   },
+   "q77": {
+    "type": "noul",
+    "instructions": "Is 77 even?"
+   },
+   "q78": {
+    "type": "noul",
+    "instructions": "Is 78 even?"
+   },
+   "q79": {
+    "type": "noul",
+    "instructions": "Is 79 even?"
+   },
+   "q80": {
+    "type": "noul",
+    "instructions": "Is 80 even?"
+   },
+   "q81": {
+    "type": "noul",
+    "instructions": "Is 81 even?"
+   },
+   "q82": {
+    "type": "noul",
+    "instructions": "Is 82 even?"
+   },
+   "q83": {
+    "type": "noul",
+    "instructions": "Is 83 even?"
+   },
+   "q84": {
+    "type": "noul",
+    "instructions": "Is 84 even?"
+   },
+   "q85": {
+    "type": "noul",
+    "instructions": "Is 85 even?"
+   },
+   "q86": {
+    "type": "noul",
+    "instructions": "Is 86 even?"
+   },
+   "q87": {
+    "type": "noul",
+    "instructions": "Is 87 even?"
+   },
+   "q88": {
+    "type": "noul",
+    "instructions": "Is 88 even?"
+   },
+   "q89": {
+    "type": "noul",
+    "instructions": "Is 89 even?"
+   },
+   "q90": {
+    "type": "noul",
+    "instructions": "Is 90 even?"
+   },
+   "q91": {
+    "type": "noul",
+    "instructions": "Is 91 even?"
+   },
+   "q92": {
+    "type": "noul",
+    "instructions": "Is 92 even?"
+   },
+   "q93": {
+    "type": "noul",
+    "instructions": "Is 93 even?"
+   },
+   "q94": {
+    "type": "noul",
+    "instructions": "Is 94 even?"
+   },
+   "q95": {
+    "type": "noul",
+    "instructions": "Is 95 even?"
+   },
+   "q96": {
+    "type": "noul",
+    "instructions": "Is 96 even?"
+   },
+   "q97": {
+    "type": "noul",
+    "instructions": "Is 97 even?"
+   },
+   "q98": {
+    "type": "noul",
+    "instructions": "Is 98 even?"
+   }
+  }
+ },
+ "rep": 0,
+ "response": {
+  "model": "jev-1.13.0",
+  "answers": {
+   "q0": {
+    "type": "noul",
+    "noul": 0.98
+   },
+   "q1": {
+    "type": "noul",
+    "noul": 0.02
+   },
+   "q2": {
+    "type": "noul",
+    "noul": 0.99
+   },
+   "q3": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q4": {
+    "type": "noul",
+    "noul": 0.99
+   },
+   "q5": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q6": {
+    "type": "noul",
+    "noul": 0.99
+   },
+   "q7": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q8": {
+    "type": "noul",
+    "noul": 0.99
+   },
+   "q9": {
+    "type": "noul",
+    "noul": 0.02
+   },
+   "q10": {
+    "type": "noul",
+    "noul": 0.99
+   },
+   "q11": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q12": {
+    "type": "noul",
+    "noul": 0.99
+   },
+   "q13": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q14": {
+    "type": "noul",
+    "noul": 0.97
+   },
+   "q15": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q16": {
+    "type": "noul",
+    "noul": 0.99
+   },
+   "q17": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q18": {
+    "type": "noul",
+    "noul": 0.99
+   },
+   "q19": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q20": {
+    "type": "noul",
+    "noul": 0.99
+   },
+   "q21": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q22": {
+    "type": "noul",
+    "noul": 0.99
+   },
+   "q23": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q24": {
+    "type": "noul",
+    "noul": 0.99
+   },
+   "q25": {
+    "type": "noul",
+    "noul": 0.02
+   },
+   "q26": {
+    "type": "noul",
+    "noul": 0.97
+   },
+   "q27": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q28": {
+    "type": "noul",
+    "noul": 0.99
+   },
+   "q29": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q30": {
+    "type": "noul",
+    "noul": 0.97
+   },
+   "q31": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q32": {
+    "type": "noul",
+    "noul": 0.99
+   },
+   "q33": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q34": {
+    "type": "noul",
+    "noul": 0.68
+   },
+   "q35": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q36": {
+    "type": "noul",
+    "noul": 0.99
+   },
+   "q37": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q38": {
+    "type": "noul",
+    "noul": 0.97
+   },
+   "q39": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q40": {
+    "type": "noul",
+    "noul": 0.99
+   },
+   "q41": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q42": {
+    "type": "noul",
+    "noul": 0.96
+   },
+   "q43": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q44": {
+    "type": "noul",
+    "noul": 0.99
+   },
+   "q45": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q46": {
+    "type": "noul",
+    "noul": 0.99
+   },
+   "q47": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q48": {
+    "type": "noul",
+    "noul": 0.99
+   },
+   "q49": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q50": {
+    "type": "noul",
+    "noul": 0.98
+   },
+   "q51": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q52": {
+    "type": "noul",
+    "noul": 0.98
+   },
+   "q53": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q54": {
+    "type": "noul",
+    "noul": 0.96
+   },
+   "q55": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q56": {
+    "type": "noul",
+    "noul": 0.99
+   },
+   "q57": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q58": {
+    "type": "noul",
+    "noul": 0.94
+   },
+   "q59": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q60": {
+    "type": "noul",
+    "noul": 0.99
+   },
+   "q61": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q62": {
+    "type": "noul",
+    "noul": 0.98
+   },
+   "q63": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q64": {
+    "type": "noul",
+    "noul": 0.99
+   },
+   "q65": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q66": {
+    "type": "noul",
+    "noul": 0.99
+   },
+   "q67": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q68": {
+    "type": "noul",
+    "noul": 0.99
+   },
+   "q69": {
+    "type": "noul",
+    "noul": 0.02
+   },
+   "q70": {
+    "type": "noul",
+    "noul": 0.02
+   },
+   "q71": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q72": {
+    "type": "noul",
+    "noul": 0.99
+   },
+   "q73": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q74": {
+    "type": "noul",
+    "noul": 0.92
+   },
+   "q75": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q76": {
+    "type": "noul",
+    "noul": 0.96
+   },
+   "q77": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q78": {
+    "type": "noul",
+    "noul": 0.95
+   },
+   "q79": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q80": {
+    "type": "noul",
+    "noul": 0.99
+   },
+   "q81": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q82": {
+    "type": "noul",
+    "noul": 0.99
+   },
+   "q83": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q84": {
+    "type": "noul",
+    "noul": 0.99
+   },
+   "q85": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q86": {
+    "type": "noul",
+    "noul": 0.98
+   },
+   "q87": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q88": {
+    "type": "noul",
+    "noul": 0.99
+   },
+   "q89": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q90": {
+    "type": "noul",
+    "noul": 0.03
+   },
+   "q91": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q92": {
+    "type": "noul",
+    "noul": 0.97
+   },
+   "q93": {
+    "type": "noul",
+    "noul": 0.02
+   },
+   "q94": {
+    "type": "noul",
+    "noul": 0.84
+   },
+   "q95": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q96": {
+    "type": "noul",
+    "noul": 0.99
+   },
+   "q97": {
+    "type": "noul",
+    "noul": 0.01
+   },
+   "q98": {
+    "type": "noul",
+    "noul": 0.96
+   }
+  },
+  "usage": {
+   "input_tokens": 1543,
+   "output_tokens": 1776
+  }
+ },
+ "latency_s": 2.044013023376465,
+ "time": "2026-09-23T22:59:01"
+}

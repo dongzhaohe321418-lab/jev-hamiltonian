@@ -1,0 +1,217 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "system": "NH3 molecule, bonds at 2.0 x equilibrium, cc-pVDZ, RHF orbitals",
+   "active_space": "CAS(2e,5o); active orbital energies (hartree, ascending): [-0.3903, -0.0415, 0.0246, 0.0246, 0.6038]",
+   "determinant_notation": "one character per active orbital in ascending energy: 2 doubly occupied, a alpha, b beta, 0 empty",
+   "reference_determinant": "20000"
+  },
+  "questions": {
+   "ab000": {
+    "type": "noul",
+    "instructions": "Determinant ab000 has a weight (squared coefficient) above 0.01 in the exact CASCI ground state."
+   },
+   "a0b00": {
+    "type": "noul",
+    "instructions": "Determinant a0b00 has a weight (squared coefficient) above 0.01 in the exact CASCI ground state."
+   },
+   "a00b0": {
+    "type": "noul",
+    "instructions": "Determinant a00b0 has a weight (squared coefficient) above 0.01 in the exact CASCI ground state."
+   },
+   "a000b": {
+    "type": "noul",
+    "instructions": "Determinant a000b has a weight (squared coefficient) above 0.01 in the exact CASCI ground state."
+   },
+   "ba000": {
+    "type": "noul",
+    "instructions": "Determinant ba000 has a weight (squared coefficient) above 0.01 in the exact CASCI ground state."
+   },
+   "02000": {
+    "type": "noul",
+    "instructions": "Determinant 02000 has a weight (squared coefficient) above 0.01 in the exact CASCI ground state."
+   },
+   "0ab00": {
+    "type": "noul",
+    "instructions": "Determinant 0ab00 has a weight (squared coefficient) above 0.01 in the exact CASCI ground state."
+   },
+   "0a0b0": {
+    "type": "noul",
+    "instructions": "Determinant 0a0b0 has a weight (squared coefficient) above 0.01 in the exact CASCI ground state."
+   },
+   "0a00b": {
+    "type": "noul",
+    "instructions": "Determinant 0a00b has a weight (squared coefficient) above 0.01 in the exact CASCI ground state."
+   },
+   "b0a00": {
+    "type": "noul",
+    "instructions": "Determinant b0a00 has a weight (squared coefficient) above 0.01 in the exact CASCI ground state."
+   },
+   "0ba00": {
+    "type": "noul",
+    "instructions": "Determinant 0ba00 has a weight (squared coefficient) above 0.01 in the exact CASCI ground state."
+   },
+   "00200": {
+    "type": "noul",
+    "instructions": "Determinant 00200 has a weight (squared coefficient) above 0.01 in the exact CASCI ground state."
+   },
+   "00ab0": {
+    "type": "noul",
+    "instructions": "Determinant 00ab0 has a weight (squared coefficient) above 0.01 in the exact CASCI ground state."
+   },
+   "00a0b": {
+    "type": "noul",
+    "instructions": "Determinant 00a0b has a weight (squared coefficient) above 0.01 in the exact CASCI ground state."
+   },
+   "b00a0": {
+    "type": "noul",
+    "instructions": "Determinant b00a0 has a weight (squared coefficient) above 0.01 in the exact CASCI ground state."
+   },
+   "0b0a0": {
+    "type": "noul",
+    "instructions": "Determinant 0b0a0 has a weight (squared coefficient) above 0.01 in the exact CASCI ground state."
+   },
+   "00ba0": {
+    "type": "noul",
+    "instructions": "Determinant 00ba0 has a weight (squared coefficient) above 0.01 in the exact CASCI ground state."
+   },
+   "00020": {
+    "type": "noul",
+    "instructions": "Determinant 00020 has a weight (squared coefficient) above 0.01 in the exact CASCI ground state."
+   },
+   "000ab": {
+    "type": "noul",
+    "instructions": "Determinant 000ab has a weight (squared coefficient) above 0.01 in the exact CASCI ground state."
+   },
+   "b000a": {
+    "type": "noul",
+    "instructions": "Determinant b000a has a weight (squared coefficient) above 0.01 in the exact CASCI ground state."
+   },
+   "0b00a": {
+    "type": "noul",
+    "instructions": "Determinant 0b00a has a weight (squared coefficient) above 0.01 in the exact CASCI ground state."
+   },
+   "00b0a": {
+    "type": "noul",
+    "instructions": "Determinant 00b0a has a weight (squared coefficient) above 0.01 in the exact CASCI ground state."
+   },
+   "000ba": {
+    "type": "noul",
+    "instructions": "Determinant 000ba has a weight (squared coefficient) above 0.01 in the exact CASCI ground state."
+   },
+   "00002": {
+    "type": "noul",
+    "instructions": "Determinant 00002 has a weight (squared coefficient) above 0.01 in the exact CASCI ground state."
+   }
+  }
+ },
+ "rep": 1,
+ "response": {
+  "model": "jev-1.13.0",
+  "answers": {
+   "ab000": {
+    "type": "noul",
+    "noul": 0.45
+   },
+   "a0b00": {
+    "type": "noul",
+    "noul": 0.61
+   },
+   "a00b0": {
+    "type": "noul",
+    "noul": 0.58
+   },
+   "a000b": {
+    "type": "noul",
+    "noul": 0.53
+   },
+   "ba000": {
+    "type": "noul",
+    "noul": 0.47
+   },
+   "02000": {
+    "type": "noul",
+    "noul": 0.5
+   },
+   "0ab00": {
+    "type": "noul",
+    "noul": 0.38
+   },
+   "0a0b0": {
+    "type": "noul",
+    "noul": 0.41
+   },
+   "0a00b": {
+    "type": "noul",
+    "noul": 0.44
+   },
+   "b0a00": {
+    "type": "noul",
+    "noul": 0.54
+   },
+   "0ba00": {
+    "type": "noul",
+    "noul": 0.39
+   },
+   "00200": {
+    "type": "noul",
+    "noul": 0.47
+   },
+   "00ab0": {
+    "type": "noul",
+    "noul": 0.45
+   },
+   "00a0b": {
+    "type": "noul",
+    "noul": 0.44
+   },
+   "b00a0": {
+    "type": "noul",
+    "noul": 0.48
+   },
+   "0b0a0": {
+    "type": "noul",
+    "noul": 0.45
+   },
+   "00ba0": {
+    "type": "noul",
+    "noul": 0.42
+   },
+   "00020": {
+    "type": "noul",
+    "noul": 0.42
+   },
+   "000ab": {
+    "type": "noul",
+    "noul": 0.35
+   },
+   "b000a": {
+    "type": "noul",
+    "noul": 0.44
+   },
+   "0b00a": {
+    "type": "noul",
+    "noul": 0.5
+   },
+   "00b0a": {
+    "type": "noul",
+    "noul": 0.4
+   },
+   "000ba": {
+    "type": "noul",
+    "noul": 0.33
+   },
+   "00002": {
+    "type": "noul",
+    "noul": 0.45
+   }
+  },
+  "usage": {
+   "input_tokens": 1349,
+   "output_tokens": 476
+  }
+ },
+ "latency_s": 0.6508622169494629,
+ "time": "2026-09-23T23:00:35"
+}

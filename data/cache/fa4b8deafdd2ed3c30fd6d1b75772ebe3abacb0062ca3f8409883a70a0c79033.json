@@ -1,0 +1,34 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "system": "N2 molecule",
+   "method_context": "electronic structure, cc-pVDZ basis, singlet reference",
+   "geometry_xyz_angstrom": "N 0 0 0; N 0 0 2.745",
+   "geometry_note": "all bonds stretched to 2.5 x equilibrium length",
+   "known": "Established fact (computed): The RHF solution is unstable: a spin-unrestricted (UHF) solution with lower energy exists. This statement is FALSE."
+  },
+  "questions": {
+   "unstable": {
+    "type": "noul",
+    "instructions": "The RHF solution is unstable: a spin-unrestricted (UHF) solution with lower energy exists."
+   }
+  }
+ },
+ "rep": 0,
+ "response": {
+  "model": "jev-1.13.0",
+  "answers": {
+   "unstable": {
+    "type": "noul",
+    "noul": 0.14
+   }
+  },
+  "usage": {
+   "input_tokens": 411,
+   "output_tokens": 21
+  }
+ },
+ "latency_s": 0.7901792526245117,
+ "time": "2026-09-23T22:59:07"
+}

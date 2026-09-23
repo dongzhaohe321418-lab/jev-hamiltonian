@@ -1,0 +1,57 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "population": "A town has exactly the following 1000 residents (counts by attribute combination).",
+   "counts": [
+    "63 people: smoker=yes, high blood pressure=yes, exercises weekly=yes",
+    "51 people: smoker=yes, high blood pressure=yes, exercises weekly=no",
+    "126 people: smoker=yes, high blood pressure=no, exercises weekly=yes",
+    "26 people: smoker=yes, high blood pressure=no, exercises weekly=no",
+    "681 people: smoker=no, high blood pressure=yes, exercises weekly=yes",
+    "17 people: smoker=no, high blood pressure=yes, exercises weekly=no",
+    "35 people: smoker=no, high blood pressure=no, exercises weekly=yes",
+    "1 people: smoker=no, high blood pressure=no, exercises weekly=no"
+   ],
+   "selection": "One resident is selected uniformly at random."
+  },
+  "questions": {
+   "A": {
+    "type": "noul",
+    "instructions": "The selected person is a smoker."
+   },
+   "B": {
+    "type": "noul",
+    "instructions": "The selected person has high blood pressure."
+   },
+   "C": {
+    "type": "noul",
+    "instructions": "The selected person exercises weekly."
+   }
+  }
+ },
+ "rep": 1,
+ "response": {
+  "model": "jev-1.13.0",
+  "answers": {
+   "A": {
+    "type": "noul",
+    "noul": 0.22
+   },
+   "B": {
+    "type": "noul",
+    "noul": 0.69
+   },
+   "C": {
+    "type": "noul",
+    "noul": 0.78
+   }
+  },
+  "usage": {
+   "input_tokens": 491,
+   "output_tokens": 52
+  }
+ },
+ "latency_s": 0.9457101821899414,
+ "time": "2026-09-23T22:57:41"
+}

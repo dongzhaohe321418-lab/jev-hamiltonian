@@ -1,0 +1,10 @@
+matplotlib==3.11.2
+numpy==2.5.3
+openfermion==1.8.1
+openfermionpyscf==0.5
+pymupdf==1.28.2
+pyscf==2.14.0
+requests==2.34.2
+SciencePlots==2.2.2
+scikit-learn==1.9.1
+scipy==1.18.1

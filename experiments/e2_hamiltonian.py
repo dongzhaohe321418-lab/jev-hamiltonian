@@ -58,9 +58,9 @@ def h2_ask(d, r):
     a = ask(st, {"dom": choice("Which computational basis state has the largest weight in the 2-particle ground state?", crit),
                  "E": score("What is the ground-state energy of this Hamiltonian (2-particle sector)?", levels)}, rep=r)["answers"]
     lv = np.linspace(-1.20, -0.75, 10)
-    # score is normalised to [0,1] over the levels (checked in E0 output); map back to hartree
+    # the Score field is the expected level index (0..9), so the read-out is lv[0] + score * level spacing
     return {"R": d["R"], "rep": r, "p_dom": a["dom"]["probabilities"], "score": a["E"]["score"],
-            "E_read": float(lv[0] + a["E"]["score"]*(lv[-1]-lv[0])), "E_probs": a["E"]["probabilities"]}
+            "E_read": float(lv[0] + a["E"]["score"]*(lv[1]-lv[0])), "E_probs": a["E"]["probabilities"]}
 
 if __name__ == "__main__":
     insts = list(ising_instances())

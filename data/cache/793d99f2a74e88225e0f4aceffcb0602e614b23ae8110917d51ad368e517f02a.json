@@ -1,0 +1,50 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "population": "A town has exactly the following 1000 residents (counts by attribute combination).",
+   "counts": [
+    "427 people: smoker=yes, high blood pressure=yes, exercises weekly=yes",
+    "184 people: smoker=yes, high blood pressure=yes, exercises weekly=no",
+    "131 people: smoker=yes, high blood pressure=no, exercises weekly=yes",
+    "45 people: smoker=yes, high blood pressure=no, exercises weekly=no",
+    "10 people: smoker=no, high blood pressure=yes, exercises weekly=yes",
+    "2 people: smoker=no, high blood pressure=yes, exercises weekly=no",
+    "42 people: smoker=no, high blood pressure=no, exercises weekly=yes",
+    "158 people: smoker=no, high blood pressure=no, exercises weekly=no"
+   ],
+   "selection": "One resident is selected uniformly at random.",
+   "known": "Established fact (computed): The selected person exercises weekly. This statement is TRUE."
+  },
+  "questions": {
+   "A": {
+    "type": "noul",
+    "instructions": "The selected person is a smoker."
+   },
+   "B": {
+    "type": "noul",
+    "instructions": "The selected person has high blood pressure."
+   }
+  }
+ },
+ "rep": 0,
+ "response": {
+  "model": "jev-1.13.0",
+  "answers": {
+   "A": {
+    "type": "noul",
+    "noul": 0.8
+   },
+   "B": {
+    "type": "noul",
+    "noul": 0.78
+   }
+  },
+  "usage": {
+   "input_tokens": 506,
+   "output_tokens": 36
+  }
+ },
+ "latency_s": 0.5752053260803223,
+ "time": "2026-09-23T22:57:30"
+}

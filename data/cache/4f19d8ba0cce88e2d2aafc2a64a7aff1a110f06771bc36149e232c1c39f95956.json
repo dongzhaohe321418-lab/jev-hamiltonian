@@ -1,0 +1,49 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "system": "H2 molecule",
+   "method_context": "electronic structure, cc-pVDZ basis, singlet reference",
+   "geometry_xyz_angstrom": "H 0 0 0; H 0 0 1.482",
+   "geometry_note": "all bonds stretched to 2.0 x equilibrium length"
+  },
+  "questions": {
+   "mr": {
+    "type": "noul",
+    "instructions": "Would a multireference method be needed to describe this system's ground state qualitatively?"
+   },
+   "t1": {
+    "type": "noul",
+    "instructions": "Is the CCSD T1 diagnostic above the 0.02 threshold for this system?"
+   },
+   "unstable": {
+    "type": "noul",
+    "instructions": "Does a stability analysis of the RHF solution find a lower-energy UHF solution?"
+   }
+  }
+ },
+ "rep": 1,
+ "response": {
+  "model": "jev-1.13.0",
+  "answers": {
+   "mr": {
+    "type": "noul",
+    "noul": 0.85
+   },
+   "t1": {
+    "type": "noul",
+    "noul": 0.77
+   },
+   "unstable": {
+    "type": "noul",
+    "noul": 0.78
+   }
+  },
+  "usage": {
+   "input_tokens": 416,
+   "output_tokens": 54
+  }
+ },
+ "latency_s": 0.9367668628692627,
+ "time": "2026-09-23T22:51:32"
+}
