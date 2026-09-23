@@ -23,7 +23,7 @@ The paper is `paper/main.pdf` (arXiv category cs.LG, cross-lists physics.chem-ph
 | `experiments/e*_collect.py`, `e*_*.py` | Data collection for each experiment (E0-E9) |
 | `experiments/analyze_*.py` | Offline analyses that produce every number in the paper |
 | `experiments/figures.py` | All data figures |
-| `review/` | Three blind referee reports and an external code audit, with the fixes they led to |
+| `review/` | Pre-release review: three blind referee reports simulated by separate AI agents and a code audit by a second AI system (Codex); no human peer review |
 | `survey/` | Literature survey, verified bibliography and verification log |
 
 ## Reproducing
@@ -36,7 +36,7 @@ The paper is `paper/main.pdf` (arXiv category cs.LG, cross-lists physics.chem-ph
 data needs an API key in `~/.config/typesafe/key` or `TYPESAFE_API_KEY`. The API only exposes the alias `jev-latest`;
 every cached response records the concrete model version it came from (`jev-1.13.0` for all data here).
 
-The whole study used about 16,000 API calls and cost well under one US dollar.
+The study made 10,145 distinct API calls (all answered by `jev-1.13.0`) at a total cost of about US$0.28.
 
 ## Licence
 
