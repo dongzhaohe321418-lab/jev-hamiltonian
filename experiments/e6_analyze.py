@@ -21,11 +21,13 @@ n = len(rows)
 err = np.array([r["abs_err_eh"] for r in rows]); bad = err > TH
 p = np.array([np.mean(pj[key(r)]) for r in rows]); p_sd = np.array([np.std(pj[key(r)]) for r in rows])
 t1 = np.array([r["t1"] for r in rows]); X = np.array([[r["stretch"], r["gap_eh"]] for r in rows])
-def loo(X, y):
+def loo(X, y, groups=None):
+    """Leave-one-molecule-out (all bases and stretches of a molecule held out together; round-2 review, Codex C3)."""
+    groups = np.array([r["name"] for r in rows]) if groups is None else groups
     out = np.zeros(len(y))
-    for i in range(len(y)):
-        m = np.arange(len(y)) != i
-        out[i] = LogisticRegression().fit(X[m], y[m]).predict_proba(X[i:i+1])[0, 1]
+    for g in set(groups):
+        m = groups != g
+        out[~m] = LogisticRegression().fit(X[m], y[m]).predict_proba(X[~m])[:, 1] if len(set(y[m])) > 1 else y[m].mean()
     return out
 p_lr = loo(X, (~bad).astype(int))          # P(CCSD(T) reliable)
 
@@ -79,7 +81,7 @@ res = {"auroc_diff_jev_minus_t1_ci95": [float(np.percentile(dboot, 2.5)), float(
 # ---- sensitivity analyses ----
 def summarize(sub, errs):
     e = np.asarray(errs); b = e > TH; pp = np.array([np.mean(pj[key(r)]) for r in sub]); tt = np.array([r["t1"] for r in sub])
-    Xs = np.array([[r["stretch"], r["gap_eh"]] for r in sub]); pl = loo(Xs, (~b).astype(int))
+    Xs = np.array([[r["stretch"], r["gap_eh"]] for r in sub]); pl = loo(Xs, (~b).astype(int), np.array([r["name"] for r in sub]))
     def pol(route):
         route = np.asarray(route, bool); fin = np.where(route, 0.0, e)
         return {"frac_routed": float(route.mean()), "frac_err_gt_1p6": float(np.mean(fin > TH))}

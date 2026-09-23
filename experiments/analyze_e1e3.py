@@ -31,9 +31,10 @@ def stats(P):
 J, asym, resid = stats(P)
 # noise floor: resample repeats with replacement per (case, cond) and recompute asymmetry
 boot = []
-for _ in range(300):
-    idx = rng.integers(0, R, size=(M, R))
-    Pb = np.take_along_axis(P, idx[:, :, None, None], 1)
+for _ in range(2000):
+    # each (case, condition, statement) series comes from separate API calls, so resample repeats independently per series
+    idx = rng.integers(0, R, size=P.shape)
+    Pb = np.take_along_axis(P, idx, 1)
     boot.append(stats(Pb)[1])
 se = np.std(boot, 0)
 z = np.abs(asym) / np.maximum(se, 1e-6)
@@ -85,7 +86,7 @@ for k, y in labels.items():
         e3[k][n] = {"auroc": auc, "brier": float(np.mean((p-y)**2)), "ece": float(ece(p, y))}
     print(f"E3 {k:9s} (pos rate {y.mean():.2f}) " + "  ".join(f"{n}: AUC {v['auroc']:.2f} Brier {v['brier']:.3f} ECE {v['ece']:.3f}" for n, v in e3[k].items()))
 pairsJ = [[J[(a, b)].tolist(), J[(b, a)].tolist()] for a, b in itertools.combinations(range(len(S)), 2)]
-json.dump({"J_pairs": pairsJ, "asym": asym.tolist(), "se": se.tolist(), "null_abs": null.tolist(), "resid": resid.tolist(),
+json.dump({"J_pairs": pairsJ, "asym": asym.tolist(), "se": se.tolist(), "prereg_frac_gt_3se": float(np.mean(z > 3)), "null_abs": null.tolist(), "resid": resid.tolist(),
            "J_mean": {f"{S[a]}|{S[b]}": float(np.mean(v)) for (a, b), v in J.items()}, "e3": e3,
            "Pm": Pm.tolist(), "labels": {k: v.tolist() for k, v in labels.items()}, "noise_sd": float(noise_sd)},
           open("experiments/e1e3_results.json", "w"), indent=1)

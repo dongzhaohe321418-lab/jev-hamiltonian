@@ -35,7 +35,7 @@ def run(rows, P, ablations):
         g, s_, gp, pj = groups[ok], st[ok], gap[ok], P[k][ok]
         preds = {"base_rate": np.array([y[g != gg].mean() for gg in g]), "stretch": lomo(s_[:, None], y, g),
                  "logistic": lomo(np.c_[s_, gp], y, g), "jev": pj, "jev_platt": lomo(lg(pj)[:, None], y, g),
-                 "logistic+jev": lomo(np.c_[s_, gp, lg(pj)], y, g)}
+                 "logistic+jev": lomo(np.c_[s_, gp, lg(pj)], y, g), "stretch+jev": lomo(np.c_[s_, lg(pj)], y, g)}
         for a, Pa in ablations.items(): preds[a] = Pa[k][ok]
         r_ = {"n": int(ok.sum()), "pos_rate": float(y.mean())}
         for m, p in preds.items():
@@ -44,12 +44,17 @@ def run(rows, P, ablations):
         for m in ["jev_platt", "logistic+jev", "jev"]:
             d = (preds[m] - y) ** 2 - (preds["logistic"] - y) ** 2
             r_[f"dbrier_{m}_vs_logistic"] = [float(d.mean())] + clus(lambda idx: d[idx].mean(), g)
+        r_["stretch_raw"] = {"auroc": float(roc_auc_score(y, s_)), "auroc_ci": clus(lambda idx: roc_auc_score(y[idx], s_[idx]) if 0 < y[idx].mean() < 1 else None, g)}
+        ll = lambda p: -(y * np.log(np.clip(p, 1e-6, 1)) + (1 - y) * np.log(np.clip(1 - p, 1e-6, 1)))
+        dl = ll(preds["stretch+jev"]) - ll(preds["stretch"])
+        r_["dlogloss_stretch+jev_vs_stretch"] = [float(dl.mean())] + clus(lambda idx: dl[idx].mean(), g)
         d = roc_auc_score(y, pj) - roc_auc_score(y, s_)
         r_["dauroc_jev_vs_stretch"] = [float(d)] + clus(lambda idx: roc_auc_score(y[idx], pj[idx]) - roc_auc_score(y[idx], s_[idx]) if 0 < y[idx].mean() < 1 else None, g)
         r_["within_stretch_auroc"] = {str(f): (float(roc_auc_score(y[s_ == f], pj[s_ == f])) if 0 < y[s_ == f].mean() < 1 else None) for f in sorted(set(s_))}
         res[k] = r_
         print(f"{k:9s} n={r_['n']} pos={r_['pos_rate']:.2f}  " + "  ".join(f"{m}: {v['auroc'] if v['auroc'] is None else round(v['auroc'],2)}/{v['brier']:.3f}" for m, v in r_.items() if isinstance(v, dict) and "brier" in v))
         print(f"           dAUROC jev-stretch {np.round(r_['dauroc_jev_vs_stretch'],2)}  dBrier platt-log {np.round(r_['dbrier_jev_platt_vs_logistic'],3)}  stack-log {np.round(r_['dbrier_logistic+jev_vs_logistic'],3)}  within-stretch {r_['within_stretch_auroc']}")
+        print(f"           raw stretch AUROC {r_['stretch_raw']['auroc']:.2f} {np.round(r_['stretch_raw']['auroc_ci'],2)}; dlogloss stretch+jev vs stretch {np.round(r_['dlogloss_stretch+jev_vs_stretch'],3)}")
     return res
 
 if __name__ == "__main__":

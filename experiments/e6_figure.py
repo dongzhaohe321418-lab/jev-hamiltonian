@@ -19,8 +19,9 @@ labs = [("mr", "multiref."), ("t1", r"$T_1>0.02$"), ("unstable", "RHF unstable")
 meths = [("stretch", "stretch factor", "0.45", "D"), ("jev", "Jev", C[0], "o"), ("jev_geometry_only", "Jev, geometry only", C[1], "s"), ("logistic", "logistic (stretch, gap)", C[2], "^")]
 for j, (m, name, col, mk) in enumerate(meths):
     xs = np.arange(len(labs)) + (j - 1.5) * 0.18
-    a = [e5l[k][m]["auroc"] for k, _ in labs]
-    lo = [e5l[k][m]["auroc_ci"][0] for k, _ in labs]; hi = [e5l[k][m]["auroc_ci"][1] for k, _ in labs]
+    g = lambda k: e5l[k]["stretch_raw"] if m == "stretch" else e5l[k][m]
+    a = [g(k)["auroc"] for k, _ in labs]
+    lo = [g(k)["auroc_ci"][0] for k, _ in labs]; hi = [g(k)["auroc_ci"][1] for k, _ in labs]
     ax.errorbar(xs, a, [np.subtract(a, lo), np.subtract(hi, a)], fmt=mk, ms=3.5, color=col, lw=0.8, capsize=1.5, label=name)
 ax.axhline(0.5, color="0.5", ls=":", lw=0.7)
 ax.set(xticks=range(len(labs)), ylim=(0.18, 1.0), ylabel="AUROC (95% CI)")

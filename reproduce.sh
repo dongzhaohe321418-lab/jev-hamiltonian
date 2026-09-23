@@ -12,7 +12,7 @@ if [ "${1:-}" = "--full" ]; then
   $PY experiments/e4v2_selected_ci.py
   $PY experiments/e2_hamiltonian.py
 fi
-for s in analyze_e1e3 analyze_r1 analyze_e2 analyze_e8 analyze_e9 analyze_e3v2 analyze_e5_lomo analyze_e4v2 analyze_calib make_tables e5_analyze e6_analyze e7_analyze figures e6_figure e7_figure; do
+for s in analyze_e1e3 analyze_r1 analyze_e2 analyze_e8 analyze_n5 analyze_e9 analyze_e3v2 analyze_e5_lomo analyze_e4v2 analyze_calib make_tables e5_analyze e6_analyze e7_analyze figures e6_figure e7_figure; do
   echo "== $s"; $PY experiments/$s.py
 done
 (cd paper && latexmk -pdf -interaction=nonstopmode -quiet main.tex)

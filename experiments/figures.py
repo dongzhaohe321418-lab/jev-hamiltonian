@@ -77,7 +77,7 @@ preds = [("stretch", "stretch factor"), ("logistic", "logistic (stretch, gap)"),
 labs = {"mr": "multiref.", "t1": r"$T_1$", "unstable": "RHF unstable"}
 for j, (k, kl) in enumerate(labs.items()):
     for i, (m, ml) in enumerate(preds):
-        v = e3[k][m]; y = len(preds) - i + 0.22 * (1 - j)
+        v = e3[k]["stretch_raw"] if m == "stretch" else e3[k][m]; y = len(preds) - i + 0.22 * (1 - j)
         ax.errorbar(v["auroc"], y, xerr=[[v["auroc"] - v["auroc_ci"][0]], [v["auroc_ci"][1] - v["auroc"]]], fmt="o", ms=2.5, color=C[j], lw=0.8,
                     label=kl if i == 0 else None)
 ax.axvline(0.5, color="0.6", lw=0.6, ls=":")
@@ -99,6 +99,6 @@ vals = [np.array(e4r["area"][m]) for m in order]
 ax.boxplot(vals, widths=0.5, showfliers=False, medianprops=dict(color="k"))
 for i, v in enumerate(vals):
     ax.scatter(np.full(len(v), i + 1) + np.linspace(-0.12, 0.12, len(v)), v, s=4, color=C[1] if order[i].startswith("jev") else "0.4", zorder=3)
-ax.set(xticks=range(1, len(order) + 1), ylabel=r"mean $\log_{10}$ error (mE$_h$)"); ax.set_xticklabels(xl, fontsize=5.5, rotation=45, ha="right"); panel(ax, "c")
+ax.set(xticks=range(1, len(order) + 1), ylabel=r"mean $\log_{10}$(error / mE$_h$)"); ax.set_xticklabels(xl, fontsize=5.5, rotation=45, ha="right"); panel(ax, "c")
 fig.tight_layout(w_pad=1.0); save(fig, "fig4_chemistry")
 print("ok")

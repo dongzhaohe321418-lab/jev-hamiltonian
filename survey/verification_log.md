@@ -73,3 +73,10 @@ Method. For DOI entries we fetched `https://api.crossref.org/works/<doi>` and co
 - **Hammersley–Clifford**: this is an unpublished manuscript. It is kept, with the Oxford ORA record as the source for its 1971 date.
 - **Discrepancy to flag in the paper**: the training method is called "Reinforcement Learning *for* Calibrated Decisions (RLCD)" in the vendor blog and "reinforcement learning *from* calibrated decisions" in TechCrunch. Quote the vendor form.
 - Nothing named in the brief turned out to be fabricated. arXiv 2503.23982 is real.
+
+## Added in revision (2026-09-24)
+- sun2020recent: CrossRef 10.1063/5.0006074 (J. Chem. Phys. 153(2), article 024109, 2020)
+- mcclean2020openfermion: CrossRef 10.1088/2058-9565/ab8ebc (Quantum Sci. Technol. 5(3) 034014, 2020)
+- benjamini1995controlling: CrossRef 10.1111/j.2517-6161.1995.tb02031.x (JRSS B 57(1) 289-300)
+- lin2007note: CrossRef 10.1007/s10994-007-5018-6 (Machine Learning 68(3) 267-276). Cited for Platt scaling because Platt's 1999 chapter could not be verified via CrossRef.
+- qwen2024qwen25: arXiv 2412.15115 (export.arxiv.org API, published 2024-12-19)

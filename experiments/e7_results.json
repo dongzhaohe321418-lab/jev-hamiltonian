@@ -1,5 +1,5 @@
 {
- "null95_jev_noise": 0.3573337530094726,
+ "null95_jev_noise": 0.37087361505358507,
  "models": {
   "Qwen2.5-1.5B-Instruct": {
    "e1": {
@@ -14,7 +14,7 @@
      "90": 1.4782701648400054,
      "95": 2.1330610120183877
     },
-    "frac_asym_gt_null95": 0.7979166666666667,
+    "frac_asym_gt_null95": 0.7854166666666667,
     "frac_asym_gt_0.1": 0.9520833333333333,
     "frac_asym_gt_1": 0.2520833333333333,
     "median_absJ": 2.1426162629357446,
@@ -46,7 +46,7 @@
     "unclipped_subset": {
      "n": 479,
      "asym_median": 0.6847588761155068,
-     "frac_asym_gt_null95": 0.7974947807933194
+     "frac_asym_gt_null95": 0.7849686847599165
     },
     "frac_pair_cases_with_a_clipped_conditional": 0.002083333333333326,
     "sensitivity_clip_1e-6": {
@@ -399,8 +399,8 @@
     "yn_mass_p5": 0.999839135084071,
     "frac_argmax_in_yn_set": 1.0,
     "argmax_tokens": {
-     "No": 1084,
-     "Yes": 1316
+     "Yes": 1316,
+     "No": 1084
     },
     "prompt_tokens_median": 197.5
    },
@@ -1169,7 +1169,7 @@
      "90": 7.805583908290562,
      "95": 8.662279066247063
     },
-    "frac_asym_gt_null95": 0.7354166666666667,
+    "frac_asym_gt_null95": 0.725,
     "frac_asym_gt_0.1": 0.8291666666666667,
     "frac_asym_gt_1": 0.5333333333333333,
     "median_absJ": 0.5814437209096082,
@@ -1201,7 +1201,7 @@
     "unclipped_subset": {
      "n": 116,
      "asym_median": 0.38615835321865566,
-     "frac_asym_gt_null95": 0.5344827586206896
+     "frac_asym_gt_null95": 0.5086206896551724
     },
     "frac_pair_cases_with_a_clipped_conditional": 0.7583333333333333,
     "sensitivity_clip_1e-6": {
@@ -1554,8 +1554,8 @@
     "yn_mass_p5": 0.9999976382763238,
     "frac_argmax_in_yn_set": 1.0,
     "argmax_tokens": {
-     "No": 1827,
-     "Yes": 573
+     "Yes": 573,
+     "No": 1827
     },
     "prompt_tokens_median": 197.5
    },
@@ -2315,7 +2315,7 @@
  "e3_labels": "primary e3 = experiments/qc_labels_v2.json (mr, t1_flag, rhf_unstable; t1_flag None skipped -> n=47); e3_v1_labels = experiments/qc_labels.json",
  "jev": {
   "asym_median": 0.25903549082697697,
-  "frac_asym_gt_null95": 0.35208333333333336,
+  "frac_asym_gt_null95": 0.325,
   "asym_pct": {
    "10": 0.03797887958382873,
    "25": 0.12267032991832269,
@@ -2642,7 +2642,7 @@
   "abs_asym_absdiff_p90": 0.1947725766409604,
   "fp32": {
    "asym_median": 0.6796758469822514,
-   "frac_asym_gt_null95": 0.8,
+   "frac_asym_gt_null95": 0.78125,
    "resid_median": 0.11950485731813812,
    "resid_p90": 0.3599465033571775,
    "e3": {

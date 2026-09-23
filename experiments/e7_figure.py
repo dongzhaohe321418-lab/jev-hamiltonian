@@ -12,7 +12,9 @@ C = plt.rcParams["axes.prop_cycle"].by_key()["color"]
 def panel(ax, s): ax.text(-0.22, 1.04, s, transform=ax.transAxes, fontweight="bold", fontsize=9)
 
 res = json.load(open("experiments/e7_results.json")); jevr = json.load(open("experiments/e1e3_results.json"))
-series = [("Jev", C[1], np.abs(np.array(jevr["asym"])).ravel(), res["jev"]["e3"], res["jev"]["ising_stated"], res["jev"]["ising_flipped"])]
+e2r = json.load(open("experiments/e2_results.json"))   # Jev Ising: mean and s.e.m. over instances, as in Fig. 3
+inst = lambda d: {n: {"rho_mean": v["rho"][0], "rho_sem": v["rho"][1]} for n, v in d.items()}
+series = [("Jev", C[1], np.abs(np.array(jevr["asym"])).ravel(), res["jev"]["e3"], inst(e2r["stated"]), inst(e2r["flipped"]))]
 short = {"Qwen2.5-1.5B-Instruct": "Qwen2.5-1.5B", "Qwen2.5-7B-Instruct": "Qwen2.5-7B"}
 for i, (name, r) in enumerate(res["models"].items()):
     series.append((short[name], [C[0], C[2]][i], np.abs(np.array(r["_asym"])).ravel(), r["e3"], r["ising_stated"], r["ising_flipped"]))
@@ -21,8 +23,6 @@ fig, axs = plt.subplots(1, 3, figsize=(6.6, 2.1))
 ax = axs[0]
 for lab, c, a, *_ in series:
     xs = np.sort(a); ax.plot(np.maximum(xs, 1e-3), np.arange(1, len(xs) + 1) / len(xs), color=c, lw=1.1, label=lab)
-ax.axvline(res["null95_jev_noise"], color="0.5", ls="--", lw=0.7)
-ax.text(res["null95_jev_noise"] * 1.12, 0.04, "Jev-noise\nnull 95%", fontsize=5.5, color="0.35")
 ax.set(xscale="log", xlim=(1e-2, 20), ylim=(0, 1), xlabel=r"$|J_{ab}-J_{ba}|$ (nats)", ylabel="cumulative fraction")
 ax.legend(loc="upper left", handlelength=1.2); panel(ax, "a")
 

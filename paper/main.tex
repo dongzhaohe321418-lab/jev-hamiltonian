@@ -27,14 +27,13 @@
 \begin{abstract}
 \jev{} is a proprietary ``System One'' model that answers many typed questions about one input in a single pass and returns a calibrated probability for every allowed answer.
 Any such output defines local energies $E=-\log p$; we ask whether they form one Hamiltonian-like landscape and whether that landscape is useful for quantum chemistry.
-Using black-box access to \texttt{jev-1.13.0}, PySCF ground truth and pre-registered analyses (with disclosed deviations), we find that \jev{}'s conditionals contain an approximate pairwise landscape: an Ising energy fitted to single-fact conditionals predicts held-out two-fact conditionals better than a naive baseline in all 48 cases.
-The landscape is not exact.
-Under a coherent null matched to \jev{}'s own noise, 41\% of pairwise coupling asymmetries are significant, and the incoherence persists when the exact joint distribution is written into the input.
+Using black-box access to \texttt{jev-1.13.0}, PySCF ground truth and pre-registered analyses (with disclosed deviations), we find that stated facts shift \jev{}'s answers approximately additively in log-odds, so single-fact conditionals predict held-out two-fact conditionals in all 48 cases, yet these effects are not symmetric.
+Under a coherent null matched to \jev{}'s own noise, 41\% of pairwise coupling asymmetries are significant after false-discovery-rate control, the incoherence persists when the exact joint distribution is written into the input, and a symmetric Ising energy predicts no better than an asymmetric dependency network.
 Given a Hamiltonian as text, \jev{} follows the signs of the printed coefficients: writing the same Ising energies in the opposite sign convention reverses its preferences, and for the Jordan--Wigner Hamiltonian of H$_2$ it keeps choosing the textbook Hartree--Fock state after the qubits are relabelled.
 On quantum-chemistry diagnostics \jev{} reaches AUROC 0.76--0.89, but most of this comes from a stretch factor stated in the prompt; removing that note drops it to 0.57--0.71.
-It adds a small, significant amount of information to a two-descriptor model, ranks CCSD(T) failures about as well as the $T_1$ diagnostic, and ranks determinants for selected CI with one template that loses to iterative CIPSI.
+It adds a small amount of information to a two-descriptor model (significant for two of three labels, and for one on a larger set of 31 less common molecules), ranks CCSD(T) failures about as well as the $T_1$ diagnostic, and ranks determinants for selected CI with one template that loses to iterative CIPSI.
 Two open-weight language models are less coherent still and ignore the Hamiltonian.
-\jev{} is best read as a fast, approximately coherent triage signal, not as a physical energy landscape.
+\jev{}'s probabilities are a fast triage signal whose local energies approximately cohere; they do not form a physical energy landscape.
 \end{abstract}
 
 \section{Introduction}
@@ -60,7 +59,7 @@ We score its predictions of multireference diagnostics against PySCF labels with
 After review we added a larger and less familiar set of molecules, spin-state and CCSD(T)-routing tasks, and the same probes on two open-weight language models.
 Figure~\ref{fig:overview} summarises the design.
 
-We find that \jev{}'s local energies contain an approximate pairwise landscape with predictive value but are measurably incoherent, that its reading of a Hamiltonian follows printed signs and textbook recall rather than energies, and that its chemistry skill mostly reflects a stretch factor stated in the prompt.
+We find that stated facts shift \jev{}'s local energies roughly additively but asymmetrically, so they do not form one landscape, that its reading of a Hamiltonian follows printed signs and textbook recall rather than energies, and that its chemistry skill mostly reflects a stretch factor stated in the prompt.
 The coherence tests need only black-box access and apply to any model that answers many questions about one input.
 Code, cached API responses, the review reports described in Section~\ref{sec:setup} and figures are released.
 
@@ -121,7 +120,7 @@ We queried \texttt{jev-1.13.0} through the public API (which exposes only the al
 Probabilities are returned to two decimals and exact zeros occur, so we clip to $[0.005,0.995]$ before taking logarithms, define $E_q(a\mid s)=-\log p_q(a\mid s)$, and write $\ell=\operatorname{logit}p$.
 Identical requests return different probabilities: the repeat standard deviation of a Noul, estimated without bias from triplicate calls, is 0.020.
 Every query in the main experiments was therefore repeated two or three times and averaged.
-Median latency was 0.58~s.
+Median latency over all 10,145 calls was 0.81~s. Ground truth was computed with PySCF \citep{sun2020recent} and qubit Hamiltonians with OpenFermion \citep{mcclean2020openfermion}.
 
 \paragraph{Chemistry ground truth.}
 Twelve molecules (H$_2$, LiH, HF, N$_2$, F$_2$, CO, BH, BeO, C$_2$, H$_2$O, NH$_3$, CH$_4$) were placed at 1.0, 1.5, 2.0 and 2.5 times their equilibrium bond lengths (48 cases).
@@ -135,11 +134,11 @@ Several things then changed, and we list them because they affect how the result
 Two of the five planned E1 statements (open-shell ground state; excited state within 1~eV) were replaced before collection by the $T_1$ and RHF-instability statements, so that E1 and E3 share labelled statements.
 A pre-release review of a first version of this paper, consisting of three mutually blind referee reports simulated by separate AI agents and a code audit by a second AI system (OpenAI Codex), found an error in our first bootstrap, defects in our first chemistry labels (RHF saddle points, active spaces that split degenerate shells, triplet roots, unconverged CCSD), a leak in case-level cross-validation, and an unfair tie-breaking rule in E4.
 All of these are corrected here, and the first versions remain in the repository.
-The positive control and the inverse temperature were planned and are now reported; everything marked \emph{added after review} was not.
+The plan named about 60 E3 cases; we used 48. Its primary E1 criterion, the fraction of pairs whose asymmetry exceeds three bootstrap standard errors, is reported below as a descriptive number, because a pointwise bootstrap over three repeats is not a calibrated test; the E4 area metric and its Wilcoxon tests were not in the plan. The positive control and the inverse temperature were planned and are now reported; everything marked \emph{added after review} was not.
 
 \section{Results}
 
-\subsection{E1: the conditionals are close to one pairwise landscape, but not exactly}
+\subsection{E1: the conditionals are approximately additive but not coherent}
 
 For five statements about each case (multireference; RHF qualitatively correct; $T_1>0.02$; RHF unstable; CCSD(T) within 1~kcal/mol of full CI) we measured each marginal $p(a)$ and each conditional $p(a\mid b=v)$, stating $b$ as an ``established fact'' in the input.
 If the answers came from one joint distribution, the pairwise coupling
@@ -150,28 +149,30 @@ would equal $J_{ba}$, because both equal the log odds ratio of the pair, and the
 
 Couplings are large (median $|J|=1.10$ nats) and have the expected signs, but they are not symmetric (Fig.~\ref{fig:consistency}a).
 For each case and pair we built the joint implied by \jev{}'s own $p(b)$ and $p(a\mid b)$, simulated the measurement of both directions with \jev{}'s noise, rounding and repeats, and obtained a p-value for the observed asymmetry.
-Under this matched coherent null the p-values would be uniform; instead they pile up near zero (Fig.~\ref{fig:consistency}b), and 41\% of the 480 case--pair asymmetries remain significant after Benjamini--Hochberg control (95\% CI 35--48\%, bootstrap over molecules).
-The logically tightest pair, ``multireference'' and ``RHF adequate'', also fails: its couplings agree on average ($-2.43$ against $-2.35$), but case by case its median asymmetry is 0.55 nats and 60\% of its cases are significant.
+Under this matched coherent null the p-values would be uniform; instead they pile up near zero (Fig.~\ref{fig:consistency}b), and 41\% of the 480 case--pair asymmetries remain significant after Benjamini--Hochberg control \citep{benjamini1995controlling} (95\% CI 35--48\%, bootstrap over molecules). The pre-registered criterion, recomputed after an audit found that our first bootstrap shared repeats across separate calls, gives 53\% of asymmetries above three bootstrap standard errors.
+The pair whose relation comes closest to a logical constraint, ``multireference'' and ``RHF adequate'', also fails: its couplings agree on average ($-2.43$ against $-2.35$), but case by case its median asymmetry is 0.55 nats and 60\% of its cases are significant.
 The law of total probability fails by a median of 0.041, and statements asked together with their explicit negations sum to between 0.89 and 1.25.
 
-Two controls, added after review, bound what this means.
-First, \jev{} does not fully adopt a stated fact: when a statement is declared true in the input, \jev{} gives that same statement a probability of only 0.80--0.91, and 0.10--0.17 when it is declared false.
+Two controls were added after review.
+In the first, \jev{} did not fully adopt a stated fact: when a statement is declared true in the input, \jev{} gives that same statement a probability of only 0.80--0.91, and 0.10--0.17 when it is declared false.
 Our conditionals are therefore soft conditionals, and part of the asymmetry may come from uneven uptake of facts.
-Second, in a positive control we stated an explicit population of 1000 people with three binary attributes, so that every conditional is computable and a coherent reader has zero asymmetry.
+In the second, a positive control, we stated an explicit population of 1000 people with three binary attributes, so that every conditional is computable and a coherent reader has zero asymmetry.
 \jev{}'s asymmetry there was larger than for the chemistry statements (median 0.42 nats; 67\% of the 72 table--pair asymmetries significant under the matched null with Benjamini--Hochberg control), and its conditionals were off by 0.10 on average: incoherence persists when the correct joint is written in the input.
 The result is not sensitive to wording: an independently phrased set of the five statements gave couplings that correlate at $r=0.96$ with the originals and a similar asymmetry (median 0.30 nats).
 
-Is there nonetheless a Hamiltonian-like structure?
-For each case we fitted one pairwise Ising energy over the five statements to all 165 measured marginals and conditionals, including conditionals on two facts at once (added after review).
+We also asked whether a pairwise Hamiltonian describes the answers (added after review).
+For each case we fitted one pairwise Ising energy over the five statements to all 165 measured marginals and conditionals, including conditionals on two facts at once.
 The fit leaves a residual of 0.34 logit units, about five times the measurement noise, so no single pairwise Hamiltonian reproduces the answers.
-The fitted energy is still informative: fitted on marginals and single-fact conditionals only, it predicts the held-out two-fact conditionals with an error of 0.53 logit units, against 0.79 for simply ignoring the second fact, and it does so in all 48 cases (Fig.~\ref{fig:consistency}c).
+Fitted on marginals and single-fact conditionals only, the Ising energy predicts the held-out two-fact conditionals with an error of 0.53 logit units, against 0.79 for ignoring the second fact, in all 48 cases (Fig.~\ref{fig:consistency}c).
+An asymmetric model that simply adds the two measured single-fact shifts in log-odds, with no shared energy, predicts them equally well (0.52; better than Ising in 22 of 48 cases, Wilcoxon $p=0.58$).
+What the held-out test shows is that facts combine roughly additively, not that one landscape exists.
 Path independence of the three-variable chain rule, a direct test of a joint, is violated on average (median spread across orderings 0.98 nats against 0.39 under the coherent null), but noise accumulates along the chain and only 7\% of triples exceed the null's 95th percentile, so this test is underpowered.
-\jev{}'s local energies therefore behave like those of a dependency network \citep{heckerman2000dependency}: they contain an approximate pairwise landscape that has predictive value, and they depart from it systematically.
+\jev{}'s local energies therefore behave like those of a dependency network \citep{heckerman2000dependency}: roughly additive, close to symmetric on average, and measurably incoherent case by case.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{figs/fig2_consistency.pdf}
-\caption{Coherence of \jev{}'s conditionals (E1). \textbf{a},~Coupling inferred in each direction for the 48 molecular cases (circles) and for the stated-population positive control (triangles); a joint distribution requires points on the diagonal. \textbf{b},~Per-pair p-values under a coherent null matched to \jev{}'s own probabilities, noise and rounding; a coherent model gives the dashed uniform density. \textbf{c},~Error (logit units) of predicting held-out two-fact conditionals with a pairwise Ising energy fitted per case, against ignoring the second fact; each point is a case, and the dotted line is the in-sample fit error.}
+\caption{Coherence of \jev{}'s conditionals (E1). \textbf{a},~Coupling inferred in each direction for the 48 molecular cases (circles) and for the stated-population positive control (triangles); a joint distribution requires points on the diagonal. \textbf{b},~Per-pair p-values under a coherent null matched to \jev{}'s own probabilities, noise and rounding; a coherent model gives the dashed uniform density. \textbf{c},~Error (logit units) of predicting held-out two-fact conditionals with a pairwise Ising energy fitted per case, against ignoring the second fact; each point is a case, and the dotted line is the in-sample fit error. An asymmetric additive model (not shown) predicts as well as the Ising energy.}
 \label{fig:consistency}
 \end{figure}
 
@@ -184,8 +185,8 @@ The maximum-likelihood inverse temperature of a Gibbs fit, $p\propto e^{-\beta H
 Two alternative wordings of the question gave the same negative correlations.
 
 We then wrote exactly the same energies in the textbook convention $H=-\sum h'_i s_i-\sum J'_{ij}s_is_j$ with $h'=-h$ and $J'=-J$.
-The correlation became positive ($+0.08$ to $+0.35$), $\beta$ became positive ($0.03$ to $0.22$), and top-1 accuracy rose above chance for $n\le 6$.
-Every energy is unchanged, so \jev{}'s landscape depends on how the Hamiltonian is printed.
+The correlation became positive ($+0.08$ to $+0.35$), $\beta$ became positive ($0.03$ to $0.22$), and top-1 accuracy rose above chance for $n\le 6$ (descriptively; ten instances per $n$).
+Every energy is unchanged, so \jev{}'s answer depends on how the Hamiltonian is printed.
 
 The Jordan--Wigner Hamiltonian of H$_2$ in STO-3G separates reading from recall.
 Asked which of the 16 basis states carries the largest ground-state weight, \jev{} chose the Hartree--Fock state $|1100\rangle$ in 16 of 24 queries and $|0011\rangle$ otherwise, with a probability for $|1100\rangle$ near 0.2 at every bond length while the exact weight falls from 0.995 to 0.54 (Fig.~\ref{fig:hamiltonian}c).
@@ -204,52 +205,23 @@ The Score levels are 50~\Eh{} apart, so this instrument could not have shown che
 \subsection{E3: chemistry decisions track the stated stretch factor}
 
 Table~\ref{tab:e3} scores \jev{}'s marginal probabilities against the PySCF labels.
-Its rankings are informative (AUROC 0.76, 0.81 and 0.89), but every prompt states the stretch factor, and that number alone ranks multireference character and instability as well or better (0.87 and 0.87; 0.71 for $T_1$); for multireference character \jev{} is worse than the bare stretch factor (difference $-0.16$, 95\% CI $-0.28$ to $-0.02$).
+Its rankings are informative (AUROC 0.76, 0.81 and 0.89), but every prompt states the stretch factor, and that number alone ranks the cases at least as well (0.92, 0.78 and 0.93); for multireference character \jev{} is worse than the bare stretch factor (difference $-0.16$, 95\% CI $-0.28$ to $-0.02$).
 Within the one stretch level where the labels are mixed (1.5 times equilibrium), \jev{}'s AUROC is 0.57, 0.58 and 0.48.
-Ablations locate the signal (added after review).
-Removing the molecule name changed little (AUROC 0.83, 0.76, 0.90), whereas removing the stretch note while keeping name and geometry dropped \jev{} to 0.57, 0.65 and 0.71, with Brier scores worse than the base rate.
-Four rewordings of each question moved AUROC by at most 0.1 and did not change this picture.
+In ablations added after review, removing the molecule name changed little (AUROC 0.83, 0.76, 0.90), whereas removing the stretch note while keeping name and geometry dropped \jev{} to 0.57, 0.65 and 0.71, with Brier scores worse than the base rate.
+Four rewordings of each question moved AUROC by at most 0.11 (the largest move raised multireference character to 0.87) and did not change this picture.
 
 \jev{}'s probabilities are also poorly calibrated: its Brier score is much worse than that of a leave-one-molecule-out logistic model on the stretch factor and HOMO--LUMO gap for multireference character and instability, and equal for $T_1$.
-Platt recalibration, fitted leave-one-molecule-out, closes the gap for instability and improves $T_1$, but does not help for multireference character.
-Used as an extra feature in the logistic model, \jev{} gives small but consistent Brier improvements for $T_1$ ($-0.025$, 95\% CI $-0.038$ to $-0.011$) and for instability ($-0.023$, CI $-0.042$ to $-0.002$), and none for multireference character.
+Platt recalibration \citep{lin2007note}, fitted leave-one-molecule-out, closes the gap for instability and improves $T_1$, but does not help for multireference character.
+Used as an extra feature in the logistic model, \jev{} gives small but consistent Brier improvements for $T_1$ ($-0.025$, 95\% CI $-0.038$ to $-0.011$) and for instability ($-0.023$, CI $-0.042$ to $-0.002$), and none for multireference character; given the stretch factor alone, adding \jev{} lowers the log loss significantly only for $T_1$.
 So \jev{} carries a little information beyond two cheap descriptors, but most of what it reports is the stretch factor it was given.
 
 \begin{table}[t]
 \centering
 \small
-\caption{Quantum-chemistry decisions on 48 cases (E3; $T_1$ on 47). All logistic and recalibration models are fitted leave-one-molecule-out. Molecule-clustered 95\% intervals for AUROC are shown in Fig.~\ref{fig:chemistry}a.}
+\caption{Quantum-chemistry decisions on 48 cases (E3; $T_1$ on 47). All logistic and recalibration models are fitted leave-one-molecule-out. $^a$AUROC of the unfitted stretch factor; Brier score of a leave-one-molecule-out logistic model on it. Molecule-clustered 95\% intervals for AUROC are shown in Fig.~\ref{fig:chemistry}a.}
 \label{tab:e3}
 \input{tab_e3.tex}
 \end{table}
-
-\subsection{E5--E6: a larger molecule set and a routing workflow (added after review)}
-
-To test whether E3 depends on textbook molecules, we repeated it on 31 less common molecules (among them LiF, NaH, MgO, SiS, P$_2$, Be$_2$, O$_3$, FNO, HOF and N$_2$O), each at the same four stretches, with the same prompts and the same labelling protocol.
-After excluding cases without a converged RHF, CCSD or singlet CASCI root, 111--114 of the 124 cases remained per label.
-The picture is similar (Fig.~\ref{fig:scaleup}a).
-\jev{}'s AUROC was 0.81, 0.76 and 0.80, against 0.80, 0.60 and 0.79 for the bare stretch factor and 0.84, 0.68 and 0.85 for the leave-one-molecule-out logistic model; none of the differences from the stretch factor is significant.
-With geometry only, AUROC fell to 0.64, 0.54 and 0.56.
-Two things differ from the textbook set.
-Within a single stretch level \jev{} now separates multireference from single-reference cases (AUROC 0.76--0.90), so on less familiar molecules it draws on more than the stated stretch; and its probabilities are compressed, with the mean $p$(multireference) rising only from 0.42 to 0.58 across stretches while the true rate rises from 0.10 to 0.91.
-Adding \jev{} to the logistic model again reduced the Brier score slightly, significantly only for instability ($-0.014$, 95\% CI $-0.024$ to $-0.002$).
-
-For 32 small species with a close singlet--triplet competition (carbenes, silylenes, diatomics such as C$_2$, SiC, BN and O$_2$) we asked for the ground-state multiplicity, with CCSD(T)/cc-pVDZ adiabatic gaps as reference (16 singlets, 16 triplets).
-\jev{} was right for 26 of 32 (0.81), close to ordering the states by their Hartree--Fock energies (0.78) and above always answering singlet (0.50); five of its six errors called a singlet a triplet (Fig.~\ref{fig:scaleup}b).
-
-Finally we asked whether \jev{} can route calculations.
-For 97 small cases where full CI is affordable (78 in STO-3G, 19 in 6-31G), CCSD(T) missed full CI by more than 1.6~\Eh{} in 38\%.
-\jev{}'s probability that CCSD(T) is reliable ranked the failures with AUROC 0.76 (95\% CI 0.65--0.85), against 0.65 for the $T_1$ diagnostic, which needs a CCSD calculation; the difference is not significant (CI $-0.03$ to $0.24$).
-At the budget of the $T_1>0.02$ rule, which sends 47\% of cases to a multireference method, \jev{}'s ranking left 11 failures against 12 for $T_1$, but the failures it left were smaller (mean error 2.2 against 10.8~\Eh{}; Fig.~\ref{fig:scaleup}c).
-A rule that routes every stretched geometry did better than both, leaving 8 failures while routing 70\% of cases.
-\jev{}'s own probabilities cannot set the threshold: they lie between 0.15 and 0.46 while the true reliability rate is 0.62, so ``route if $p<0.5$'' sends every case to the expensive method, and their Brier score (0.358) is worse than the base rate (0.236).
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{figs/fig5_scaleup.pdf}
-\caption{A larger set and a routing workflow (E5--E6). \textbf{a},~AUROC with molecule-clustered 95\% intervals on 31 less common molecules for the stated stretch factor, \jev{}, \jev{} with geometry only, and a leave-one-molecule-out logistic model. \textbf{b},~\jev{}'s probability of a triplet ground state for 32 species, grouped by the CCSD(T) ground state; open markers have gaps below 10~\Eh{}. \textbf{c},~Fraction of cases whose final error exceeds 1.6~\Eh{} against the fraction routed to a multireference method, for thresholds on \jev{} and on the logistic model, the $T_1$ rule, a stretch rule, \jev{}'s own $p<0.5$ threshold and an oracle.}
-\label{fig:scaleup}
-\end{figure}
 
 \subsection{E4: determinant ranking for selected CI is a fixed template}
 
@@ -258,26 +230,51 @@ For ten systems we built a symmetric active space on stable RHF orbitals (CAS(6e
 We added determinants in the resulting order, in spin-complete groups (all determinants with the same spatial occupation), diagonalised the Hamiltonian in each subspace, kept the lowest singlet root, and measured the error against full CASCI.
 Comparators were the oracle ordering by exact $|c_i|^2$, the first-order weight $|H_{i0}|^2/(H_{ii}-H_{00})^2$, the Epstein--Nesbet second-order contribution $|H_{i0}|^2/(H_{ii}-H_{00})$ used once, iterative CIPSI, which recomputes that criterion against the current wavefunction after each addition, excitation rank, and random order; all ties were broken at random and averaged over 30 draws.
 
-Averaged over the whole curve, \jev{}'s ordering beats random order in 9 of 10 systems (paired Wilcoxon $p=0.006$) and the excitation-rank rule in 9 of 10 ($p=0.049$), is indistinguishable from the one-shot first- and second-order estimates (6 of 10 each, $p\ge 0.7$), and loses to iterative CIPSI in all ten ($p=0.002$; Fig.~\ref{fig:chemistry}b,c).
-The question-aligned metric is less favourable.
-\jev{}'s top choice was never the oracle's top determinant: in every system it was the HOMO$\to$LUMO single excitation, which by Brillouin's theorem does not couple to the RHF reference.
+Averaged over the whole curve, \jev{}'s ordering beats random order in 9 of 10 systems (paired Wilcoxon $p=0.006$) and the excitation-rank rule in 9 of 10 ($p=0.049$), is indistinguishable from the one-shot first- and second-order estimates (6 of 10 each, $p=0.70$ and $0.85$), and loses to iterative CIPSI in all ten ($p=0.002$; Fig.~\ref{fig:chemistry}b,c).
+By the metric that matches the question asked, \jev{} failed. Its top choice was never the oracle's top determinant; in every system it was the HOMO$\to$LUMO single excitation, which by Brillouin's theorem does not couple to the RHF reference.
 Across the seven systems with the same active space, its ranking was nearly identical (median Spearman correlation 0.97 between systems), so \jev{} applies one template to every molecule.
 Asking instead one Noul per determinant (``weight above 0.01'') did worse and was indistinguishable from random order (7 of 10, $p=0.43$).
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{figs/fig4_chemistry.pdf}
-\caption{\jev{} in quantum-chemistry workflows. \textbf{a},~AUROC with 95\% molecule-clustered bootstrap intervals for the three E3 labels, for the stretch factor alone, a logistic model, \jev{}, and three \jev{} input ablations. \textbf{b},~Selected-CI error against subspace size for N$_2$ at equilibrium, CAS(6e,5o)/cc-pVDZ; dotted line, 1.6~\Eh{}. \textbf{c},~Mean $\log_{10}$ error over the whole curve for ten systems; lower is better. ``Jev Noul'' is the per-determinant elicitation.}
+\caption{\jev{} in quantum-chemistry workflows. \textbf{a},~AUROC with 95\% molecule-clustered bootstrap intervals for the three E3 labels, for the unfitted stretch factor, a logistic model, \jev{}, and three \jev{} input ablations. \textbf{b},~Selected-CI error against subspace size for N$_2$ at equilibrium, CAS(6e,5o)/cc-pVDZ; dotted line, 1.6~\Eh{}. \textbf{c},~Mean of $\log_{10}$(error/\Eh{}) over the whole curve, with errors floored at $10^{-3}$~\Eh{}, for ten systems; lower is better. ``Jev Noul'' is the per-determinant elicitation.}
 \label{fig:chemistry}
+\end{figure}
+
+\subsection{E5--E6: a larger molecule set and a routing workflow (added after review)}
+
+To test whether E3 depends on textbook molecules, we repeated it on 31 less common molecules (among them LiF, NaH, MgO, SiS, P$_2$, Be$_2$, O$_3$, FNO, HOF and N$_2$O), each at the same four stretches, with the same prompts and the same labelling protocol. Their equilibrium geometries were supplied from memory by the coding agent rather than taken from a database; labels and prompts use the same geometries, so the comparison is internally consistent, but ``1.0 times equilibrium'' is approximate.
+After excluding cases without a converged RHF, CCSD or singlet CASCI root, 111--114 of the 124 cases remained per label, and the results resemble E3 (Fig.~\ref{fig:scaleup}a).
+\jev{}'s AUROC was 0.81, 0.76 and 0.80, against 0.87, 0.69 and 0.86 for the bare stretch factor and 0.84, 0.68 and 0.85 for the leave-one-molecule-out logistic model; none of the differences from the stretch factor is significant.
+With geometry only, AUROC fell to 0.64, 0.54 and 0.56.
+There is weak evidence that \jev{} draws on more than the stated stretch here: within single stretch levels its AUROC for multireference character is 0.76--0.90, but these strata contain as few as two cases of one class, and adding \jev{} to a model of the stretch factor lowers the log loss significantly only for instability. Its probabilities are also compressed, with the mean $p$(multireference) rising only from 0.42 to 0.58 across stretches while the true rate rises from 0.10 to 0.91.
+Adding \jev{} to the logistic model again reduced the Brier score slightly, significantly only for instability ($-0.014$, 95\% CI $-0.024$ to $-0.002$).
+
+For 32 small species (atoms, carbenes, silylenes, and diatomics such as C$_2$, SiC, BN and O$_2$; 16 singlets and 16 triplets by construction) we asked for the ground-state multiplicity, with CCSD(T)/cc-pVDZ adiabatic gaps as reference. Single-reference CCSD(T) is itself uncertain for C$_2$, B$_2$, SiC and BN, and for BN it disagrees with experiment.
+\jev{} was right for 26 of 32 (0.81), close to ordering the states by their Hartree--Fock energies (0.78) and above always answering singlet (0.50); five of its six errors called a singlet a triplet (Fig.~\ref{fig:scaleup}b).
+
+Finally we asked whether \jev{} can route calculations.
+Of 116 small cases where full CI is affordable, 19 were excluded, 16 of them because RHF, CCSD or full CI did not converge. In the remaining 97 (78 in STO-3G, 19 in 6-31G; all electrons correlated), CCSD(T) missed full CI by more than 1.6~\Eh{} in 38\%.
+\jev{}'s probability that CCSD(T) is reliable ranked the failures with AUROC 0.76 (95\% CI 0.65--0.85), against 0.65 for the $T_1$ diagnostic, which needs a CCSD calculation; the difference is not significant (CI $-0.03$ to $0.24$). Counting the eight cases with unconverged CCSD as failures gives 0.78 and 0.64. A logistic model on stretch and HOMO--LUMO gap, fitted leave-one-molecule-out, was below chance (0.39).
+At the budget of the $T_1>0.02$ rule, which sends 47\% of cases to a multireference method, \jev{}'s ranking left 11 failures against 12 for $T_1$, and a smaller mean final error over all 97 cases (2.2 against 10.8~\Eh{}; Fig.~\ref{fig:scaleup}c).
+A rule that routes every stretched geometry leaves 8 failures but routes 70\% of cases; at that budget \jev{}'s ranking leaves 3.
+These curves sweep thresholds on the same cases they are scored on, which is fair for the ranking but says nothing about where to put a threshold.
+\jev{}'s own probabilities cannot set the threshold: they lie between 0.15 and 0.46 while the true reliability rate is 0.62, so ``route if $p<0.5$'' sends every case to the expensive method, and their Brier score (0.358) is worse than the base rate (0.236).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figs/fig5_scaleup.pdf}
+\caption{A larger set and a routing workflow (E5--E6). \textbf{a},~AUROC with molecule-clustered 95\% intervals on 31 less common molecules for the unfitted stretch factor, \jev{}, \jev{} with geometry only, and a leave-one-molecule-out logistic model. \textbf{b},~\jev{}'s probability of a triplet ground state for 32 species, grouped by the CCSD(T) ground state; open markers have gaps below 10~\Eh{}. \textbf{c},~Fraction of cases whose final error exceeds 1.6~\Eh{} against the fraction routed to a multireference method, for thresholds on \jev{} and on the logistic model, the $T_1$ rule, a stretch rule, \jev{}'s own $p<0.5$ threshold and an oracle.}
+\label{fig:scaleup}
 \end{figure}
 
 \subsection{E7: open-weight language models (added after review)}
 
-Are these properties specific to \jev{}?
-We repeated E1, the negation check, E3 and E2 on Qwen2.5-1.5B-Instruct and Qwen2.5-7B-Instruct, run locally, reading $p(\text{yes})$ from the next-token probabilities of ``Yes'' and ``No'' (which carried at least 99.98\% of the probability mass on every prompt) and scoring Ising configurations by the log-probability of their labels.
+To see whether these properties are specific to \jev{}, we repeated E1, the negation check, E3 and E2 on Qwen2.5-1.5B-Instruct and Qwen2.5-7B-Instruct \citep{qwen2024qwen25}, run locally, reading $p(\text{yes})$ from the next-token probabilities of ``Yes'' and ``No'' (which carried at least 99.98\% of the probability mass on every prompt) and scoring Ising configurations by the log-probability of their labels.
 Both models were less coherent than \jev{} (Fig.~\ref{fig:models}a).
 Their median coupling asymmetry was 0.69 and 1.16 nats against 0.26 for \jev{}, the law of total probability failed by a median of 0.11 and 0.32 against 0.04, and a statement plus its negation summed to between 0.70 and 1.62 (1.5B) and between 0.00 and 1.69 (7B).
-The 1.5B model agreed with whatever fact it was told, giving positive couplings even to the pair ``multireference'' and ``RHF adequate'', which must be negative; the 7B model's probabilities were so extreme that half of them fell outside our clipping range, so its asymmetry is sensitive to the clip (on the unclipped pairs its median is 0.39).
+The 1.5B model agreed with whatever fact it was told, giving positive couplings even to the pair ``multireference'' and ``RHF adequate'', which chemically should be negative; the 7B model's probabilities were so extreme that half of them fell outside our clipping range, so its asymmetry is sensitive to the clip (on the unclipped pairs its median is 0.39).
 On the E3 labels the 1.5B model was below chance and the 7B model was informative but badly calibrated (Fig.~\ref{fig:models}b).
 Neither open model read the Ising Hamiltonians at all: their rank correlations stayed within 0.1 of zero under both sign conventions and followed the position of options in the list (Fig.~\ref{fig:models}c).
 \jev{} is therefore more coherent than these general models, which is consistent with its training for calibrated decisions, and its sign-following is a response to the printed Hamiltonian that the open models do not show; neither kind of model reads the Hamiltonian as a physicist would.
@@ -285,44 +282,43 @@ Neither open model read the Ising Hamiltonians at all: their rank correlations s
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{figs/fig6_models.pdf}
-\caption{\jev{} against two open-weight models (E7). \textbf{a},~Cumulative distribution of coupling asymmetry over the 480 case--pair combinations of E1; the dashed line is the 95th percentile of a coherent null with \jev{}'s noise. \textbf{b},~AUROC and Brier score on the three E3 labels. \textbf{c},~Rank correlation between probability and negative energy for random Ising models written in both sign conventions; mean $\pm$ s.e.m.\ over instances.}
+\caption{\jev{} against two open-weight models (E7). \textbf{a},~Cumulative distribution of coupling asymmetry over the 480 case--pair combinations of E1. \textbf{b},~AUROC and Brier score on the three E3 labels. \textbf{c},~Rank correlation between probability and negative energy for random Ising models written in both sign conventions; mean $\pm$ s.e.m.\ over instances.}
 \label{fig:models}
 \end{figure}
 
 
 \section{Discussion}
 
-\jev{}'s outputs can be read as local energies, and within one domain these energies carry an approximate pairwise landscape: the fitted couplings predict answers the fit never saw.
-The landscape is not exact.
-Asymmetric couplings, violated total probability and unnormalised negations persist under a matched null, under rewording, and in a control where the exact joint is printed in the input.
+\jev{}'s outputs can be read as local energies, and within one domain stated facts shift them roughly additively, which lets single-fact answers predict two-fact answers.
+That additivity does not require a shared landscape, and the evidence against one is consistent: asymmetric couplings, violated total probability and unnormalised negations persist under a matched null, under rewording, and in a control where the exact joint is printed in the input.
 This is the behaviour one expects when heads are calibrated one at a time \citep{heckerman2000dependency}, since calibrated marginals need not share a joint.
-A Gibbs sampler run on such conditionals converges to a distribution that depends on the update order, so there is no single energy whose minima one could search for.
+For incompatible conditionals of this kind, a Gibbs sampler converges to a distribution that depends on the update order \citep{heckerman2000dependency}, so there would be no single energy whose minima one could search for.
 Because \jev{} also adopts stated facts only partially, a cleaner separation of incoherence from soft conditioning would need access that the API does not provide.
 
 Given a Hamiltonian as text, \jev{} does not compute with it.
 Its preferences follow the printed signs of the coefficients, reverse when the same energies are printed with opposite signs, and for H$_2$ return the textbook answer even after the qubits are relabelled.
 This agrees with the developer's own warning that \jev{} is not a calculator \citep{typesafe2026jaggedness} and with the fragility of language models on numerical reasoning \citep{mirzadeh2024gsm}.
-A model that cannot rank the eight configurations of a three-spin Ising model cannot stand in for an annealer or a variational solver \citep{lucas2014ising,peruzzo2014variational}.
+A model whose ranking of the eight configurations of a three-spin Ising model reverses with the sign convention cannot stand in for an annealer or a variational solver \citep{lucas2014ising,peruzzo2014variational}.
 
 For quantum-chemistry decisions, most of \jev{}'s apparent skill came from a stretch factor that we stated, which is the information a chemist would also use, and it vanished when that note was removed.
 With the note, \jev{} adds a small, statistically clear amount of information to a two-descriptor model for two of three labels, at a cost of thousandths of a cent per query, which makes it a plausible extra feature in a triage model if it is recalibrated on local data.
 It should not be used to rank determinants: its ranking is one template shared across molecules, and iterative CIPSI, which a selected-CI code already runs, is far better.
-On less familiar molecules \jev{} did show some discrimination beyond the stretch note, and as a router it ranked CCSD(T) failures at least as well as $T_1$ without any correlated calculation.
-Both uses need a threshold chosen on local data, because \jev{}'s own probabilities are compressed toward the middle and shifted, and a plain rule that routes stretched geometries was better still in our set.
+On less familiar molecules there was weak evidence of discrimination beyond the stretch note, and as a router \jev{} ranked CCSD(T) failures at least as well as $T_1$ without any correlated calculation, and better than a rule that routes every stretched geometry at the same budget.
+Both uses need a threshold chosen on local data, because \jev{}'s own probabilities are compressed toward the middle and shifted.
 The open-weight comparison places \jev{} between two failures: it is far more coherent than general models read through their token probabilities, and it responds to a printed Hamiltonian where they do not, yet it responds to the wrong feature of it.
 
 \paragraph{Limitations.}
 We studied one model version through a black box, and later versions may behave differently.
 Our conditionals are soft, because stated facts are only partly adopted.
-The chemistry set is small and made of textbook molecules at uniform stretches, labels depend on thresholds and on the active space, and the selected-CI spaces are far from production scale.
+The chemistry sets use uniform bond stretches that are stated in the prompt, E5 geometries are approximate, labels depend on thresholds and on the active space, the routing set is mostly in a minimal basis, the spin-state set is balanced by construction, and the selected-CI spaces are far from production scale. The open-weight comparison covers two small models of one family, read through token probabilities.
 Pairwise and three-way tests cover a small part of the possible coherence conditions, and the three-way test is underpowered.
 Two-decimal rounding and sampling noise limit the resolution of every energy we report.
 
 \section{Conclusion}
 
-\jev{}'s typed probabilities can be read as energies that approximately follow one pairwise landscape, but not as a Hamiltonian.
+\jev{}'s typed probabilities can be read as local energies that combine roughly additively, but they do not form one landscape, and they are not a Hamiltonian.
 They do not track a physical Hamiltonian supplied in the input, and in chemistry they mostly repeat what the prompt states.
-The black-box tests used here, coupling symmetry under a matched null, a stated-joint positive control and held-out prediction from a fitted Ising energy, apply to any model that answers many questions about one input.
+The black-box tests used here (coupling symmetry under a matched null, a stated-joint positive control, and held-out prediction by symmetric and asymmetric models) apply to any model that answers many questions about one input.
 
 \paragraph{Code and data.}
 Code, the pre-registered plan, all cached API responses and the PySCF ground truth are at \url{https://github.com/dongzhaohe321418-lab/jev-hamiltonian}.
