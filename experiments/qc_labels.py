@@ -53,9 +53,10 @@ def case(name, f, geom):
             "rhf_unstable": bool(uhf_drop > 1e-4), "casci_c0sq": c0sq, "mr": bool(c0sq < 0.90),
             "t1": t1, "t1_flag": (t1 is not None and t1 > 0.02), "ccsd_converged": cc_ok}
 
-rows = []
-for n, g in MOLS.items():
+if __name__ == "__main__":
+  rows = []
+  for n, g in MOLS.items():
     for f in STRETCH:
         r = case(n, f, g(f)); rows.append(r)
         print(f"{n:4s} x{f:.1f}  gap={r['gap_eh']:.3f} c0^2={r['casci_c0sq']:.3f} t1={r['t1'] if r['t1'] is None else round(r['t1'],3)} uhfdrop={r['uhf_drop_eh']*1000:.1f}mEh cc_conv={r['ccsd_converged']}", flush=True)
-json.dump(rows, open("experiments/qc_labels.json", "w"), indent=1)
+  json.dump(rows, open("experiments/qc_labels.json", "w"), indent=1)
