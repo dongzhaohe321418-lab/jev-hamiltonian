@@ -29,6 +29,21 @@ for t, c in counts.items():
     for (tt, cond, q), p in m.items():
         if tt == t: err.append(abs(p - exact(c, q, cond)))
 out["pos_control_asym"] = asym_j; out["pos_control_J"] = pcJ
+# matched coherent null per (table, pair), as in analyze_r1.py
+noise = json.load(open("experiments/r1_results.json"))["noise_sd_unbiased"]; rng = np.random.default_rng(5)
+meas = lambda p: np.mean(np.round(np.clip(p + rng.normal(0, noise, (3, 4000)), 0, 1), 2), 0)
+pv = []
+for t, c in counts.items():
+    for a, b in itertools.combinations(A, 2):
+        pa1, pa0, pb = m[(t, (b, True), a)], m[(t, (b, False), a)], m[(t, None, b)]
+        o = abs((lg(pa1) - lg(pa0)) - (lg(m[(t, (a, True), b)]) - lg(m[(t, (a, False), b)])))
+        j11, j01, j10, j00 = cl(pa1) * pb, (1 - cl(pa1)) * pb, cl(pa0) * (1 - pb), (1 - cl(pa0)) * (1 - pb)
+        q1, q0 = j11 / (j11 + j10), j01 / (j01 + j00)
+        sims = np.abs((lg(meas(pa1)) - lg(meas(pa0))) - (lg(meas(q1)) - lg(meas(q0))))
+        pv.append((np.sum(sims >= o) + 1) / 4001)
+pv = np.array(pv); order = np.argsort(pv); ok = [k for k in range(len(pv)) if pv[order[k]] <= 0.05 * (k + 1) / len(pv)]
+out["pos_control_matched"] = {"frac_p05": float(np.mean(pv < 0.05)), "frac_BH": float((max(ok) + 1) / len(pv)) if ok else 0.0, "n_pairs": len(pv)}
+print("positive control matched null:", out["pos_control_matched"])
 out["pos_control"] = {"jev_median_asym": float(np.median(asym_j)), "exact_median_asym": float(np.median(asym_x)),
                       "frac_asym_gt_null95": float(np.mean(np.array(asym_j) > 0.36)), "mae_prob_vs_exact": float(np.mean(err)),
                       "median_abs_err": float(np.median(err))}

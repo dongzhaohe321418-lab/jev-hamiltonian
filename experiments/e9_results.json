@@ -363,6 +363,11 @@
    -0.7875527922338431
   ]
  ],
+ "pos_control_matched": {
+  "frac_p05": 0.6805555555555556,
+  "frac_BH": 0.6666666666666666,
+  "n_pairs": 72
+ },
  "pos_control": {
   "jev_median_asym": 0.4171561606875907,
   "exact_median_asym": 2.3592239273284576e-16,

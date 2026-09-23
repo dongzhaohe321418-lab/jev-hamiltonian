@@ -720,6 +720,39 @@
    "jev_agrees_with_expt": 0.84375
   },
   "near_degenerate_lt_5mEh": [],
+  "clear_gap_gt_10mEh": {
+   "n": 27,
+   "class_counts": {
+    "1": 13,
+    "3": 14,
+    "5": 0
+   },
+   "jev": {
+    "accuracy": 0.8518518518518519,
+    "brier": 0.25078847736625515,
+    "log_loss": 0.43235164778715274
+   },
+   "always_singlet": {
+    "accuracy": 0.48148148148148145,
+    "brier": 1.037037037037037
+   },
+   "class_frequency": {
+    "accuracy": 0.5185185185185185,
+    "brier": 0.4993141289437587
+   },
+   "hf_ordering": {
+    "accuracy": 0.8888888888888888
+   },
+   "expt_assignment_agrees_with_ccsdt": 1.0,
+   "jev_agrees_with_expt": 0.8518518518518519
+  },
+  "near_degenerate_lt_10mEh": [
+   "C2",
+   "B2",
+   "SiC",
+   "BN",
+   "CHCl"
+  ],
   "ccsdt_vs_expt_disagreements": [
    "BN"
   ],
