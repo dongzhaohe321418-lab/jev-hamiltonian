@@ -1,0 +1,61 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "hamiltonian": "H(s) = sum_i h_i s_i + sum_{i<j} J_ij s_i s_j with spins s_i in {-1,+1}",
+   "h": {
+    "h_0": -0.34,
+    "h_1": 0.85,
+    "h_2": 0.82
+   },
+   "J": {
+    "J_01": 0.3,
+    "J_02": -0.23,
+    "J_12": -0.09
+   }
+  },
+  "questions": {
+   "gs": {
+    "type": "choice",
+    "instructions": "Which spin configuration gives the lowest value of H(s)?",
+    "criteria": {
+     "+++": "spins (s_0=+1, s_1=+1, s_2=+1)",
+     "++-": "spins (s_0=+1, s_1=+1, s_2=-1)",
+     "+-+": "spins (s_0=+1, s_1=-1, s_2=+1)",
+     "+--": "spins (s_0=+1, s_1=-1, s_2=-1)",
+     "-++": "spins (s_0=-1, s_1=+1, s_2=+1)",
+     "-+-": "spins (s_0=-1, s_1=+1, s_2=-1)",
+     "--+": "spins (s_0=-1, s_1=-1, s_2=+1)",
+     "---": "spins (s_0=-1, s_1=-1, s_2=-1)"
+    }
+   }
+  }
+ },
+ "rep": 0,
+ "response": {
+  "model": "jev-1.13.0",
+  "answers": {
+   "gs": {
+    "type": "choice",
+    "choice": "-++",
+    "confidence": 0.24,
+    "probabilities": {
+     "++-": 0.22,
+     "+++": 0.11,
+     "+-+": 0.03,
+     "--+": 0.03,
+     "+--": 0.06,
+     "-+-": 0.13,
+     "---": 0.07,
+     "-++": 0.35000000000000003
+    }
+   }
+  },
+  "usage": {
+   "input_tokens": 687,
+   "output_tokens": 79
+  }
+ },
+ "latency_s": 3.643887996673584,
+ "time": "2026-09-23T23:11:08"
+}

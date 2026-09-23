@@ -41,7 +41,7 @@ def ask(state, questions, rep=0, offline=False):
     path = CACHE / f"{h}.json"
     if path.exists():
         return json.loads(path.read_text())["response"]
-    if offline:
+    if offline or os.environ.get("JEV_OFFLINE"):
         raise KeyError(f"not cached: {h}")
     delay = 1.0
     for _ in range(8):

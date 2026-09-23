@@ -1,0 +1,49 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "system": "NH3 molecule",
+   "method_context": "electronic structure, cc-pVDZ basis, singlet reference",
+   "geometry_xyz_angstrom": "N 0 0 0; H 0.9375295736636662 0.0 -0.38102794977012433; H -0.4687647868318329 0.8119244275919292 -0.38102794977012433; H -0.46876478683183354 -0.8119244275919288 -0.38102794977012433",
+   "geometry_note": "all bonds stretched to 1.0 x equilibrium length"
+  },
+  "questions": {
+   "mr": {
+    "type": "noul",
+    "instructions": "Is the Hartree-Fock determinant weight in the exact ground state below 90%?"
+   },
+   "t1": {
+    "type": "noul",
+    "instructions": "Coupled-cluster singles amplitudes are large here: T1 diagnostic > 0.02."
+   },
+   "unstable": {
+    "type": "noul",
+    "instructions": "Is the restricted Hartree-Fock wavefunction unstable toward spin symmetry breaking?"
+   }
+  }
+ },
+ "rep": 1,
+ "response": {
+  "model": "jev-1.13.0",
+  "answers": {
+   "mr": {
+    "type": "noul",
+    "noul": 0.64
+   },
+   "t1": {
+    "type": "noul",
+    "noul": 0.36
+   },
+   "unstable": {
+    "type": "noul",
+    "noul": 0.27
+   }
+  },
+  "usage": {
+   "input_tokens": 571,
+   "output_tokens": 54
+  }
+ },
+ "latency_s": 0.9685871601104736,
+ "time": "2026-09-23T23:08:22"
+}

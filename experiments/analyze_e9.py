@@ -19,14 +19,16 @@ def exact(c, q, cond):
         if cond and (k[idx[cond[0]]] == "1") != cond[1]: continue
         den += n; num += n * (k[idx[q]] == "1")
     return num / den
-asym_j, asym_x, err = [], [], []
+asym_j, asym_x, err, pcJ = [], [], [], []
 for t, c in counts.items():
     for a, b in itertools.combinations(A, 2):
         J = lambda f, x, y: lg(f(x, (y, True))) - lg(f(x, (y, False)))
         fj = lambda x, cond: m[(t, cond, x)]; fx = lambda x, cond: exact(c, x, cond)
-        asym_j.append(abs(J(fj, a, b) - J(fj, b, a))); asym_x.append(abs(J(fx, a, b) - J(fx, b, a)))
+        asym_j.append(float(abs(J(fj, a, b) - J(fj, b, a)))); asym_x.append(abs(J(fx, a, b) - J(fx, b, a)))
+        pcJ.append([float(J(fj, a, b)), float(J(fj, b, a))])
     for (tt, cond, q), p in m.items():
         if tt == t: err.append(abs(p - exact(c, q, cond)))
+out["pos_control_asym"] = asym_j; out["pos_control_J"] = pcJ
 out["pos_control"] = {"jev_median_asym": float(np.median(asym_j)), "exact_median_asym": float(np.median(asym_x)),
                       "frac_asym_gt_null95": float(np.mean(np.array(asym_j) > 0.36)), "mae_prob_vs_exact": float(np.mean(err)),
                       "median_abs_err": float(np.median(err))}

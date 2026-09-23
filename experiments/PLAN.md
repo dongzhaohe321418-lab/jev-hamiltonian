@@ -45,3 +45,26 @@ Anything not pre-registered here is reported as exploratory.
 - E4 changes before its analysis was final: spin penalty (the determinant space admits M_s=0 triplets; C2 otherwise
   converged to a triplet), an excitation-rank baseline, and averaging the random baseline and Jev's tie-breaks over
   30 permutations each (Jev returns exactly 0 for ~60% of options).
+
+## Deviations from this plan (disclosed after review round 1, 2026-09-23)
+Timing: the plan was committed at 22:29:07 (UTC+8); the first E1/E3 API call is time-stamped 22:30:21. The pilot (E0) was nine calls
+plus one smoke-test call. Deviations, all reported in the paper:
+1. E1 statement set. Two planned statements ("open-shell ground state", "low-lying excited state within 1 eV") were
+   replaced before collection by "T1 > 0.02" and "RHF unstable", so that E1 and E3 share statements with computed labels.
+   This change was made in the collection script and was not written back into this plan.
+2. E1 primary criterion. Planned: pairs whose asymmetry exceeds 3x the noise floor. As first computed, the bootstrap
+   resampled one repeat index per case for all conditionals (an error found by an external code audit); the corrected
+   value is reported, and the criterion is reported as descriptive. The inferential test now used is a per-pair matched
+   coherent null with Benjamini-Hochberg control (added after review).
+3. Planned but first omitted: the positive control (now E9a, a stated population with a computable joint) and the
+   maximum-likelihood inverse temperature beta (now reported).
+4. E3 labels were regenerated (qc_labels_v2.py) after review found RHF saddle points, symmetry-breaking active spaces,
+   triplet CASCI roots, unconverged CCSD and an incomplete UHF search in qc_labels.py. Both versions are released.
+5. E3 baselines use leave-one-molecule-out fits (planned: leave-one-out over cases) after an audit showed that
+   case-level LOO leaks the molecule.
+6. E4 was rebuilt (e4v2_selected_ci.py): symmetric active spaces, spin-complete families instead of a penalty,
+   random tie-breaks for every method, the comparator renamed (Epstein-Nesbet second-order contribution), iterative
+   CIPSI added, and a per-determinant Noul elicitation added.
+7. Added after review (exploratory): E1c two-fact path independence, E1p/E3p/E2p paraphrases, E9b fact uptake,
+   E9c/E9d E3 ablations, E2c qubit relabelling, recalibration/stacking, the Ising projection (repair) of Jev's
+   conditionals, and the scale-up studies E5-E7.

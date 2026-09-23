@@ -50,6 +50,7 @@ frac = lambda mask: (lambda idx: np.mean(np.concatenate([mask[case_of == i] for 
 out["e1_matched"] = {"frac_p05": float(np.mean(pvals < .05)), "frac_p05_ci": clus_ci(frac(pvals < .05)),
                      "frac_BH": float(bh.mean()), "frac_BH_ci": clus_ci(frac(bh)), "median_asym": float(np.median(obs_asym))}
 k01 = [n for n, (a, b) in enumerate(pairs * M) if (a, b) == (0, 1)]
+out["e1_matched"]["pvals"] = pvals.tolist()
 out["e1_matched"]["mr_rhf_pair"] = {"median_asym": float(np.median(obs_asym[k01])), "frac_BH": float(bh[k01].mean())}
 print("noise(unbiased)", round(noise, 3), "| matched null:", {k: (np.round(v, 2) if not isinstance(v, dict) else v) for k, v in out["e1_matched"].items()})
 

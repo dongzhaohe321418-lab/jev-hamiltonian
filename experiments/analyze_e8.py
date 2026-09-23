@@ -10,7 +10,7 @@ S = ["mr", "rhf_ok", "t1", "unstable", "ccsdt_ok"]; K = len(S)
 cl = lambda p: np.clip(p, .005, .995); lg = lambda p: np.log(cl(p) / (1 - cl(p)))
 rows = json.load(open("experiments/qc_labels.json")); M = len(rows)
 e1 = json.load(open("experiments/e1e3_raw.json")); e8 = json.load(open("experiments/e8_raw.json"))
-res = json.load(open("experiments/e1e3_results.json")); noise_sd = res["noise_sd"]
+res = json.load(open("experiments/e1e3_results.json")); noise_sd = json.load(open("experiments/r1_results.json"))["noise_sd_unbiased"]
 
 # ---- gather mean probabilities: D[case][facts_tuple][var] ; facts_tuple = tuple(sorted((k, v)))
 def collect(records, key_of):
@@ -92,10 +92,14 @@ Pall = np.array([p for Di in D for d in Di.values() for p in d.values()])
 logit_noise = np.median(noise_sd / np.sqrt(2.5) / (cl(Pall) * (1 - cl(Pall))))
 print(f"Ising projection: in-sample logit RMS median {np.median(fit_rms):.2f} (noise ~{logit_noise:.2f}); "
       f"held-out 2-fact RMS: pairwise model {np.median(heldout):.2f} vs ignore-second-fact {np.median(heldout_null):.2f}")
-lab = {k: np.array(res["labels"][k]).astype(int) for k in ["mr", "t1", "unstable"]}
+v2 = json.load(open("experiments/qc_labels_v2.json"))
+okt1 = np.array([r["t1_flag"] is not None for r in v2])
+lab = {"mr": np.array([r["mr"] for r in v2]).astype(int), "unstable": np.array([r["rhf_unstable"] for r in v2]).astype(int),
+       "t1": np.array([bool(r["t1_flag"]) for r in v2]).astype(int)}
+msk = {"mr": np.ones(M, bool), "unstable": np.ones(M, bool), "t1": okt1}
 Pm = np.array(res["Pm"]); rep_e3 = {}
 for k, y in lab.items():
-    pr, pp = Pm[:, S.index(k)], repaired[:, S.index(k)]
+    pr, pp, y = Pm[msk[k], S.index(k)], repaired[msk[k], S.index(k)], y[msk[k]]
     rep_e3[k] = {"raw": [roc_auc_score(y, pr), float(np.mean((pr-y)**2))], "repaired": [roc_auc_score(y, pp), float(np.mean((pp-y)**2))]}
     print(f"  E3 {k:9s} raw AUROC {rep_e3[k]['raw'][0]:.2f} Brier {rep_e3[k]['raw'][1]:.3f} | repaired AUROC {rep_e3[k]['repaired'][0]:.2f} Brier {rep_e3[k]['repaired'][1]:.3f}")
 
@@ -115,8 +119,8 @@ for k, y in lab.items():
     au = []
     for j in range(4):
         p = np.array([np.mean([x["p"][k] for x in e8 if x["kind"] == "e3p" and x["case"] == i and x["cond"] == j]) for i in range(M)])
-        au.append(roc_auc_score(y, p))
-    e3p[k] = au; print(f"E3p {k:9s} AUROC over 4 paraphrases: {np.round(au, 2)} (original {roc_auc_score(y, Pm[:, S.index(k)]):.2f})")
+        au.append(roc_auc_score(y[msk[k]], p[msk[k]]))
+    e3p[k] = au; print(f"E3p {k:9s} AUROC over 4 paraphrases: {np.round(au, 2)} (original {roc_auc_score(y[msk[k]], Pm[msk[k], S.index(k)]):.2f})")
 e2p = {}
 for w in (0, 1):
     for n in range(3, 8):
