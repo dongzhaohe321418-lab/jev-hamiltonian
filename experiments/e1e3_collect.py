@@ -30,16 +30,17 @@ def jobs(rows):
                     qs = {q: noul(t) for q, t in S.items() if q != k}
                     yield (i, (k, v), r, state_of(row, (k, v)), qs)
 
-rows = json.load(open("experiments/qc_labels.json"))
-J = list(jobs(rows))
-def run(j):
-    i, cond, r, st, qs = j
-    a = ask(st, qs, rep=r)["answers"]
-    return {"case": i, "cond": cond, "rep": r, "p": {k: v["noul"] for k, v in a.items()}}
-with ThreadPoolExecutor(6) as ex:
-    out = []
-    for n, res in enumerate(ex.map(run, J)):
-        out.append(res)
-        if n % 200 == 0: print(n, "/", len(J), flush=True)
-json.dump(out, open("experiments/e1e3_raw.json", "w"))
-print("done", len(out))
+if __name__ == "__main__":
+    rows = json.load(open("experiments/qc_labels.json"))
+    J = list(jobs(rows))
+    def run(j):
+        i, cond, r, st, qs = j
+        a = ask(st, qs, rep=r)["answers"]
+        return {"case": i, "cond": cond, "rep": r, "p": {k: v["noul"] for k, v in a.items()}}
+    with ThreadPoolExecutor(6) as ex:
+        out = []
+        for n, res in enumerate(ex.map(run, J)):
+            out.append(res)
+            if n % 200 == 0: print(n, "/", len(J), flush=True)
+    json.dump(out, open("experiments/e1e3_raw.json", "w"))
+    print("done", len(out))

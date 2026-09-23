@@ -1,0 +1,105 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "system": "H2 molecule",
+   "method_context": "electronic structure, cc-pVDZ basis, singlet reference",
+   "geometry_xyz_angstrom": "H 0 0 0; H 0 0 1.482",
+   "geometry_note": "all bonds stretched to 2.0 x equilibrium length"
+  },
+  "questions": {
+   "mr": {
+    "type": "noul",
+    "instructions": "The ground state has strong multireference (static correlation) character: the Hartree-Fock determinant carries less than 90% of the exact wavefunction weight."
+   },
+   "rhf_ok": {
+    "type": "noul",
+    "instructions": "Restricted Hartree-Fock is a qualitatively correct single-determinant reference for this system."
+   },
+   "t1": {
+    "type": "noul",
+    "instructions": "The CCSD T1 diagnostic exceeds 0.02."
+   },
+   "unstable": {
+    "type": "noul",
+    "instructions": "The RHF solution is unstable: a spin-unrestricted (UHF) solution with lower energy exists."
+   },
+   "ccsdt_ok": {
+    "type": "noul",
+    "instructions": "CCSD(T) will be within 1 kcal/mol of the exact (full CI) energy in this basis."
+   },
+   "mr_neg": {
+    "type": "noul",
+    "instructions": "The ground state does NOT have strong multireference character: the Hartree-Fock determinant carries at least 90% of the exact wavefunction weight."
+   },
+   "rhf_ok_neg": {
+    "type": "noul",
+    "instructions": "Restricted Hartree-Fock is NOT a qualitatively correct single-determinant reference for this system."
+   },
+   "t1_neg": {
+    "type": "noul",
+    "instructions": "The CCSD T1 diagnostic does NOT exceed 0.02."
+   },
+   "unstable_neg": {
+    "type": "noul",
+    "instructions": "The RHF solution is stable: no spin-unrestricted (UHF) solution with lower energy exists."
+   },
+   "ccsdt_ok_neg": {
+    "type": "noul",
+    "instructions": "CCSD(T) will NOT be within 1 kcal/mol of the exact (full CI) energy in this basis."
+   }
+  }
+ },
+ "rep": 0,
+ "response": {
+  "model": "jev-1.13.0",
+  "answers": {
+   "mr": {
+    "type": "noul",
+    "noul": 0.84
+   },
+   "rhf_ok": {
+    "type": "noul",
+    "noul": 0.21
+   },
+   "t1": {
+    "type": "noul",
+    "noul": 0.75
+   },
+   "unstable": {
+    "type": "noul",
+    "noul": 0.75
+   },
+   "ccsdt_ok": {
+    "type": "noul",
+    "noul": 0.27
+   },
+   "mr_neg": {
+    "type": "noul",
+    "noul": 0.29
+   },
+   "rhf_ok_neg": {
+    "type": "noul",
+    "noul": 0.86
+   },
+   "t1_neg": {
+    "type": "noul",
+    "noul": 0.42
+   },
+   "unstable_neg": {
+    "type": "noul",
+    "noul": 0.23
+   },
+   "ccsdt_ok_neg": {
+    "type": "noul",
+    "noul": 0.77
+   }
+  },
+  "usage": {
+   "input_tokens": 646,
+   "output_tokens": 183
+  }
+ },
+ "latency_s": 1.9436862468719482,
+ "time": "2026-09-23T22:39:08"
+}

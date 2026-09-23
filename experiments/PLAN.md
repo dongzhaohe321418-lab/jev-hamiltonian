@@ -36,3 +36,12 @@ a choice distribution over determinants. Selected CI using the top-k determinant
 (oracle), Epstein-Nesbet first-order estimate (cheap baseline), random. Metric: energy error (mHa) vs k.
 
 Anything not pre-registered here is reported as exploratory.
+
+## Exploratory additions (decided after seeing E2 data; reported as exploratory)
+- E2b: the same Ising energies written in the sign-flipped textbook form (h' = -h, J' = -J), after E2 showed
+  preferences tracking +h.s.
+- E1b: negation normalisation p(s) + p(not s) for the five E1 statements (motivated by the vendor's jaggedness page).
+- E3b: geometry-only input (no molecule name, no stretch note) for the three E3 labels.
+- E4 changes before its analysis was final: spin penalty (the determinant space admits M_s=0 triplets; C2 otherwise
+  converged to a triplet), an excitation-rank baseline, and averaging the random baseline and Jev's tie-breaks over
+  30 permutations each (Jev returns exactly 0 for ~60% of options).
