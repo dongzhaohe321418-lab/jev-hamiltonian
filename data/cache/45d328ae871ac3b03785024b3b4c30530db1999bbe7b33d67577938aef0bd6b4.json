@@ -1,0 +1,67 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "molecule": "N2",
+   "geometry": "bond length 2.2 angstrom (stretched, equilibrium 1.10)",
+   "basis": "cc-pVDZ"
+  },
+  "questions": {
+   "mr": {
+    "type": "noul",
+    "instructions": "Does this system have strong multireference (static correlation) character?"
+   },
+   "rhf": {
+    "type": "noul",
+    "instructions": "Is restricted Hartree-Fock a qualitatively correct reference here?"
+   },
+   "ccsdt": {
+    "type": "noul",
+    "instructions": "Will CCSD(T) be within 1 kcal/mol of the exact energy?"
+   },
+   "spin": {
+    "type": "choice",
+    "instructions": "Ground-state spin multiplicity?",
+    "criteria": {
+     "1": "singlet",
+     "3": "triplet",
+     "5": "quintet"
+    }
+   }
+  }
+ },
+ "rep": 0,
+ "response": {
+  "model": "jev-1.13.0",
+  "answers": {
+   "mr": {
+    "type": "noul",
+    "noul": 0.51
+   },
+   "rhf": {
+    "type": "noul",
+    "noul": 0.36
+   },
+   "ccsdt": {
+    "type": "noul",
+    "noul": 0.23
+   },
+   "spin": {
+    "type": "choice",
+    "choice": "1",
+    "confidence": 0.77,
+    "probabilities": {
+     "3": 0.15,
+     "1": 0.84,
+     "5": 0.01
+    }
+   }
+  },
+  "usage": {
+   "input_tokens": 438,
+   "output_tokens": 89
+  }
+ },
+ "latency_s": 0.49543118476867676,
+ "time": "2026-09-23T22:28:39"
+}

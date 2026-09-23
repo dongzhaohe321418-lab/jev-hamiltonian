@@ -1,0 +1,32 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "molecule": "N2",
+   "geometry": "bond length 2.2 angstrom (stretched, equilibrium 1.10)",
+   "basis": "cc-pVDZ"
+  },
+  "questions": {
+   "mr": {
+    "type": "noul",
+    "instructions": "Does this system have strong multireference (static correlation) character?"
+   }
+  }
+ },
+ "rep": 0,
+ "response": {
+  "model": "jev-1.13.0",
+  "answers": {
+   "mr": {
+    "type": "noul",
+    "noul": 0.51
+   }
+  },
+  "usage": {
+   "input_tokens": 329,
+   "output_tokens": 20
+  }
+ },
+ "latency_s": 0.5042219161987305,
+ "time": "2026-09-23T22:28:41"
+}

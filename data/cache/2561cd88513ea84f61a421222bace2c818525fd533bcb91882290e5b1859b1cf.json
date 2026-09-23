@@ -1,0 +1,43 @@
+{
+ "request": {
+  "model": "jev-latest",
+  "state": {
+   "molecule": "N2",
+   "geometry": "bond length 2.2 angstrom (stretched, equilibrium 1.10)",
+   "basis": "cc-pVDZ"
+  },
+  "questions": {
+   "spin": {
+    "type": "choice",
+    "instructions": "Ground-state spin multiplicity?",
+    "criteria": {
+     "1": "singlet",
+     "3": "triplet",
+     "5": "quintet"
+    }
+   }
+  }
+ },
+ "rep": 0,
+ "response": {
+  "model": "jev-1.13.0",
+  "answers": {
+   "spin": {
+    "type": "choice",
+    "choice": "1",
+    "confidence": 0.8,
+    "probabilities": {
+     "1": 0.87,
+     "5": 0.0,
+     "3": 0.13
+    }
+   }
+  },
+  "usage": {
+   "input_tokens": 371,
+   "output_tokens": 38
+  }
+ },
+ "latency_s": 0.6222729682922363,
+ "time": "2026-09-23T22:28:45"
+}
