@@ -1,0 +1,275 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,microtype}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{graphicx,booktabs}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,calc}
+\usepackage{caption}
+\captionsetup{font=small,labelfont=bf}
+
+\newcommand{\jev}{Jev}
+\newcommand{\Eh}{\ensuremath{\mathrm{m}E_h}}
+
+\title{Is there a Hamiltonian inside a decision model?\\ Probing the energy landscape of \jev{} for quantum chemistry}
+\author{Eric Dong\\ Independent researcher\\ \texttt{dongzhaohe321418@gmail.com}}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\jev{} is a proprietary ``System One'' model that returns calibrated probability distributions over a fixed, typed answer schema instead of text, and answers many questions about one input in a single parallel pass.
+Any such output defines local energies $E=-\log p$, so it is natural to ask whether these energies form one Hamiltonian-like landscape and whether that landscape is useful for quantum chemistry.
+We test this through black-box access to \texttt{jev-1.13.0} with 2,235 distinct queries, using PySCF for ground truth.
+The conditionals are close to, but not exactly, those of a single joint distribution: the logically forced coupling is symmetric, yet 57\% of inferred pairwise couplings are asymmetric beyond three bootstrap standard errors, and complementary statements do not sum to one.
+Given a Hamiltonian written in the prompt, \jev{} does not track its spectrum. Its preferences over Ising configurations follow the signs of the printed coefficients, so rewriting the same energies in the textbook sign convention reverses the rank correlation (from $-0.41$ to $+0.34$ for four spins), and its energy read-out for H$_2$ is off by 104~\Eh{} on average.
+On quantum-chemistry decisions it ranks multireference character, $T_1$ diagnostics and RHF instability with AUROC 0.74--0.89, comparable to a two-feature logistic model, but it is poorly calibrated and falls to 0.60--0.68 when the molecule's name is removed.
+As an importance prior for selected configuration interaction it beats random selection in all ten systems and loses to a first-order perturbative estimate in nine.
+\jev{} therefore behaves as a fast triage layer driven by textual cues, and its outputs should not be read as a physical energy landscape.
+\end{abstract}
+
+\section{Introduction}
+
+A classifier that outputs a probability distribution $p(y\mid x)$ can always be rewritten as a Gibbs distribution $p(y\mid x)\propto \exp[-E(x,y)]$ with $E=-\log p$ up to a constant \citep{lecun2006tutorial,grathwohl2019your}.
+For a single softmax head this rewriting is a tautology.
+It becomes a substantive claim once a model answers \emph{several} questions about the same input: the per-question energies then either assemble into one landscape over joint answers, as the conditionals of a Boltzmann machine do \citep{ackley1985learning}, or they do not.
+Whether they do decides whether the landscape can be sampled, minimised or combined with a physical Hamiltonian, which is the kind of use that Ising and QUBO encodings make routine \citep{lucas2014ising,kadowaki1998quantum}.
+
+\jev{} \citep{typesafe2026introducing,typesafe2026api} makes this question concrete.
+It accepts text or structured state and a set of typed questions (a yes/no \emph{Noul}, a \emph{Choice} over at most 255 options, or a \emph{Score} over 2--10 ordered levels) and returns a probability for every allowed answer, trained, according to its developer, for calibration against outcomes rather than for human preference.
+Questions are evaluated in parallel, latency is well under a second, and outputs cannot fall outside the schema \citep{willison2026jev}.
+Those properties are exactly what one would want from a component inside a quantum-chemistry workflow, where many small typed decisions (is this system multireference, which spin state is lowest, which determinants matter) are made before any expensive calculation.
+The developer is also candid that structural invariants ``aren't guaranteed'' and that the model ``is not a calculator'' \citep{typesafe2026jaggedness}.
+
+We ask three questions and answer each with measurements against physical ground truth.
+(i)~Do \jev{}'s conditionals admit a single joint landscape?
+We use the classical compatibility conditions for conditional distributions \citep{besag1974spatial,arnold1989compatible} to test coupling symmetry and total probability.
+(ii)~Can \jev{} represent a Hamiltonian given in context?
+We give it random classical Ising models and the Jordan--Wigner qubit Hamiltonian of H$_2$ \citep{jordan1928pauli,omalley2016scalable} and compare its preferences with the exact spectra.
+(iii)~Is it useful for real quantum-chemistry decisions?
+We score its predictions of multireference diagnostics against PySCF labels with proper scoring rules \citep{gneiting2007strictly}, and use it to rank determinants for selected configuration interaction \citep{huron1973iterative,holmes2016heat}.
+Figure~\ref{fig:overview} summarises the design.
+
+Our contributions are (1) a black-box protocol, based on coupling symmetry, total probability and negation, for testing whether a multi-query decision model has one energy landscape; (2) evidence that \jev{}'s landscape is approximately but measurably incoherent, and that its view of an in-context Hamiltonian follows printed coefficient signs rather than energies; and (3) a quantitative account of where it helps and where it does not in a quantum-chemistry pipeline.
+All code, cached API responses and figures are released.
+
+\begin{figure}[t]
+\centering\hyphenpenalty=10000\exhyphenpenalty=10000
+\begin{tikzpicture}[
+  font=\small, >={Stealth[length=2mm]},
+  box/.style={draw, rounded corners=2pt, align=center, inner sep=4pt, minimum height=12mm},
+  probe/.style={draw, rounded corners=2pt, inner sep=5pt, text width=4.5cm, minimum height=22mm, fill=black!3,
+                font=\footnotesize, align=left, anchor=north}]
+\node[box, text width=3.0cm] (s) at (0,0) {state $s$\\{\footnotesize molecule, geometry,}\\{\footnotesize Hamiltonian, facts}};
+\node[box, text width=1.9cm, fill=blue!6] (j) at (3.55,0) {\jev{}\\{\footnotesize one parallel pass}};
+\node[box, text width=3.2cm] (p) at (7.0,0) {$p_q(a\mid s)$ for every\\question $q$, answer $a$};
+\node[box, text width=3.0cm, fill=orange!8] (e) at (10.9,0) {$E_q=-\log p_q(a\mid s)$\\{\footnotesize local energies}};
+\draw[->] (s) -- (j); \draw[->] (j) -- (p); \draw[->] (p) -- (e);
+\node[probe] (p1) at (0.6,-1.6) {\textbf{E1\enspace Coherence}\\[2pt] Do the $E_q$ come from one joint $E(\bm a\mid s)$? Tests: $J_{ab}=J_{ba}$, total probability, $p(q)+p(\neg q)=1$.};
+\node[probe] (p2) at (5.75,-1.6) {\textbf{E2\enspace Hamiltonian in context}\\[2pt] Write $H$ into $s$. Does $-\log p$ over configurations follow $H$? Ising, $n\le 7$; Jordan--Wigner H$_2$.};
+\node[probe] (p3) at (10.9,-1.6) {\textbf{E3, E4\enspace Chemistry use}\\[2pt] Multireference, $T_1$ and RHF stability against PySCF labels; determinant ranking for selected CI.};
+\coordinate (bus) at (0,-1.2);
+\draw[black!50] (e.south) |- (p1.north |- bus) ;
+\foreach \t in {p1,p2,p3} \draw[->, black!50] (\t.north |- bus) -- (\t.north);
+\end{tikzpicture}
+\caption{Study design. \jev{} maps a state and a set of typed questions to answer distributions in one pass. Reading each distribution as a local energy, we test whether the local energies are consistent with one landscape (E1), whether they reproduce a Hamiltonian supplied in the input (E2), and whether they are useful for quantum-chemistry decisions (E3, E4).}
+\label{fig:overview}
+\end{figure}
+
+\section{Background and related work}
+
+\paragraph{Classifiers as energy models.}
+Energy-based models assign a scalar energy to each configuration and convert it to probability through a Gibbs distribution \citep{lecun2006tutorial}.
+Hopfield networks and Boltzmann machines give such energies pairwise, symmetric couplings \citep{hopfield1982neural,ackley1985learning}, and attention can be read as the update of a continuous Hopfield energy \citep{ramsauer2020hopfield}.
+\citet{grathwohl2019your} showed that the logits of any softmax classifier define a joint energy over inputs and labels, and \citet{winer2025deep} studied a random network as a Hamiltonian over its inputs.
+These works treat one output head; \jev{} exposes many typed heads over one shared state, which is the setting where a joint landscape can fail to exist.
+
+\paragraph{When do conditionals have a joint?}
+Local conditional specifications define a joint distribution only under compatibility conditions \citep{besag1974spatial,hammersley1971markov,arnold1989compatible}.
+Separately learned conditionals, as in dependency networks, are generally incompatible \citep{heckerman2000dependency}.
+For binary variables compatibility has a simple necessary consequence: the log odds ratio between two variables is symmetric, so the coupling inferred from $b$'s effect on $a$ must equal that inferred from $a$'s effect on $b$.
+Recent work finds logical incoherence in the probabilities of language models and forecasters \citep{fluri2023evaluating,paleka2025consistency,zhu2024incoherent} and proposes repairs \citep{kassner2021beliefbank,calanzone2024towards}; these studies test identities on generative models, not the joint structure of a parallel, native-distribution model.
+
+\paragraph{Calibration.}
+Deep networks are often miscalibrated \citep{guo2017calibration}; we report expected calibration error \citep{naeini2015obtaining} and the Brier score \citep{brier1950verification}, a strictly proper rule \citep{gneiting2007strictly}.
+Large language models are reasonably calibrated on some formats \citep{kadavath2022language,tian2023just}.
+Calibration of each marginal does not imply joint coherence, which is why we test both.
+
+\paragraph{Hamiltonians and quantum chemistry.}
+Molecular Hamiltonians are mapped to qubits by the Jordan--Wigner transformation \citep{jordan1928pauli} and solved variationally \citep{peruzzo2014variational,omalley2016scalable}, on annealers \citep{xia2018electronic,genin2019quantum}, or with neural wavefunctions \citep{carleo2017solving,pfau2020ab,hermann2020deep}; see \citep{mcardle2020quantum,cao2019quantum} for reviews.
+Learning a Hamiltonian from data assumes the data come from a Gibbs state \citep{nguyen2017inverse,wiebe2014hamiltonian,anshu2021sample}.
+Before a calculation, practitioners decide whether a system is multireference, using diagnostics such as $T_1$ \citep{lee1989diagnostic,jiang2012multireference}, choose active spaces \citep{sayfutyarova2017automated,jeong2020automation}, and select determinants \citep{huron1973iterative,holmes2016heat,coe2018machine}.
+Machine-learned models for these decisions are task-specific and trained on computed descriptors \citep{duan2020data,liu2020rapid,janet2017predicting}.
+General language models are used in chemistry as tool-using agents \citep{bran2024augmenting,boiko2023autonomous}, where they are knowledgeable but overconfident \citep{mirza2025framework} and fragile on numerical reasoning \citep{mirzadeh2024gsm}.
+
+\section{Setup}
+\label{sec:setup}
+
+\paragraph{Access and energies.}
+We queried \texttt{jev-1.13.0} through the public API on 2026-09-23 and cached every request and response.
+Probabilities are returned to two decimals and exact zeros occur, so we clip to $[0.005,0.995]$ before taking logarithms and define $E_q(a\mid s)=-\log p_q(a\mid s)$ and log odds $\ell=\operatorname{logit} p$.
+Identical requests do not return identical probabilities: across repeats the standard deviation of a Noul is 0.013 on average (up to about 0.03), In a pilot on one molecule, answering a question alone or alongside three others changed its probability by no more than this noise.
+We therefore repeat every query three times and average.
+Median latency was 0.58~s (90th percentile 0.82~s), and all 2,235 unique requests together cost US\$0.09.
+
+\paragraph{Chemistry ground truth.}
+Twelve molecules (H$_2$, LiH, HF, N$_2$, F$_2$, CO, BH, BeO, C$_2$, H$_2$O, NH$_3$, CH$_4$) were each placed at 1.0, 1.5, 2.0 and 2.5 times their equilibrium bond lengths, giving 48 cases.
+With PySCF in the cc-pVDZ basis we computed RHF, a stability-analysed UHF, CASCI on RHF orbitals (six orbitals, up to six active electrons) and CCSD.
+Three binary labels follow: \emph{multireference} if the largest CASCI coefficient squared $c_0^2<0.9$ (positive rate 0.58), \emph{$T_1$} if the CCSD $T_1$ diagnostic exceeds 0.02 \citep{lee1989diagnostic} (0.62), and \emph{RHF unstable} if UHF lies more than 0.1~\Eh{} below RHF (0.77).
+Each prompt gives the molecule name, Cartesian geometry, basis, and a note stating the stretch factor.
+
+\paragraph{Pre-registration.}
+The analyses of E1--E4 were written down after a ten-call pilot and before the main data were collected; checks added after seeing data are labelled exploratory.
+The plan and its amendments are in the repository.
+
+\section{Results}
+
+\subsection{E1: the conditionals are close to one landscape, but not exactly}
+
+For five statements about each case (multireference; RHF qualitatively correct; $T_1>0.02$; RHF unstable; CCSD(T) within 1~kcal/mol of full CI) we measured each marginal $p(a)$ and each conditional $p(a\mid b=v)$, stating $b$ as an ``established fact'' in the input.
+If the answers came from one joint distribution over the five binary statements, the pairwise coupling
+\begin{equation}
+J_{ab}=\ell\big(p(a\mid b{=}1)\big)-\ell\big(p(a\mid b{=}0)\big)
+\end{equation}
+would equal $J_{ba}$, because both equal the log odds ratio of the pair, and the law of total probability $p(a)=\sum_v p(a\mid b{=}v)\,p(b{=}v)$ would hold.
+
+The couplings are large and mostly have the right structure (Fig.~\ref{fig:consistency}a).
+The median $|J|$ is 1.10 nats, and the logically forced pair ``multireference'' and ``RHF adequate'' is strongly and symmetrically anticorrelated ($J=-2.43$ and $-2.35$).
+Symmetry nevertheless fails for many pairs.
+The median asymmetry $|J_{ab}-J_{ba}|$ over the 480 pair--case combinations is 0.26 nats, and 57\% exceed three bootstrap standard errors, our pre-registered criterion.
+Because a bootstrap over three repeats can understate the noise, we also simulated a perfectly coherent two-variable Ising model passed through \jev{}'s rounding and noise; 35\% of \jev{}'s pairs lie beyond the 95th percentile of that null (Fig.~\ref{fig:consistency}b).
+Total probability is violated by a median of 0.041 and by more than 0.138 in a tenth of cases, well above the per-call noise (Fig.~\ref{fig:consistency}c).
+In an exploratory check, the probabilities of a statement and its explicit negation, asked together, summed to between 0.89 and 1.25; for two of the five statements more than two thirds of cases missed 1 by over 0.1.
+\jev{}'s outputs are thus best described as a set of approximately compatible local energies, similar to a dependency network \citep{heckerman2000dependency}, not as the conditionals of one Gibbs distribution.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figs/fig2_consistency.pdf}
+\caption{Coherence of \jev{}'s conditionals (E1; 48 molecular cases, 10 statement pairs, 3 repeats). \textbf{a},~Coupling inferred in each direction; a joint distribution requires points on the diagonal. The band is the 95\% range of a coherent model with \jev{}'s rounding and noise. \textbf{b},~Distribution of the asymmetry $|J_{ab}-J_{ba}|$ for \jev{} and for the coherent null. \textbf{c},~Cumulative distribution of violations of the law of total probability; the dashed line is the mean per-call noise.}
+\label{fig:consistency}
+\end{figure}
+
+\subsection{E2: an in-context Hamiltonian is read by the signs of its coefficients}
+
+We gave \jev{} random classical Ising Hamiltonians $H(\bm s)=\sum_i h_i s_i+\sum_{i<j}J_{ij}s_is_j$ with $h_i,J_{ij}\sim U[-1,1]$ on $n=3$--7 spins (ten instances per $n$) and asked, as a Choice over all $2^n$ configurations, which one minimises $H$.
+A model with a usable landscape should put more probability on lower-energy configurations.
+\jev{} did the opposite: the Spearman correlation between $p(\bm s)$ and $-H(\bm s)$ ranged from $-0.18$ to $-0.41$ (Fig.~\ref{fig:hamiltonian}a), and top-1 accuracy was at or below chance for every $n$ (Fig.~\ref{fig:hamiltonian}b).
+Decomposing the energy shows why: $p$ correlated with $+\sum_i h_i s_i$ ($\rho=0.29$--0.51) and hardly at all with the coupling term ($|\rho|\le 0.21$).
+\jev{} aligns each spin with the sign of its printed field, which maximises the field energy.
+
+This suggests that \jev{} reads the sign of each coefficient and ignores the functional form, perhaps because physics convention usually writes $H=-\sum h s-\sum Jss$.
+To test this we presented exactly the same energies in that convention, with $h'=-h$ and $J'=-J$ (exploratory).
+The correlation reversed to between $+0.09$ and $+0.34$, and top-1 accuracy rose above chance for $n\le 6$ (Fig.~\ref{fig:hamiltonian}a,b).
+A relabelling that leaves the physics unchanged therefore flips \jev{}'s preferences, so its landscape is not a function of the Hamiltonian it is given.
+
+The Jordan--Wigner Hamiltonian of H$_2$ in STO-3G gave a consistent picture.
+Asked which of the 16 basis states carries the largest ground-state weight, \jev{} chose the Hartree--Fock state $|1100\rangle$ in 16 of 24 queries and otherwise chose $|0011\rangle$, which has the second-largest weight. The probability it gave $|1100\rangle$ stayed near 0.2 at every bond length, whereas the true weight falls from 0.995 at 0.5~\AA{} to 0.54 at 3.0~\AA.
+Its ground-state energy, read from a ten-level Score spanning $-1.20$ to $-0.75$~$E_h$, varied by only 25~\Eh{} across bond lengths where the exact energy varies by 204~\Eh{}, with a mean absolute error of 104~\Eh{} (Fig.~\ref{fig:hamiltonian}c). Chemical accuracy is 1.6~\Eh{}.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figs/fig3_hamiltonian.pdf}
+\caption{\jev{} given a Hamiltonian in its input (E2). \textbf{a},~Rank correlation between \jev{}'s probability for each spin configuration and its negative energy, for random Ising models written as stated (circles) and for the same energies written with flipped coefficient signs (squares); mean $\pm$ s.e.m.\ over 10 instances $\times$ 3 repeats. \textbf{b},~Top-1 ground-state accuracy; dotted line, chance $2^{-n}$. \textbf{c},~Exact ground-state energy of the Jordan--Wigner H$_2$/STO-3G Hamiltonian and \jev{}'s read-out from a ten-level Score.}
+\label{fig:hamiltonian}
+\end{figure}
+
+\subsection{E3: useful ranking of multireference character, poor calibration}
+
+Table~\ref{tab:e3} scores \jev{}'s marginal probabilities on the 48 cases.
+Its ranking is informative: AUROC is 0.74 for multireference character, 0.85 for $T_1>0.02$ and 0.89 for RHF instability.
+A leave-one-out logistic regression on two numbers available after an RHF calculation, the stretch factor and the HOMO--LUMO gap, reached 0.85, 0.83 and 0.92.
+Its probabilities are less accurate: the Brier score is worse than the two-feature model's for all three labels, the expected calibration error ranges from 0.13 to 0.28 (Fig.~\ref{fig:chemistry}a), and for RHF instability the Brier score (0.184) is worse even than that of the constant base rate (0.177).
+
+To find what drives the ranking we removed the molecule name and the stretch note and gave only Cartesian coordinates (exploratory).
+AUROC fell to 0.60--0.68 and the Brier score rose to 0.31--0.35, worse than the base rate for every label.
+Most of \jev{}'s skill therefore comes from recognising a named molecule and a stated stretch, which is the textual prior a chemist would also use, rather than from the geometry itself.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Quantum-chemistry decisions on 48 cases (E3). Higher AUROC and lower Brier score and ECE are better. Logistic models are fitted leave-one-out. ``Geometry only'' removes the molecule name and stretch note from \jev{}'s input.}
+\label{tab:e3}
+\begin{tabular}{lccccccccc}
+\toprule
+& \multicolumn{3}{c}{Multireference ($c_0^2<0.9$)} & \multicolumn{3}{c}{$T_1>0.02$} & \multicolumn{3}{c}{RHF unstable} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}
+Predictor & AUROC & Brier & ECE & AUROC & Brier & ECE & AUROC & Brier & ECE \\
+\midrule
+Base rate & 0.50 & 0.243 & -- & 0.50 & 0.234 & -- & 0.50 & 0.177 & -- \\
+Logistic (stretch) & 0.79 & 0.156 & 0.12 & 0.76 & 0.166 & 0.24 & 0.87 & 0.108 & 0.19 \\
+Logistic (stretch, gap) & \textbf{0.85} & \textbf{0.149} & 0.14 & 0.83 & \textbf{0.154} & 0.19 & \textbf{0.92} & \textbf{0.103} & 0.14 \\
+\jev{} & 0.74 & 0.207 & 0.13 & \textbf{0.85} & 0.168 & 0.16 & 0.89 & 0.184 & 0.28 \\
+\jev{}, geometry only & 0.60 & 0.311 & -- & 0.64 & 0.308 & -- & 0.68 & 0.346 & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{E4: a weak but real prior for selected configuration interaction}
+
+Selected CI keeps only the determinants that matter \citep{huron1973iterative,holmes2016heat}.
+We tested whether \jev{} can rank them.
+For ten systems we built the 100-determinant CAS(6e,5o) space on RHF orbitals, gave \jev{} the active orbital energies and the list of determinants in occupation notation, and asked which non-reference determinant has the largest weight in the exact ground state.
+Its Choice probabilities define a ranking; we added determinants in that order to the reference, diagonalised the Hamiltonian in each subspace with a spin penalty that keeps the lowest root a singlet, and recorded the error against full CASCI.
+We compared this with the oracle ordering by exact $|c_i|^2$, a first-order perturbative estimate $|\langle D_i|H|D_0\rangle|^2/(H_{ii}-H_{00})$, ordering by excitation rank and orbital-energy cost, ordering by diagonal energy $H_{ii}$, and random ordering.
+
+\jev{}'s probabilities correlate positively with the exact weights in all ten systems (Spearman $\rho=0.15$--0.49).
+Averaged over the whole curve, \jev{}'s ordering reduces the error below random ordering in 10 of 10 systems (paired Wilcoxon $p=0.002$) and below diagonal ordering in 9 of 10 ($p=0.004$), but it is not distinguishable from the excitation-rank heuristic (7 of 10, $p=0.08$) and is worse than the first-order estimate in 9 of 10 ($p=0.014$; Fig.~\ref{fig:chemistry}b,c).
+The first-order estimate is computed from matrix elements that any selected-CI code already has.
+Part of \jev{}'s disadvantage is resolution: it returns exactly zero for about 60\% of the 99 options, leaving only 14--18 distinct probability values, so most of the ranking is decided by tie-breaking, which we average over 30 random orders.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figs/fig4_chemistry.pdf}
+\caption{\jev{} in quantum-chemistry workflows. \textbf{a},~Reliability diagram for the three E3 labels (five equal-width bins; empty bins omitted). \textbf{b},~Selected-CI error against the number of added determinants for N$_2$ at equilibrium, CAS(6e,5o)/cc-pVDZ; the dotted line is chemical accuracy (1.6~\Eh{}). Jev and random curves are geometric means over 30 tie-break or permutation draws. \textbf{c},~Mean $\log_{10}$ error over the whole curve for ten systems; lower is better.}
+\label{fig:chemistry}
+\end{figure}
+
+\section{Discussion}
+
+The question in the title has a qualified answer.
+\jev{}'s outputs do define local energies, and within one domain these energies are close to mutually consistent: large couplings point the right way and the strongest logical coupling is symmetric.
+The residual incoherence is small in any one query but systematic, and it is exactly what one expects from heads that are trained to be calibrated one at a time \citep{heckerman2000dependency}.
+Calibrating each marginal does not produce a joint.
+A landscape of this kind cannot be sampled with Gibbs or Metropolis moves without the result depending on the order of updates, and its minima are not well defined.
+
+The Ising result points to a different limitation.
+Given a Hamiltonian as text, \jev{} does not compute with it; it responds to surface features, here the sign of each coefficient.
+The convention-flip experiment rules out the simpler explanation that \jev{} knows the energies but orders them wrongly, because relabelling that preserves every energy reversed its preferences.
+This agrees with the developer's statement that \jev{} is not a calculator \citep{typesafe2026jaggedness} and with the fragility of language models on numerical reasoning \citep{mirzadeh2024gsm}.
+For quantum computation this matters directly: a model that cannot rank eight configurations of a three-spin Ising model cannot stand in for an annealer or variational solver \citep{lucas2014ising,peruzzo2014variational}, and its energies are two orders of magnitude from chemical accuracy.
+
+Where \jev{} helps is triage.
+It ranks multireference character and RHF instability about as well as a small descriptor model and returns in well under a second, at a cost measured in thousandths of a cent.
+It could route molecules between single- and multireference methods before any calculation, provided its probabilities are recalibrated on local data and a human or a cheap diagnostic checks the borderline cases.
+The geometry-only experiment sets the boundary: the skill comes from named, textbook systems, and it should not be expected to carry over to unfamiliar molecules described only by coordinates.
+For determinant selection it is dominated by a free perturbative estimate and should not be used.
+
+\paragraph{Limitations.}
+We studied one model version through a black box; later versions may behave differently, and we cannot distinguish failures of the model from failures of our phrasing, although the convention-flip and geometry-only controls were designed to separate the two.
+The chemistry set is small (48 cases, twelve closed-shell molecules, one basis), its labels depend on thresholds, and the selected-CI test uses 100-determinant spaces that are far from production scale.
+Coherence was tested on pairs; higher-order and cycle conditions were not tested, so our incoherence estimates are lower bounds.
+The two-decimal rounding and the sampling noise of the API limit the resolution of every energy we report.
+
+\section{Conclusion}
+
+\jev{}'s typed probabilities can be read as energies, but not as one Hamiltonian.
+The local energies are approximately compatible, they do not follow a physical Hamiltonian supplied in the input, and they carry a textual prior about molecules that is useful for fast triage and weak for determinant selection.
+The compatibility tests used here need only black-box access, and they can be applied to any model that answers many questions about one input.
+
+\paragraph{Code and data.}
+Code, the pre-registered plan, all cached API responses and the PySCF ground truth are at \url{https://github.com/dongzhaohe321418-lab/jev-hamiltonian}.
+Every analysis and figure can be regenerated offline from the cache.
+
+\paragraph{Use of AI tools.}
+The experiments, analysis code and a first draft of the text were produced with the assistance of an AI coding assistant (Anthropic's Claude). The author directed the study, checked the results against the released data and takes responsibility for the content.
+
+\bibliographystyle{unsrtnat}
+\bibliography{refs}
+
+\end{document}

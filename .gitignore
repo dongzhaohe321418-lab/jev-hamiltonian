@@ -8,3 +8,6 @@ __pycache__/
 *.synctex.gz
 .env
 *key*
+build.log
+*.bbl
+*.blg
