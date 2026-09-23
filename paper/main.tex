@@ -37,15 +37,15 @@ As an importance prior for selected configuration interaction it beats random se
 \section{Introduction}
 
 A classifier that outputs a probability distribution $p(y\mid x)$ can always be rewritten as a Gibbs distribution $p(y\mid x)\propto \exp[-E(x,y)]$ with $E=-\log p$ up to a constant \citep{lecun2006tutorial,grathwohl2019your}.
-For a single softmax head this rewriting is a tautology.
-It becomes a substantive claim once a model answers \emph{several} questions about the same input: the per-question energies then either assemble into one landscape over joint answers, as the conditionals of a Boltzmann machine do \citep{ackley1985learning}, or they do not.
-Whether they do decides whether the landscape can be sampled, minimised or combined with a physical Hamiltonian, which is the kind of use that Ising and QUBO encodings make routine \citep{lucas2014ising,kadowaki1998quantum}.
+For one softmax head the rewriting says nothing new.
+It says more when a model answers \emph{several} questions about the same input, because the per-question energies may or may not assemble into one landscape over joint answers, as the conditionals of a Boltzmann machine do \citep{ackley1985learning}.
+Only a single landscape can be sampled, minimised or added to a physical Hamiltonian, the uses that Ising and QUBO encodings make routine \citep{lucas2014ising,kadowaki1998quantum}.
 
 \jev{} \citep{typesafe2026introducing,typesafe2026api} makes this question concrete.
 It accepts text or structured state and a set of typed questions (a yes/no \emph{Noul}, a \emph{Choice} over at most 255 options, or a \emph{Score} over 2--10 ordered levels) and returns a probability for every allowed answer, trained, according to its developer, for calibration against outcomes rather than for human preference.
 Questions are evaluated in parallel, latency is well under a second, and outputs cannot fall outside the schema \citep{willison2026jev}.
-Those properties are exactly what one would want from a component inside a quantum-chemistry workflow, where many small typed decisions (is this system multireference, which spin state is lowest, which determinants matter) are made before any expensive calculation.
-The developer is also candid that structural invariants ``aren't guaranteed'' and that the model ``is not a calculator'' \citep{typesafe2026jaggedness}.
+A quantum-chemistry workflow makes many small typed decisions of this kind before any expensive calculation: is the system multireference, which spin state is lowest, which determinants matter.
+The developer also warns that structural invariants ``aren't guaranteed'' and that the model ``is not a calculator'' \citep{typesafe2026jaggedness}.
 
 We ask three questions and answer each with measurements against physical ground truth.
 (i)~Do \jev{}'s conditionals admit a single joint landscape?
@@ -146,7 +146,7 @@ The median asymmetry $|J_{ab}-J_{ba}|$ over the 480 pair--case combinations is 0
 Because a bootstrap over three repeats can understate the noise, we also simulated a perfectly coherent two-variable Ising model passed through \jev{}'s rounding and noise; 35\% of \jev{}'s pairs lie beyond the 95th percentile of that null (Fig.~\ref{fig:consistency}b).
 Total probability is violated by a median of 0.041 and by more than 0.138 in a tenth of cases, well above the per-call noise (Fig.~\ref{fig:consistency}c).
 In an exploratory check, the probabilities of a statement and its explicit negation, asked together, summed to between 0.89 and 1.25; for two of the five statements more than two thirds of cases missed 1 by over 0.1.
-\jev{}'s outputs are thus best described as a set of approximately compatible local energies, similar to a dependency network \citep{heckerman2000dependency}, not as the conditionals of one Gibbs distribution.
+\jev{}'s outputs behave like a dependency network \citep{heckerman2000dependency}: a set of approximately compatible local energies with no exact joint behind them.
 
 \begin{figure}[t]
 \centering
@@ -166,7 +166,7 @@ Decomposing the energy shows why: $p$ correlated with $+\sum_i h_i s_i$ ($\rho=0
 This suggests that \jev{} reads the sign of each coefficient and ignores the functional form, perhaps because physics convention usually writes $H=-\sum h s-\sum Jss$.
 To test this we presented exactly the same energies in that convention, with $h'=-h$ and $J'=-J$ (exploratory).
 The correlation reversed to between $+0.09$ and $+0.34$, and top-1 accuracy rose above chance for $n\le 6$ (Fig.~\ref{fig:hamiltonian}a,b).
-A relabelling that leaves the physics unchanged therefore flips \jev{}'s preferences, so its landscape is not a function of the Hamiltonian it is given.
+A relabelling that leaves every energy unchanged flips \jev{}'s preferences, so its landscape depends on how the Hamiltonian is written and not only on the Hamiltonian.
 
 The Jordan--Wigner Hamiltonian of H$_2$ in STO-3G gave a consistent picture.
 Asked which of the 16 basis states carries the largest ground-state weight, \jev{} chose the Hartree--Fock state $|1100\rangle$ in 16 of 24 queries and otherwise chose $|0011\rangle$, which has the second-largest weight. The probability it gave $|1100\rangle$ stayed near 0.2 at every bond length, whereas the true weight falls from 0.995 at 0.5~\AA{} to 0.54 at 3.0~\AA.
@@ -188,7 +188,7 @@ Its probabilities are less accurate: the Brier score is worse than the two-featu
 
 To find what drives the ranking we removed the molecule name and the stretch note and gave only Cartesian coordinates (exploratory).
 AUROC fell to 0.60--0.68 and the Brier score rose to 0.31--0.35, worse than the base rate for every label.
-Most of \jev{}'s skill therefore comes from recognising a named molecule and a stated stretch, which is the textual prior a chemist would also use, rather than from the geometry itself.
+Most of \jev{}'s skill comes from recognising a named molecule and a stated stretch, the same textual prior a chemist would use; it reads little from the coordinates.
 
 \begin{table}[t]
 \centering
@@ -232,26 +232,22 @@ Part of \jev{}'s disadvantage is resolution: it returns exactly zero for about 6
 
 \section{Discussion}
 
-The question in the title has a qualified answer.
-\jev{}'s outputs do define local energies, and within one domain these energies are close to mutually consistent: large couplings point the right way and the strongest logical coupling is symmetric.
-The residual incoherence is small in any one query but systematic, and it is exactly what one expects from heads that are trained to be calibrated one at a time \citep{heckerman2000dependency}.
-Calibrating each marginal does not produce a joint.
-A landscape of this kind cannot be sampled with Gibbs or Metropolis moves without the result depending on the order of updates, and its minima are not well defined.
+\jev{}'s outputs define local energies, and within one domain these energies are close to mutually consistent: large couplings have the expected sign and the strongest logical coupling is symmetric.
+The remaining incoherence is small in any one query but systematic, which is what one expects when each head is trained to be calibrated on its own \citep{heckerman2000dependency}; calibrated marginals need not share a joint.
+A Gibbs sampler run on such conditionals converges to a distribution that depends on the order of updates, so there is no single energy whose minima one could search for.
 
-The Ising result points to a different limitation.
-Given a Hamiltonian as text, \jev{} does not compute with it; it responds to surface features, here the sign of each coefficient.
+Given a Hamiltonian as text, \jev{} does not compute with it and instead responds to surface features, here the sign of each coefficient.
 The convention-flip experiment rules out the simpler explanation that \jev{} knows the energies but orders them wrongly, because relabelling that preserves every energy reversed its preferences.
 This agrees with the developer's statement that \jev{} is not a calculator \citep{typesafe2026jaggedness} and with the fragility of language models on numerical reasoning \citep{mirzadeh2024gsm}.
-For quantum computation this matters directly: a model that cannot rank eight configurations of a three-spin Ising model cannot stand in for an annealer or variational solver \citep{lucas2014ising,peruzzo2014variational}, and its energies are two orders of magnitude from chemical accuracy.
+A model that cannot rank the eight configurations of a three-spin Ising model cannot stand in for an annealer or a variational solver \citep{lucas2014ising,peruzzo2014variational}, and its energies are two orders of magnitude from chemical accuracy.
 
-Where \jev{} helps is triage.
-It ranks multireference character and RHF instability about as well as a small descriptor model and returns in well under a second, at a cost measured in thousandths of a cent.
+\jev{} is more useful for triage. It ranks multireference character and RHF instability about as well as a small descriptor model and returns in well under a second, at a cost measured in thousandths of a cent.
 It could route molecules between single- and multireference methods before any calculation, provided its probabilities are recalibrated on local data and a human or a cheap diagnostic checks the borderline cases.
-The geometry-only experiment sets the boundary: the skill comes from named, textbook systems, and it should not be expected to carry over to unfamiliar molecules described only by coordinates.
+The geometry-only experiment limits this use to named, textbook systems; the skill should not be expected to carry over to unfamiliar molecules described only by coordinates.
 For determinant selection it is dominated by a free perturbative estimate and should not be used.
 
 \paragraph{Limitations.}
-We studied one model version through a black box; later versions may behave differently, and we cannot distinguish failures of the model from failures of our phrasing, although the convention-flip and geometry-only controls were designed to separate the two.
+We studied one model version through a black box, and later versions may behave differently. Prompt wording may account for some failures; the convention-flip and geometry-only controls separate the two in those experiments, but the other prompts were not varied.
 The chemistry set is small (48 cases, twelve closed-shell molecules, one basis), its labels depend on thresholds, and the selected-CI test uses 100-determinant spaces that are far from production scale.
 Coherence was tested on pairs; higher-order and cycle conditions were not tested, so our incoherence estimates are lower bounds.
 The two-decimal rounding and the sampling noise of the API limit the resolution of every energy we report.
