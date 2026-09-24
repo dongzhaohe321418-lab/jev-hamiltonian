@@ -8,7 +8,7 @@
 
 ## 表单填写
 - **Title:** Is there a Hamiltonian inside a decision model? Probing the energy landscape of Jev for quantum chemistry
-- **Authors:** Eric Dong
+- **Authors:** Zhaohe Dong
 - **Abstract:** 粘贴 `abstract.txt`
 - **Primary category:** cs.LG (Machine Learning)
 - **Cross-lists:** physics.chem-ph, quant-ph
