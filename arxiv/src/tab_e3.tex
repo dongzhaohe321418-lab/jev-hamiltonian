@@ -1,0 +1,19 @@
+\begin{tabular}{lcccccc}
+\toprule
+& \multicolumn{2}{c}{Multireference} & \multicolumn{2}{c}{$T_1>0.02$} & \multicolumn{2}{c}{RHF unstable} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+Predictor & AUROC & Brier & AUROC & Brier & AUROC & Brier \\
+\midrule
+Base rate & -- & 0.236 & -- & 0.234 & -- & 0.182 \\
+Stretch factor (stated in prompt)$^a$ & 0.92 & 0.123 & 0.78 & 0.189 & 0.93 & 0.110 \\
+Logistic (stretch, HOMO--LUMO gap) & 0.89 & 0.118 & 0.79 & 0.171 & 0.90 & 0.104 \\
+\addlinespace
+\jev{} & 0.76 & 0.207 & 0.81 & 0.170 & 0.89 & 0.184 \\
+\jev{}, Platt-recalibrated & 0.73 & 0.199 & 0.80 & 0.151 & 0.86 & 0.112 \\
+Logistic + \jev{} & 0.86 & 0.128 & 0.79 & 0.146 & 0.93 & 0.082 \\
+\addlinespace
+\jev{}, name removed & 0.83 & 0.172 & 0.76 & 0.183 & 0.90 & 0.175 \\
+\jev{}, stretch note removed & 0.57 & 0.329 & 0.65 & 0.306 & 0.71 & 0.338 \\
+\jev{}, geometry only & 0.59 & 0.339 & 0.65 & 0.310 & 0.68 & 0.346 \\
+\bottomrule
+\end{tabular}

@@ -1,0 +1,681 @@
+% refs.bib -- literature for the Jev-as-Hamiltonian preprint.
+% Every entry was checked against a primary source on 2026-09-23;
+% see survey/verification_log.md for the URL used for each key.
+
+%% ---------------------------------------------------------------
+%% (a) Energy-based models, classifiers as EBMs, Hopfield/Boltzmann
+%% ---------------------------------------------------------------
+
+@incollection{lecun2006tutorial,
+  author    = {LeCun, Yann and Chopra, Sumit and Hadsell, Raia and Ranzato, Marc'Aurelio and Huang, Fu Jie},
+  title     = {A Tutorial on Energy-Based Learning},
+  booktitle = {Predicting Structured Data},
+  editor    = {Bak{\i}r, G{\"o}khan and Hofmann, Thomas and Sch{\"o}lkopf, Bernhard and Smola, Alexander J. and Taskar, Ben},
+  publisher = {MIT Press},
+  year      = {2006},
+  url       = {http://yann.lecun.com/exdb/publis/pdf/lecun-06.pdf}
+}
+
+@misc{grathwohl2019your,
+  author        = {Grathwohl, Will and Wang, Kuan-Chieh and Jacobsen, J{\"o}rn-Henrik and Duvenaud, David and Norouzi, Mohammad and Swersky, Kevin},
+  title         = {Your Classifier is Secretly an Energy Based Model and You Should Treat it Like One},
+  year          = {2019},
+  eprint        = {1912.03263},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.LG},
+  url           = {https://arxiv.org/abs/1912.03263}
+}
+
+@article{hopfield1982neural,
+  author  = {Hopfield, J. J.},
+  title   = {Neural networks and physical systems with emergent collective computational abilities},
+  journal = {Proceedings of the National Academy of Sciences},
+  year    = {1982},
+  volume  = {79},
+  number  = {8},
+  pages   = {2554--2558},
+  doi     = {10.1073/pnas.79.8.2554}
+}
+
+@article{ackley1985learning,
+  author  = {Ackley, David H. and Hinton, Geoffrey E. and Sejnowski, Terrence J.},
+  title   = {A Learning Algorithm for {B}oltzmann Machines},
+  journal = {Cognitive Science},
+  year    = {1985},
+  volume  = {9},
+  number  = {1},
+  pages   = {147--169},
+  doi     = {10.1207/s15516709cog0901_7}
+}
+
+@misc{ramsauer2020hopfield,
+  author        = {Ramsauer, Hubert and Sch{\"a}fl, Bernhard and Lehner, Johannes and Seidl, Philipp and Widrich, Michael and Adler, Thomas and Gruber, Lukas and Holzleitner, Markus and Pavlovi{\'c}, Milena and Sandve, Geir Kjetil and Greiff, Victor and Kreil, David and Kopp, Michael and Klambauer, G{\"u}nter and Brandstetter, Johannes and Hochreiter, Sepp},
+  title         = {Hopfield Networks is All You Need},
+  year          = {2020},
+  eprint        = {2008.02217},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.NE},
+  url           = {https://arxiv.org/abs/2008.02217}
+}
+
+@misc{du2019implicit,
+  author        = {Du, Yilun and Mordatch, Igor},
+  title         = {Implicit Generation and Generalization in Energy-Based Models},
+  year          = {2019},
+  eprint        = {1903.08689},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.LG},
+  url           = {https://arxiv.org/abs/1903.08689}
+}
+
+@misc{winer2025deep,
+  author        = {Winer, Mike and Hanin, Boris},
+  title         = {Deep Neural Nets as {H}amiltonians},
+  year          = {2025},
+  eprint        = {2503.23982},
+  archivePrefix = {arXiv},
+  url           = {https://arxiv.org/abs/2503.23982}
+}
+
+%% ---------------------------------------------------------------
+%% (b) Compatibility of conditionals; LLM probabilistic coherence
+%% ---------------------------------------------------------------
+
+@article{besag1974spatial,
+  author  = {Besag, Julian},
+  title   = {Spatial Interaction and the Statistical Analysis of Lattice Systems},
+  journal = {Journal of the Royal Statistical Society: Series B (Methodological)},
+  year    = {1974},
+  volume  = {36},
+  number  = {2},
+  pages   = {192--225},
+  doi     = {10.1111/j.2517-6161.1974.tb00999.x}
+}
+
+@unpublished{hammersley1971markov,
+  author = {Hammersley, J. M. and Clifford, P.},
+  title  = {Markov Fields on Finite Graphs and Lattices},
+  note   = {Unpublished manuscript},
+  year   = {1971},
+  url    = {https://ora.ox.ac.uk/objects/uuid:4ea849da-1511-4578-bb88-6a8d02f457a6}
+}
+
+@article{arnold1989compatible,
+  author  = {Arnold, Barry C. and Press, S. James},
+  title   = {Compatible Conditional Distributions},
+  journal = {Journal of the American Statistical Association},
+  year    = {1989},
+  volume  = {84},
+  number  = {405},
+  pages   = {152--156},
+  doi     = {10.1080/01621459.1989.10478750}
+}
+
+@article{heckerman2000dependency,
+  author  = {Heckerman, David and Chickering, David Maxwell and Meek, Christopher and Rounthwaite, Robert and Kadie, Carl},
+  title   = {Dependency Networks for Inference, Collaborative Filtering, and Data Visualization},
+  journal = {Journal of Machine Learning Research},
+  year    = {2000},
+  volume  = {1},
+  pages   = {49--75},
+  url     = {https://www.jmlr.org/papers/v1/heckerman00a.html}
+}
+
+@misc{fluri2023evaluating,
+  author        = {Fluri, Lukas and Paleka, Daniel and Tram{\`e}r, Florian},
+  title         = {Evaluating Superhuman Models with Consistency Checks},
+  year          = {2023},
+  eprint        = {2306.09983},
+  archivePrefix = {arXiv},
+  url           = {https://arxiv.org/abs/2306.09983}
+}
+
+@inproceedings{paleka2025consistency,
+  author        = {Paleka, Daniel and Sudhir, Abhimanyu Pallavi and Alvarez, Alejandro and Bhat, Vineeth and Shen, Adam and Wang, Evan and Tram{\`e}r, Florian},
+  title         = {Consistency Checks for Language Model Forecasters},
+  booktitle     = {International Conference on Learning Representations (ICLR)},
+  year          = {2025},
+  eprint        = {2412.18544},
+  archivePrefix = {arXiv},
+  url           = {https://openreview.net/forum?id=r5IXBlTCGc}
+}
+
+@misc{calanzone2024towards,
+  author        = {Calanzone, Diego and Teso, Stefano and Vergari, Antonio},
+  title         = {Towards Logically Consistent Language Models via Probabilistic Reasoning},
+  year          = {2024},
+  eprint        = {2404.12843},
+  archivePrefix = {arXiv},
+  note          = {ICLR 2024 Workshop on Reliable and Responsible Foundation Models},
+  url           = {https://arxiv.org/abs/2404.12843}
+}
+
+@misc{zhu2024incoherent,
+  author        = {Zhu, Jian-Qiao and Griffiths, Thomas L.},
+  title         = {Incoherent Probability Judgments in Large Language Models},
+  year          = {2024},
+  eprint        = {2401.16646},
+  archivePrefix = {arXiv},
+  note          = {CogSci 2024},
+  url           = {https://arxiv.org/abs/2401.16646}
+}
+
+@inproceedings{kassner2021beliefbank,
+  author    = {Kassner, Nora and Tafjord, Oyvind and Sch{\"u}tze, Hinrich and Clark, Peter},
+  title     = {{BeliefBank}: Adding Memory to a Pre-Trained Language Model for a Systematic Notion of Belief},
+  booktitle = {Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing},
+  year      = {2021},
+  pages     = {8849--8861},
+  doi       = {10.18653/v1/2021.emnlp-main.697}
+}
+
+%% ---------------------------------------------------------------
+%% (c) Calibration and proper scoring
+%% ---------------------------------------------------------------
+
+@inproceedings{guo2017calibration,
+  author    = {Guo, Chuan and Pleiss, Geoff and Sun, Yu and Weinberger, Kilian Q.},
+  title     = {On Calibration of Modern Neural Networks},
+  booktitle = {Proceedings of the 34th International Conference on Machine Learning},
+  series    = {Proceedings of Machine Learning Research},
+  volume    = {70},
+  pages     = {1321--1330},
+  year      = {2017},
+  url       = {https://proceedings.mlr.press/v70/guo17a.html}
+}
+
+@misc{kadavath2022language,
+  author        = {Kadavath, Saurav and Conerly, Tom and Askell, Amanda and Henighan, Tom and Drain, Dawn and Perez, Ethan and Schiefer, Nicholas and Hatfield-Dodds, Zac and DasSarma, Nova and Tran-Johnson, Eli and Johnston, Scott and El-Showk, Sheer and Jones, Andy and Elhage, Nelson and Hume, Tristan and Chen, Anna and Bai, Yuntao and Bowman, Sam and Fort, Stanislav and Ganguli, Deep and Hernandez, Danny and Jacobson, Josh and Kernion, Jackson and Kravec, Shauna and Lovitt, Liane and Ndousse, Kamal and Olsson, Catherine and Ringer, Sam and Amodei, Dario and Brown, Tom and Clark, Jack and Joseph, Nicholas and Mann, Ben and McCandlish, Sam and Olah, Chris and Kaplan, Jared},
+  title         = {Language Models (Mostly) Know What They Know},
+  year          = {2022},
+  eprint        = {2207.05221},
+  archivePrefix = {arXiv},
+  url           = {https://arxiv.org/abs/2207.05221}
+}
+
+@article{brier1950verification,
+  author  = {Brier, Glenn W.},
+  title   = {Verification of Forecasts Expressed in Terms of Probability},
+  journal = {Monthly Weather Review},
+  year    = {1950},
+  volume  = {78},
+  number  = {1},
+  pages   = {1--3},
+  doi     = {10.1175/1520-0493(1950)078<0001:VOFEIT>2.0.CO;2}
+}
+
+@article{gneiting2007strictly,
+  author  = {Gneiting, Tilmann and Raftery, Adrian E.},
+  title   = {Strictly Proper Scoring Rules, Prediction, and Estimation},
+  journal = {Journal of the American Statistical Association},
+  year    = {2007},
+  volume  = {102},
+  number  = {477},
+  pages   = {359--378},
+  doi     = {10.1198/016214506000001437}
+}
+
+@inproceedings{naeini2015obtaining,
+  author    = {Pakdaman Naeini, Mahdi and Cooper, Gregory and Hauskrecht, Milos},
+  title     = {Obtaining Well Calibrated Probabilities Using {B}ayesian Binning},
+  booktitle = {Proceedings of the AAAI Conference on Artificial Intelligence},
+  volume    = {29},
+  number    = {1},
+  year      = {2015},
+  doi       = {10.1609/aaai.v29i1.9602}
+}
+
+@inproceedings{tian2023just,
+  author    = {Tian, Katherine and Mitchell, Eric and Zhou, Allan and Sharma, Archit and Rafailov, Rafael and Yao, Huaxiu and Finn, Chelsea and Manning, Christopher D.},
+  title     = {Just Ask for Calibration: Strategies for Eliciting Calibrated Confidence Scores from Language Models Fine-Tuned with Human Feedback},
+  booktitle = {Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing},
+  year      = {2023},
+  pages     = {5433--5442},
+  doi       = {10.18653/v1/2023.emnlp-main.330}
+}
+
+%% ---------------------------------------------------------------
+%% (d) Ising/QUBO, annealing, Hamiltonian and inverse-Ising learning
+%% ---------------------------------------------------------------
+
+@article{lucas2014ising,
+  author  = {Lucas, Andrew},
+  title   = {Ising formulations of many {NP} problems},
+  journal = {Frontiers in Physics},
+  year    = {2014},
+  volume  = {2},
+  pages   = {5},
+  doi     = {10.3389/fphy.2014.00005}
+}
+
+@article{kadowaki1998quantum,
+  author  = {Kadowaki, Tadashi and Nishimori, Hidetoshi},
+  title   = {Quantum annealing in the transverse {I}sing model},
+  journal = {Physical Review E},
+  year    = {1998},
+  volume  = {58},
+  number  = {5},
+  pages   = {5355--5363},
+  doi     = {10.1103/PhysRevE.58.5355}
+}
+
+@article{anshu2021sample,
+  author  = {Anshu, Anurag and Arunachalam, Srinivasan and Kuwahara, Tomotaka and Soleimanifar, Mehdi},
+  title   = {Sample-efficient learning of interacting quantum systems},
+  journal = {Nature Physics},
+  year    = {2021},
+  volume  = {17},
+  pages   = {931--935},
+  doi     = {10.1038/s41567-021-01232-0}
+}
+
+@article{nguyen2017inverse,
+  author  = {Nguyen, H. Chau and Zecchina, Riccardo and Berg, Johannes},
+  title   = {Inverse statistical problems: from the inverse {I}sing problem to data science},
+  journal = {Advances in Physics},
+  year    = {2017},
+  volume  = {66},
+  number  = {3},
+  pages   = {197--261},
+  doi     = {10.1080/00018732.2017.1341604}
+}
+
+@article{wiebe2014hamiltonian,
+  author  = {Wiebe, Nathan and Granade, Christopher and Ferrie, Christopher and Cory, D. G.},
+  title   = {Hamiltonian Learning and Certification Using Quantum Resources},
+  journal = {Physical Review Letters},
+  year    = {2014},
+  volume  = {112},
+  number  = {19},
+  pages   = {190501},
+  doi     = {10.1103/PhysRevLett.112.190501}
+}
+
+%% ---------------------------------------------------------------
+%% (e) Quantum chemistry on quantum / neural hardware
+%% ---------------------------------------------------------------
+
+@article{peruzzo2014variational,
+  author  = {Peruzzo, Alberto and McClean, Jarrod and Shadbolt, Peter and Yung, Man-Hong and Zhou, Xiao-Qi and Love, Peter J. and Aspuru-Guzik, Al{\'a}n and O'Brien, Jeremy L.},
+  title   = {A variational eigenvalue solver on a photonic quantum processor},
+  journal = {Nature Communications},
+  year    = {2014},
+  volume  = {5},
+  pages   = {4213},
+  doi     = {10.1038/ncomms5213}
+}
+
+@article{mcardle2020quantum,
+  author  = {McArdle, Sam and Endo, Suguru and Aspuru-Guzik, Al{\'a}n and Benjamin, Simon C. and Yuan, Xiao},
+  title   = {Quantum computational chemistry},
+  journal = {Reviews of Modern Physics},
+  year    = {2020},
+  volume  = {92},
+  number  = {1},
+  pages   = {015003},
+  doi     = {10.1103/RevModPhys.92.015003}
+}
+
+@article{cao2019quantum,
+  author  = {Cao, Yudong and Romero, Jonathan and Olson, Jonathan P. and Degroote, Matthias and Johnson, Peter D. and Kieferov{\'a}, M{\'a}ria and Kivlichan, Ian D. and Menke, Tim and Peropadre, Borja and Sawaya, Nicolas P. D. and Sim, Sukin and Veis, Libor and Aspuru-Guzik, Al{\'a}n},
+  title   = {Quantum Chemistry in the Age of Quantum Computing},
+  journal = {Chemical Reviews},
+  year    = {2019},
+  volume  = {119},
+  number  = {19},
+  pages   = {10856--10915},
+  doi     = {10.1021/acs.chemrev.8b00803}
+}
+
+@article{jordan1928pauli,
+  author  = {Jordan, P. and Wigner, E.},
+  title   = {{\"U}ber das {P}aulische {\"A}quivalenzverbot},
+  journal = {Zeitschrift f{\"u}r Physik},
+  year    = {1928},
+  volume  = {47},
+  number  = {9--10},
+  pages   = {631--651},
+  doi     = {10.1007/BF01331938}
+}
+
+@article{omalley2016scalable,
+  author  = {O'Malley, P. J. J. and Babbush, R. and Kivlichan, I. D. and Romero, J. and McClean, J. R. and Barends, R. and Kelly, J. and Roushan, P. and Tranter, A. and Ding, N. and Campbell, B. and Chen, Y. and Chen, Z. and Chiaro, B. and Dunsworth, A. and Fowler, A. G. and Jeffrey, E. and Lucero, E. and Megrant, A. and Mutus, J. Y. and Neeley, M. and Neill, C. and Quintana, C. and Sank, D. and Vainsencher, A. and Wenner, J. and White, T. C. and Coveney, P. V. and Love, P. J. and Neven, H. and Aspuru-Guzik, A. and Martinis, J. M.},
+  title   = {Scalable Quantum Simulation of Molecular Energies},
+  journal = {Physical Review X},
+  year    = {2016},
+  volume  = {6},
+  number  = {3},
+  pages   = {031007},
+  doi     = {10.1103/PhysRevX.6.031007}
+}
+
+@article{carleo2017solving,
+  author  = {Carleo, Giuseppe and Troyer, Matthias},
+  title   = {Solving the quantum many-body problem with artificial neural networks},
+  journal = {Science},
+  year    = {2017},
+  volume  = {355},
+  number  = {6325},
+  pages   = {602--606},
+  doi     = {10.1126/science.aag2302}
+}
+
+@article{pfau2020ab,
+  author  = {Pfau, David and Spencer, James S. and Matthews, Alexander G. D. G. and Foulkes, W. M. C.},
+  title   = {Ab initio solution of the many-electron {S}chr{\"o}dinger equation with deep neural networks},
+  journal = {Physical Review Research},
+  year    = {2020},
+  volume  = {2},
+  number  = {3},
+  pages   = {033429},
+  doi     = {10.1103/PhysRevResearch.2.033429}
+}
+
+@article{hermann2020deep,
+  author  = {Hermann, Jan and Sch{\"a}tzle, Zeno and No{\'e}, Frank},
+  title   = {Deep-neural-network solution of the electronic {S}chr{\"o}dinger equation},
+  journal = {Nature Chemistry},
+  year    = {2020},
+  volume  = {12},
+  number  = {10},
+  pages   = {891--897},
+  doi     = {10.1038/s41557-020-0544-y}
+}
+
+@article{xia2018electronic,
+  author  = {Xia, Rongxin and Bian, Teng and Kais, Sabre},
+  title   = {Electronic Structure Calculations and the {I}sing {H}amiltonian},
+  journal = {The Journal of Physical Chemistry B},
+  year    = {2018},
+  volume  = {122},
+  number  = {13},
+  pages   = {3384--3395},
+  doi     = {10.1021/acs.jpcb.7b10371}
+}
+
+@misc{genin2019quantum,
+  author        = {Genin, Scott N. and Ryabinkin, Ilya G. and Izmaylov, Artur F.},
+  title         = {Quantum chemistry on quantum annealers},
+  year          = {2019},
+  eprint        = {1901.04715},
+  archivePrefix = {arXiv},
+  primaryClass  = {physics.chem-ph},
+  url           = {https://arxiv.org/abs/1901.04715}
+}
+
+%% ---------------------------------------------------------------
+%% (f) Multireference diagnostics, active spaces, selected CI
+%% ---------------------------------------------------------------
+
+@article{lee1989diagnostic,
+  author  = {Lee, Timothy J. and Taylor, Peter R.},
+  title   = {A diagnostic for determining the quality of single-reference electron correlation methods},
+  journal = {International Journal of Quantum Chemistry},
+  year    = {1989},
+  volume  = {36},
+  number  = {S23},
+  pages   = {199--207},
+  doi     = {10.1002/qua.560360824}
+}
+
+@article{jiang2012multireference,
+  author  = {Jiang, Wanyi and DeYonker, Nathan J. and Wilson, Angela K.},
+  title   = {Multireference Character for 3d Transition-Metal-Containing Molecules},
+  journal = {Journal of Chemical Theory and Computation},
+  year    = {2012},
+  volume  = {8},
+  number  = {2},
+  pages   = {460--468},
+  doi     = {10.1021/ct2006852}
+}
+
+@article{sayfutyarova2017automated,
+  author  = {Sayfutyarova, Elvira R. and Sun, Qiming and Chan, Garnet Kin-Lic and Knizia, Gerald},
+  title   = {Automated Construction of Molecular Active Spaces from Atomic Valence Orbitals},
+  journal = {Journal of Chemical Theory and Computation},
+  year    = {2017},
+  volume  = {13},
+  number  = {9},
+  pages   = {4063--4078},
+  doi     = {10.1021/acs.jctc.7b00128}
+}
+
+@article{jeong2020automation,
+  author  = {Jeong, WooSeok and Stoneburner, Samuel J. and King, Daniel and Li, Ruye and Walker, Andrew and Lindh, Roland and Gagliardi, Laura},
+  title   = {Automation of Active Space Selection for Multireference Methods via Machine Learning on Chemical Bond Dissociation},
+  journal = {Journal of Chemical Theory and Computation},
+  year    = {2020},
+  volume  = {16},
+  number  = {4},
+  pages   = {2389--2399},
+  doi     = {10.1021/acs.jctc.9b01297}
+}
+
+@article{duan2020data,
+  author  = {Duan, Chenru and Liu, Fang and Nandy, Aditya and Kulik, Heather J.},
+  title   = {Data-Driven Approaches Can Overcome the Cost--Accuracy Trade-Off in Multireference Diagnostics},
+  journal = {Journal of Chemical Theory and Computation},
+  year    = {2020},
+  volume  = {16},
+  number  = {7},
+  pages   = {4373--4387},
+  doi     = {10.1021/acs.jctc.0c00358}
+}
+
+@article{liu2020rapid,
+  author  = {Liu, Fang and Duan, Chenru and Kulik, Heather J.},
+  title   = {Rapid Detection of Strong Correlation with Machine Learning for Transition-Metal Complex High-Throughput Screening},
+  journal = {The Journal of Physical Chemistry Letters},
+  year    = {2020},
+  volume  = {11},
+  number  = {19},
+  pages   = {8067--8076},
+  doi     = {10.1021/acs.jpclett.0c02288}
+}
+
+@article{janet2017predicting,
+  author  = {Janet, Jon Paul and Kulik, Heather J.},
+  title   = {Predicting electronic structure properties of transition metal complexes with neural networks},
+  journal = {Chemical Science},
+  year    = {2017},
+  volume  = {8},
+  number  = {7},
+  pages   = {5137--5152},
+  doi     = {10.1039/C7SC01247K}
+}
+
+@article{huron1973iterative,
+  author  = {Huron, B. and Malrieu, J. P. and Rancurel, P.},
+  title   = {Iterative perturbation calculations of ground and excited state energies from multiconfigurational zeroth-order wavefunctions},
+  journal = {The Journal of Chemical Physics},
+  year    = {1973},
+  volume  = {58},
+  number  = {12},
+  pages   = {5745--5759},
+  doi     = {10.1063/1.1679199}
+}
+
+@article{holmes2016heat,
+  author  = {Holmes, Adam A. and Tubman, Norm M. and Umrigar, C. J.},
+  title   = {Heat-Bath Configuration Interaction: An Efficient Selected Configuration Interaction Algorithm Inspired by Heat-Bath Sampling},
+  journal = {Journal of Chemical Theory and Computation},
+  year    = {2016},
+  volume  = {12},
+  number  = {8},
+  pages   = {3674--3680},
+  doi     = {10.1021/acs.jctc.6b00407}
+}
+
+@article{coe2018machine,
+  author  = {Coe, J. P.},
+  title   = {Machine Learning Configuration Interaction},
+  journal = {Journal of Chemical Theory and Computation},
+  year    = {2018},
+  volume  = {14},
+  number  = {11},
+  pages   = {5739--5749},
+  doi     = {10.1021/acs.jctc.8b00849}
+}
+
+%% ---------------------------------------------------------------
+%% (g) LLMs / foundation models for chemistry; numeric limits
+%% ---------------------------------------------------------------
+
+@article{bran2024augmenting,
+  author  = {M. Bran, Andres and Cox, Sam and Schilter, Oliver and Baldassari, Carlo and White, Andrew D. and Schwaller, Philippe},
+  title   = {Augmenting large language models with chemistry tools},
+  journal = {Nature Machine Intelligence},
+  year    = {2024},
+  volume  = {6},
+  number  = {5},
+  pages   = {525--535},
+  doi     = {10.1038/s42256-024-00832-8}
+}
+
+@article{boiko2023autonomous,
+  author  = {Boiko, Daniil A. and MacKnight, Robert and Kline, Ben and Gomes, Gabe},
+  title   = {Autonomous chemical research with large language models},
+  journal = {Nature},
+  year    = {2023},
+  volume  = {624},
+  number  = {7992},
+  pages   = {570--578},
+  doi     = {10.1038/s41586-023-06792-0}
+}
+
+@article{mirza2025framework,
+  author  = {Mirza, Adrian and Alampara, Nawaf and Kunchapu, Sreekanth and R{\'i}os-Garc{\'i}a, Marti{\~n}o and Emoekabu, Benedict and Krishnan, Aswanth and Gupta, Tanya and Schilling-Wilhelmi, Mara and Okereke, Macjonathan and Aneesh, Anagha and others},
+  title   = {A framework for evaluating the chemical knowledge and reasoning abilities of large language models against the expertise of chemists},
+  journal = {Nature Chemistry},
+  year    = {2025},
+  volume  = {17},
+  number  = {7},
+  pages   = {1027--1034},
+  doi     = {10.1038/s41557-025-01815-x}
+}
+
+@misc{mirzadeh2024gsm,
+  author        = {Mirzadeh, Iman and Alizadeh, Keivan and Shahrokhi, Hooman and Tuzel, Oncel and Bengio, Samy and Farajtabar, Mehrdad},
+  title         = {{GSM-Symbolic}: Understanding the Limitations of Mathematical Reasoning in Large Language Models},
+  year          = {2024},
+  eprint        = {2410.05229},
+  archivePrefix = {arXiv},
+  url           = {https://arxiv.org/abs/2410.05229}
+}
+
+%% ---------------------------------------------------------------
+%% (h) Jev / TypeSafe AI (grey literature)
+%% ---------------------------------------------------------------
+
+@misc{typesafe2026introducing,
+  author  = {Almeida, Diogo},
+  title   = {Introducing System One Models \& {Jev}},
+  howpublished = {TypeSafe AI Blog},
+  year    = {2026},
+  month   = sep,
+  note    = {Published 2026-09-15},
+  url     = {https://typesafe.ai/blog/introducing-system-one-models-and-jev},
+  urldate = {2026-09-23}
+}
+
+@misc{typesafe2026api,
+  author  = {{TypeSafe AI}},
+  title   = {{API} reference},
+  howpublished = {TypeSafe AI documentation},
+  year    = {2026},
+  url     = {https://docs.typesafe.ai/api},
+  urldate = {2026-09-23}
+}
+
+@misc{typesafe2026systemone,
+  author  = {{TypeSafe AI}},
+  title   = {System One},
+  howpublished = {TypeSafe AI documentation},
+  year    = {2026},
+  url     = {https://docs.typesafe.ai/concepts/system-one},
+  urldate = {2026-09-23}
+}
+
+@misc{typesafe2026jaggedness,
+  author  = {{TypeSafe AI}},
+  title   = {{Jev} 1.13 jaggedness},
+  howpublished = {TypeSafe AI documentation},
+  year    = {2026},
+  url     = {https://docs.typesafe.ai/model-jaggedness/jev-1.13},
+  urldate = {2026-09-23}
+}
+
+@misc{willison2026jev,
+  author  = {Willison, Simon},
+  title   = {Jev introduces a new shape of {LLM}---System One, aka Decision Models},
+  howpublished = {Blog post, simonwillison.net},
+  year    = {2026},
+  month   = sep,
+  note    = {Published 2026-09-21},
+  url     = {https://simonwillison.net/2026/Sep/21/jev/},
+  urldate = {2026-09-23}
+}
+
+@misc{fernholz2026new,
+  author  = {Fernholz, Tim},
+  title   = {A new kind of {AI} model from a {ChatGPT} inventor is thrilling developers},
+  howpublished = {TechCrunch},
+  year    = {2026},
+  month   = sep,
+  note    = {Published 2026-09-18},
+  url     = {https://techcrunch.com/2026/09/18/a-new-kind-of-ai-model-from-a-chatgpt-inventor-is-thrilling-developers/},
+  urldate = {2026-09-23}
+}
+
+@article{sun2020recent,
+  author  = {Sun, Qiming and Zhang, Xing and Banerjee, Samragni and Bao, Peng and Barbry, Marc and Blunt, Nick S. and Bogdanov, Nikolay A. and Booth, George H. and Chen, Jia and Cui, Zhi-Hao and others},
+  title   = {Recent developments in the {PySCF} program package},
+  journal = {The Journal of Chemical Physics},
+  volume  = {153},
+  number  = {2},
+  pages   = {024109},
+  year    = {2020},
+  doi     = {10.1063/5.0006074}
+}
+
+@article{mcclean2020openfermion,
+  author  = {McClean, Jarrod R. and Rubin, Nicholas C. and Sung, Kevin J. and Kivlichan, Ian D. and Bonet-Monroig, Xavier and Cao, Yudong and others},
+  title   = {{OpenFermion}: the electronic structure package for quantum computers},
+  journal = {Quantum Science and Technology},
+  volume  = {5},
+  number  = {3},
+  pages   = {034014},
+  year    = {2020},
+  doi     = {10.1088/2058-9565/ab8ebc}
+}
+
+@article{benjamini1995controlling,
+  author  = {Benjamini, Yoav and Hochberg, Yosef},
+  title   = {Controlling the False Discovery Rate: A Practical and Powerful Approach to Multiple Testing},
+  journal = {Journal of the Royal Statistical Society: Series B (Methodological)},
+  volume  = {57},
+  number  = {1},
+  pages   = {289--300},
+  year    = {1995},
+  doi     = {10.1111/j.2517-6161.1995.tb02031.x}
+}
+
+@article{lin2007note,
+  author  = {Lin, Hsuan-Tien and Lin, Chih-Jen and Weng, Ruby C.},
+  title   = {A note on {Platt}'s probabilistic outputs for support vector machines},
+  journal = {Machine Learning},
+  volume  = {68},
+  number  = {3},
+  pages   = {267--276},
+  year    = {2007},
+  doi     = {10.1007/s10994-007-5018-6}
+}
+
+@misc{qwen2024qwen25,
+  author        = {{Qwen Team}},
+  title         = {Qwen2.5 Technical Report},
+  year          = {2024},
+  eprint        = {2412.15115},
+  archivePrefix = {arXiv},
+  url           = {https://arxiv.org/abs/2412.15115}
+}

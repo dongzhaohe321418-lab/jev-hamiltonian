@@ -11,3 +11,6 @@ __pycache__/
 build.log
 *.bbl
 *.blg
+jev-hamiltonian-arxiv-package.zip
+arxiv/repo_snapshot.zip
+arxiv/build.log
